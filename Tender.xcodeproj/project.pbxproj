@@ -11,6 +11,7 @@
 		ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309E72A25ED9000C26905 /* ContentView.swift */; };
 		ECA309EA2A25ED9100C26905 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA309E92A25ED9100C26905 /* Assets.xcassets */; };
 		ECA309ED2A25ED9100C26905 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA309EC2A25ED9100C26905 /* Preview Assets.xcassets */; };
+		ECA309F82A25F36700C26905 /* FreelancerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ECA309F62A25F36700C26905 /* FreelancerModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		ECA309E72A25ED9000C26905 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ECA309E92A25ED9100C26905 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ECA309EC2A25ED9100C26905 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		ECA309F72A25F36700C26905 /* FreelancerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FreelancerModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +54,9 @@
 			isa = PBXGroup;
 			children = (
 				ECA309E52A25ED9000C26905 /* TenderApp.swift */,
-				ECA309E72A25ED9000C26905 /* ContentView.swift */,
+				ECA309F52A25EDD600C26905 /* DataModel */,
+				ECA309F42A25EDAB00C26905 /* Views */,
+				ECA309F32A25EDA000C26905 /* Helpers */,
 				ECA309E92A25ED9100C26905 /* Assets.xcassets */,
 				ECA309EB2A25ED9100C26905 /* Preview Content */,
 			);
@@ -65,6 +69,29 @@
 				ECA309EC2A25ED9100C26905 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		ECA309F32A25EDA000C26905 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		ECA309F42A25EDAB00C26905 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ECA309E72A25ED9000C26905 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ECA309F52A25EDD600C26905 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				ECA309F62A25F36700C26905 /* FreelancerModel.xcdatamodeld */,
+			);
+			path = DataModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
+				ECA309F82A25F36700C26905 /* FreelancerModel.xcdatamodeld in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +367,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		ECA309F62A25F36700C26905 /* FreelancerModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				ECA309F72A25F36700C26905 /* FreelancerModel.xcdatamodel */,
+			);
+			currentVersion = ECA309F72A25F36700C26905 /* FreelancerModel.xcdatamodel */;
+			path = FreelancerModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = ECA309DA2A25ED9000C26905 /* Project object */;
 }
