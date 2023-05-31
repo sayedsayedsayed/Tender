@@ -12,6 +12,8 @@
 		ECA309EA2A25ED9100C26905 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA309E92A25ED9100C26905 /* Assets.xcassets */; };
 		ECA309ED2A25ED9100C26905 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA309EC2A25ED9100C26905 /* Preview Assets.xcassets */; };
 		ECA309F82A25F36700C26905 /* FreelancerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ECA309F62A25F36700C26905 /* FreelancerModel.xcdatamodeld */; };
+		ECA309FA2A266D4E00C26905 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309F92A266D4E00C26905 /* DataController.swift */; };
+		ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309FB2A26D3E500C26905 /* ReferenceHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		ECA309E92A25ED9100C26905 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ECA309EC2A25ED9100C26905 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ECA309F72A25F36700C26905 /* FreelancerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FreelancerModel.xcdatamodel; sourceTree = "<group>"; };
+		ECA309F92A266D4E00C26905 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		ECA309FB2A26D3E500C26905 /* ReferenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +78,7 @@
 		ECA309F32A25EDA000C26905 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				ECA309FB2A26D3E500C26905 /* ReferenceHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -89,6 +94,7 @@
 		ECA309F52A25EDD600C26905 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				ECA309F92A266D4E00C26905 /* DataController.swift */,
 				ECA309F62A25F36700C26905 /* FreelancerModel.xcdatamodeld */,
 			);
 			path = DataModel;
@@ -165,7 +171,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
+				ECA309FA2A266D4E00C26905 /* DataController.swift in Sources */,
 				ECA309F82A25F36700C26905 /* FreelancerModel.xcdatamodeld in Sources */,
+				ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
