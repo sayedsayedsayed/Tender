@@ -10,12 +10,12 @@ import SwiftUI
 struct LoginView: View {
     var body: some View {
         ZStack{
-            Color("Accent").ignoresSafeArea()
+            Color("whiteColor").ignoresSafeArea()
             VStack{
                 Spacer()
                 Text("please login first".capitalized)
                     .font(.system(size: 25))
-                    .foregroundColor(Color("Primary"))
+                    .foregroundColor(Color("purpleColor"))
                 Spacer()
                 Image("onboarding_asset")
                 Spacer()
