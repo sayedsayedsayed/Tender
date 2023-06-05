@@ -20,7 +20,7 @@ struct ReferralView: View {
                 Spacer()
                 Image("referral_asset")
                 Spacer()
-                TextField("", text: $referral, prompt: Text("Input referral code").foregroundColor(Color("purpleColor").opacity(0.4)))
+                TextField("", text: $referral, prompt: Text("Input referral code").font(.system(size: 24)).foregroundColor(Color("purpleColor").opacity(0.4)))
                     .textFieldStyle(TextFieldStyleCustom())
                     .frame(width: 350, height: 48)
                     .padding(.bottom, 33)
