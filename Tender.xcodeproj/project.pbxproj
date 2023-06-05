@@ -17,6 +17,7 @@
 		FE1600F02A2CD388003691BE /* SwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1600EF2A2CD388003691BE /* SwipeView.swift */; };
 		FE1600F22A2CD39C003691BE /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1600F12A2CD39C003691BE /* MenuView.swift */; };
 		FE1600F42A2CD40F003691BE /* MenuList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1600F32A2CD40F003691BE /* MenuList.swift */; };
+		FE1600F62A2DB3D1003691BE /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1600F52A2DB3D1003691BE /* Card.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		FE1600EF2A2CD388003691BE /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
 		FE1600F12A2CD39C003691BE /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		FE1600F32A2CD40F003691BE /* MenuList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuList.swift; sourceTree = "<group>"; };
+		FE1600F52A2DB3D1003691BE /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			isa = PBXGroup;
 			children = (
 				ECA309E52A25ED9000C26905 /* TenderApp.swift */,
+				FE1600F52A2DB3D1003691BE /* Card.swift */,
 				ECA309F52A25EDD600C26905 /* DataModel */,
 				ECA309F42A25EDAB00C26905 /* Views */,
 				ECA309F32A25EDA000C26905 /* Helpers */,
@@ -180,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE1600F22A2CD39C003691BE /* MenuView.swift in Sources */,
+				FE1600F62A2DB3D1003691BE /* Card.swift in Sources */,
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
 				FE1600F42A2CD40F003691BE /* MenuList.swift in Sources */,
 				ECA309FA2A266D4E00C26905 /* DataController.swift in Sources */,
