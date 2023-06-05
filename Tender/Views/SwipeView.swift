@@ -90,21 +90,55 @@ struct ExtractedView: View {
                         Text("Skills").fontWeight(.bold).font(.title2)
                     }
                     
-                    //Belum Bisa Wrapping
-                    //Nanti coba lihat di link: https://stackoverflow.com/questions/58842453/swiftui-hstack-with-wrap
-                        HStack{
-                            
-                                ForEach(card.skill, id:\.self){ subSkill in
-                                    Text("\(subSkill)")
-                            }
-                        }.padding()
+                    
+                    HStack{
+                        ForEach(card.skill, id:\.self){ subSkill in
+                            Text("\(subSkill)").foregroundColor(Color("purpleColor"))
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 2)
+                                .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color("purpleColor"),lineWidth: 2)
+                            )
+                        }
+                    }
                     
                     
                 }.foregroundColor(Color("purpleColor"))
-                    .frame(width: 200)
+                    .frame(maxWidth: .infinity)
                     //.offset(x:-100)
                 Spacer()
-            }
+                VStack(alignment:.leading){
+                    HStack{
+                        Image("portfolio").resizable()
+                            .aspectRatio(contentMode: .fit)
+                        .frame(width: 30)
+                        Text("Portfolio").fontWeight(.bold).font(.title2)
+                    }
+                    
+                        HStack{
+                            ForEach(card.urls, id:\.self){ url in
+                                Text("\(url)").foregroundColor(Color("purpleColor"))
+                                    .fontWeight(.bold)
+                                    .padding(.horizontal, 2)
+                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                    .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color("purpleColor"),lineWidth: 2)
+                                )
+                        }
+                        }
+                    
+                    
+                    
+                }.foregroundColor(Color("purpleColor"))
+                    .frame(maxWidth: .infinity)
+                    //.offset(x:-100)
+                //Belum Bisa Wrapping
+                //Nanti coba lihat di link: https://stackoverflow.com/questions/58842453/swiftui-hstack-with-wrap
+                Spacer()
+            }.frame(maxWidth: .infinity)
             
             VStack{
 
