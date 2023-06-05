@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BDFDC87F2A2D653D00776B60 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFDC87E2A2D653D00776B60 /* LoginView.swift */; };
 		ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309E52A25ED9000C26905 /* TenderApp.swift */; };
 		ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309E72A25ED9000C26905 /* ContentView.swift */; };
 		ECA309EA2A25ED9100C26905 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA309E92A25ED9100C26905 /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BDFDC87E2A2D653D00776B60 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		ECA309E22A25ED9000C26905 /* Tender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA309E52A25ED9000C26905 /* TenderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenderApp.swift; sourceTree = "<group>"; };
 		ECA309E72A25ED9000C26905 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				FE1600EF2A2CD388003691BE /* SwipeView.swift */,
 				FE1600F12A2CD39C003691BE /* MenuView.swift */,
 				FE1600F32A2CD40F003691BE /* MenuList.swift */,
+				BDFDC87E2A2D653D00776B60 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 				FE1600F62A2DB3D1003691BE /* Card.swift in Sources */,
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
 				FE1600F42A2CD40F003691BE /* MenuList.swift in Sources */,
+				BDFDC87F2A2D653D00776B60 /* LoginView.swift in Sources */,
 				ECA309FA2A266D4E00C26905 /* DataController.swift in Sources */,
 				ECA309F82A25F36700C26905 /* FreelancerModel.xcdatamodeld in Sources */,
 				FE1600F02A2CD388003691BE /* SwipeView.swift in Sources */,
