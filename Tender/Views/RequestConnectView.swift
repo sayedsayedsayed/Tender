@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DetailNotificationView: View {
+struct RequestConnectView: View {
     let user: String = "danu"
     let role: String = "frontend developer"
 
@@ -68,6 +68,6 @@ struct DetailNotificationView: View {
 
 struct RequestConnectView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailNotificationView()
+        RequestConnectView()
     }
 }
