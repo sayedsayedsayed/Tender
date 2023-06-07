@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct TenderApp: App {
+//    let persistenceContainer = PersistenceController.shared
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+//            SayedTestView(freelancers: []).environmentObject(FreelancerModel())
         }
     }
 }

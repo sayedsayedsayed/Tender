@@ -11,9 +11,10 @@
 		ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309E72A25ED9000C26905 /* ContentView.swift */; };
 		ECA309EA2A25ED9100C26905 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA309E92A25ED9100C26905 /* Assets.xcassets */; };
 		ECA309ED2A25ED9100C26905 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA309EC2A25ED9100C26905 /* Preview Assets.xcassets */; };
-		ECA309F82A25F36700C26905 /* FreelancerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = ECA309F62A25F36700C26905 /* FreelancerModel.xcdatamodeld */; };
-		ECA309FA2A266D4E00C26905 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309F92A266D4E00C26905 /* DataController.swift */; };
 		ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309FB2A26D3E500C26905 /* ReferenceHelper.swift */; };
+		ECA30A202A27591C00C26905 /* SayedTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA30A1F2A27591C00C26905 /* SayedTestView.swift */; };
+		ECA30A442A2F720F00C26905 /* Freelancer.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA30A432A2F720F00C26905 /* Freelancer.swift */; };
+		ECA30A462A2F75A400C26905 /* FreelancerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA30A452A2F75A400C26905 /* FreelancerModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,9 +23,12 @@
 		ECA309E72A25ED9000C26905 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ECA309E92A25ED9100C26905 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ECA309EC2A25ED9100C26905 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		ECA309F72A25F36700C26905 /* FreelancerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FreelancerModel.xcdatamodel; sourceTree = "<group>"; };
-		ECA309F92A266D4E00C26905 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		ECA309FB2A26D3E500C26905 /* ReferenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceHelper.swift; sourceTree = "<group>"; };
+		ECA309FD2A27415200C26905 /* Tender.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tender.entitlements; sourceTree = "<group>"; };
+		ECA309FE2A274D8B00C26905 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		ECA30A1F2A27591C00C26905 /* SayedTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SayedTestView.swift; sourceTree = "<group>"; };
+		ECA30A432A2F720F00C26905 /* Freelancer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Freelancer.swift; sourceTree = "<group>"; };
+		ECA30A452A2F75A400C26905 /* FreelancerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreelancerModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +61,10 @@
 		ECA309E42A25ED9000C26905 /* Tender */ = {
 			isa = PBXGroup;
 			children = (
+				ECA309FE2A274D8B00C26905 /* Info.plist */,
+				ECA309FD2A27415200C26905 /* Tender.entitlements */,
 				ECA309E52A25ED9000C26905 /* TenderApp.swift */,
-				ECA309F52A25EDD600C26905 /* DataModel */,
+				ECA309F52A25EDD600C26905 /* Model */,
 				ECA309F42A25EDAB00C26905 /* Views */,
 				ECA309F32A25EDA000C26905 /* Helpers */,
 				ECA309E92A25ED9100C26905 /* Assets.xcassets */,
@@ -87,17 +93,18 @@
 			isa = PBXGroup;
 			children = (
 				ECA309E72A25ED9000C26905 /* ContentView.swift */,
+				ECA30A1F2A27591C00C26905 /* SayedTestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		ECA309F52A25EDD600C26905 /* DataModel */ = {
+		ECA309F52A25EDD600C26905 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				ECA309F92A266D4E00C26905 /* DataController.swift */,
-				ECA309F62A25F36700C26905 /* FreelancerModel.xcdatamodeld */,
+				ECA30A432A2F720F00C26905 /* Freelancer.swift */,
+				ECA30A452A2F75A400C26905 /* FreelancerModel.swift */,
 			);
-			path = DataModel;
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,10 +178,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
-				ECA309FA2A266D4E00C26905 /* DataController.swift in Sources */,
-				ECA309F82A25F36700C26905 /* FreelancerModel.xcdatamodeld in Sources */,
+				ECA30A442A2F720F00C26905 /* Freelancer.swift in Sources */,
+				ECA30A462A2F75A400C26905 /* FreelancerModel.swift in Sources */,
 				ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,
+				ECA30A202A27591C00C26905 /* SayedTestView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,12 +308,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Tender/Tender.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Tender/Preview Content\"";
 				DEVELOPMENT_TEAM = FZWD842KM9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tender/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -316,7 +326,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Sharia.Tender;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sharia.Tender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -329,12 +339,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Tender/Tender.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Tender/Preview Content\"";
 				DEVELOPMENT_TEAM = FZWD842KM9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Tender/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -345,7 +357,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Sharia.Tender;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sharia.Tender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -375,19 +387,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		ECA309F62A25F36700C26905 /* FreelancerModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				ECA309F72A25F36700C26905 /* FreelancerModel.xcdatamodel */,
-			);
-			currentVersion = ECA309F72A25F36700C26905 /* FreelancerModel.xcdatamodel */;
-			path = FreelancerModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = ECA309DA2A25ED9000C26905 /* Project object */;
 }

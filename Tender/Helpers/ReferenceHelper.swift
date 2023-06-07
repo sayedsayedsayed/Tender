@@ -20,7 +20,7 @@ func decryptReferenceCode(referenceCode: String) -> (Int, Int){
     return (id, counter)
 }
 
-func checkReferenceCode() -> Bool {
+func checkReferenceCode(id: Int, counter: Int) -> Bool {
     //TODO: check if the reference code is valid or not
     var result = true
     return result
