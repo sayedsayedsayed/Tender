@@ -65,8 +65,6 @@ struct MenuView: View {
                 switch activeScreen {
                 case .discover:
                     SwipeView(activeScreen: $activeScreen, namespace: discover)                    .transition(.move(edge: .bottom))
-
-                    
                 case .connected:
                     ConnectedView(namespace: connected, activeScreen: $activeScreen)                    .transition(.move(edge: .bottom))
                 case .notification:
@@ -76,6 +74,7 @@ struct MenuView: View {
                 }
             }
         }.coordinateSpace(name: "SCROLL")
+           .edgesIgnoringSafeArea(.all)
     }
     
     @ViewBuilder
@@ -89,6 +88,7 @@ struct MenuView: View {
             
             Image("logo")
                 .resizable()
+                .padding()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size.width, height: size.height + (minY > 0 ? minY : 0))
                 .clipped()

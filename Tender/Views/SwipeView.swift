@@ -36,25 +36,9 @@ struct SwipeView: View {
                     ExtractedView(card: card).padding(8)
                 }
             }.zIndex(1.0)
-            //Bottom Stack
-            HStack(spacing: 0){
-                Button(action: {}){
-                    Image("refresh")
-                }
-                Button(action: {}){
-                    Image("dismiss")
-                }
-                Button(action: {}){
-                    Image("super_like")
-                }
-                Button(action: {}){
-                    Image("like")
-                }
-                Button(action: {}){
-                    Image("boost")
-                }
-            }
+            
         }.background(Color("whiteColor"))
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
