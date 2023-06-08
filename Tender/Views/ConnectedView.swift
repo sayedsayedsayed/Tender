@@ -31,7 +31,7 @@ struct ConnectedView: View {
                                     .onEnded { value in
                                         if abs(value.translation.height) > abs(value.translation.width) {
                                             if value.translation.height > 0 {
-                                                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                                withAnimation() {
                                                     activeScreen = .menu
                                                 }
                                             }
