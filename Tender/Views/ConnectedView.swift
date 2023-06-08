@@ -20,13 +20,20 @@ struct ConnectedView: View {
     @State private var isSearch: Bool = false
     @State private var search: String = ""
     @State private var isPresented: Bool = false
+    @State private var isNavigate: Bool = false
+    @State var selectedFreelancer: FreelancerDummyModel = FreelancerDummyModel(contact: "08128238", email: "aksjdhakjs", isAvailable: true, name: "name", picture: "alskdja", portfolio: "alksdj", referee: "alskdja", referenceCounter: 1, role: "asjkd", skills: [Skills(image: "asda", name: "alskd")])
     @Binding var activeScreen: Show
+    @Binding var isFromMenu: Bool
+    
+    func onTap() {
+        print("ontap")
+    }
 
     var body: some View {
-        VStack {
-            ZStack {
+//        VStack {
+//            ZStack {
                 VStack(spacing: 0) {
-                    MenuItem(namespace: namespace, title: "CONNECTED", isHeader: activeScreen == .connected ? true : false, activeScreen: $activeScreen)
+                    MenuItem(namespace: namespace, title: "CONNECTED", isHeader: activeScreen == .connected ? true : false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
                         .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
                             .onEnded { value in
                                 if abs(value.translation.height) > abs(value.translation.width) {
@@ -38,6 +45,7 @@ struct ConnectedView: View {
                                 }
                             }
                         )
+                    
                     
                     ScrollView {
                         ZStack {
@@ -68,7 +76,9 @@ struct ConnectedView: View {
                                     .foregroundColor(Color.black)
                             }
                         }.ignoresSafeArea()
-                        ListFreelancer(freelancers: freelancers)
+                        ListFreelancer(freelancers: freelancers, selectedFreelancer: $selectedFreelancer, isNavigate: $isNavigate, isFromMenu: $isFromMenu) {
+                            onTap()
+                        }
                         
                     }.transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
                     .scrollIndicators(.hidden)
@@ -101,16 +111,16 @@ struct ConnectedView: View {
                     }
                 }
                 
-            }
+            
             .background(Color("whiteColor"))
             .ignoresSafeArea()
-        }.transition(.move(edge: .bottom))
+        .transition(.move(edge: .bottom))
     }
 }
 
 struct ConnectedView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        ConnectedView(namespace: namespace, activeScreen: .constant(.menu))
+        ConnectedView(namespace: namespace, selectedFreelancer: FreelancerViewModel().freelancer.first!, activeScreen: .constant(.menu), isFromMenu: .constant(true))
     }
 }

@@ -13,95 +13,97 @@ struct NotificationListView: View {
     @Binding var activeScreen: Show
     @State var isPresented: Bool = false
     var namespace: Namespace.ID
+    @Binding var isFromMenu: Bool
 
     var body: some View {
-        VStack {
-            ZStack {
-                VStack(spacing: 0) {
-                    ZStack {
-                        VStack {
-                            MenuItem(namespace: namespace, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: activeScreen == .notification ? true : false, activeScreen: $activeScreen)
-                                .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
-                                    .onEnded { value in
-                                        if abs(value.translation.height) > abs(value.translation.width) {
-                                            if value.translation.height > 0 {
-                                                withAnimation {
-                                                    activeScreen = .menu
+        print(activeScreen)
+        return
+            VStack {
+                ZStack {
+                    VStack(spacing: 0) {
+                        MenuItem(namespace: namespace, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: activeScreen == .notification ? true : false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
+                                    .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
+                                        .onEnded { value in
+                                            if abs(value.translation.height) > abs(value.translation.width) {
+                                                if value.translation.height > 0 {
+                                                    withAnimation {
+                                                        activeScreen = .menu
+                                                    }
                                                 }
                                             }
                                         }
+                                    )
+                        List {
+                            ForEach(viewModel.notifications) { notification in
+                                HStack {
+                                    AsyncImage(url: URL(string: notification.image)) {
+                                        phase in
+                                        switch phase {
+                                        case .empty:
+                                            Image(systemName: "person.circle.fill")
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 50, height: 50)
+                                                .clipShape(Circle())
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 50, height: 50)
+                                                .clipShape(Circle())
+                                        case .failure(_):
+                                            Image(systemName: "person.circle.fill")
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 50, height: 50)
+                                                .clipShape(Circle())
+                                        @unknown default:
+                                            Image(systemName: "person.circle.fill")
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 50, height: 50)
+                                                .clipShape(Circle())
+                                        }
                                     }
-                                )
-                        }
-                    }
-                    List {
-                        ForEach(viewModel.notifications) { notification in
-                            HStack {
-                                AsyncImage(url: URL(string: notification.image)) {
-                                    phase in
-                                    switch phase {
-                                    case .empty:
-                                        Image(systemName: "person.circle.fill")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 50)
-                                            .clipShape(Circle())
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 50)
-                                            .clipShape(Circle())
-                                    case .failure(_):
-                                        Image(systemName: "person.circle.fill")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 50)
-                                            .clipShape(Circle())
-                                    @unknown default:
-                                        Image(systemName: "person.circle.fill")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 50, height: 50)
-                                            .clipShape(Circle())
+                                    VStack(alignment: .leading) {
+                                        Text(notification.title)
+                                            .padding(.leading, 5)
+                                            .foregroundColor(.black)
+                                            .font(.headline)
+                                        Text(notification.body)
+                                            .padding(.leading, 5)
+                                            .foregroundColor(.black)
                                     }
+                                    .cornerRadius(8)
+                                    .padding([.top, .bottom], 10)
+                                    
+                                }.onTapGesture {
+                                    selectedNotif = notification
+                                    isPresented.toggle()
+                                    print(isPresented)
+                                }.navigationDestination(isPresented: $isPresented) {
+                                    RequestConnectView(notification: $selectedNotif, isFromMenu: $isFromMenu)
                                 }
-                                VStack(alignment: .leading) {
-                                    Text(notification.title)
-                                        .padding(.leading, 5)
-                                        .foregroundColor(.black)
-                                        .font(.headline)
-                                    Text(notification.body)
-                                        .padding(.leading, 5)
-                                        .foregroundColor(.black)
-                                }
-                                .cornerRadius(8)
-                                .padding([.top, .bottom], 10)
-                                
-                            }.onTapGesture {
-                                selectedNotif = notification
-                                isPresented.toggle()
-                            }.navigationDestination(isPresented: $isPresented) {
-                                RequestConnectView(notification: $selectedNotif)
-                            }
 
-//                            .padding(.top, 15)
+    //                            .padding(.top, 15)
+                            }
                         }
                     }
+                    .background(Color("whiteColor"))
+                    .ignoresSafeArea()
                 }
-                .background(Color("whiteColor"))
-                .ignoresSafeArea()
+                .navigationBarBackButtonHidden()
+                .onAppear {
+                    // Add a notification to the list
+                    viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")
+                    viewModel.addNotification(title: "New Request Connection", body: "Danu wants to connect with you", name: "Danu", image: "https://i.imgur.com/4ho15e6.jpg", role: "Backend Developer")
+                    viewModel.addNotification(title: "New Request Connection", body: "Iksan wants to connect with you", name: "Iksan", image: "https://i.imgur.com/4ho15e6.jpg", role: "iOS Developer")
+                    
+                }
+                .frame(maxHeight: .infinity).background(Color("whiteColor"))
             }
-            .navigationBarBackButtonHidden()
-            .onAppear {
-                // Add a notification to the list
-                viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")
-                viewModel.addNotification(title: "New Request Connection", body: "Danu wants to connect with you", name: "Danu", image: "https://i.imgur.com/4ho15e6.jpg", role: "Backend Developer")
-                viewModel.addNotification(title: "New Request Connection", body: "Iksan wants to connect with you", name: "Iksan", image: "https://i.imgur.com/4ho15e6.jpg", role: "iOS Developer")
-                
-            }.background(Color("whiteColor"))
         }
-    }
+    
 }
 
 class NotificationListViewModel: ObservableObject {
@@ -117,6 +119,6 @@ class NotificationListViewModel: ObservableObject {
 struct NotificationListView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        NotificationListView(selectedNotif: Notification(title: "test", body: "test", name: "afdas", image: "", role: "test"), activeScreen: .constant(.notification), namespace: namespace)
+        NotificationListView(selectedNotif: Notification(title: "test", body: "test", name: "afdas", image: "", role: "test"), activeScreen: .constant(.notification), namespace: namespace, isFromMenu: .constant(false))
     }
 }
