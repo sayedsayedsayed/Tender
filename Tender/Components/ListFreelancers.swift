@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ListFreelancer: View {
     var freelancers: [FreelancerDummyModel]
-    
-    @State private var totalHeight
-    = CGFloat.zero       // << variant for ScrollView/List
+    @Binding var selectedFreelancer: FreelancerDummyModel
+    @Binding var isNavigate: Bool
+    @Binding var isFromMenu: Bool
+    var onTap: () -> Void
+    @State private var totalHeight = CGFloat.zero       // << variant for ScrollView/List
     //    = CGFloat.infinity   // << variant for VStack
     
     var body: some View {
@@ -54,6 +56,14 @@ struct ListFreelancer: View {
                             }
                             return result
                         })
+                        .onTapGesture {
+                            selectedFreelancer = freelancer
+                            onTap()
+                            isNavigate = true
+                            isFromMenu = false
+                        }.navigationDestination(isPresented: $isNavigate, destination: {
+                            LoginView()
+                        })
                     
 //                }.padding(.horizontal, 10)
             }
@@ -73,6 +83,6 @@ struct ListFreelancer: View {
 
 struct ListFreelancer_Previews: PreviewProvider {
     static var previews: some View {
-        ListFreelancer(freelancers: [])
+        ListFreelancer(freelancers: [], selectedFreelancer: .constant(FreelancerViewModel().freelancer.first!), isNavigate: .constant(false), isFromMenu: .constant(false), onTap: {})
     }
 }
