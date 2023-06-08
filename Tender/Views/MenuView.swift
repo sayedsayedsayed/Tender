@@ -18,8 +18,10 @@ struct MenuView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                Image("logo")
-                    .padding(50)
+                HStack {
+                    Image("logo")
+                        .padding(50)
+                }.padding(.vertical, 15)
                 Button(action:{
                     
                 }){
@@ -28,7 +30,7 @@ struct MenuView: View {
 
                 
                 Button(action:{
-                    withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                    withAnimation() {
                         activeScreen = .connected
                     }
                 }){

@@ -30,7 +30,7 @@ struct MenuItem: View {
                                     .padding(.top, 11)
                                     .font(Font.system(.title2)).foregroundColor(Color.white).frame(width: 50, height: 20)
                                     .onTapGesture {
-                                        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                        withAnimation() {
                                             activeScreen = .menu
                                         }
                                     }
