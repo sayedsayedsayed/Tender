@@ -79,18 +79,19 @@ struct MenuView: View {
     
     @ViewBuilder
     func LogoWork()-> some View{
-        let height =  size.height * 0.45
+        let height =  size.height * 0.3
         GeometryReader{ proxy in
             let size = proxy.size
             let minY = proxy.frame(in: .named("SCROLL")).minY
-//            let progress = minY / (height * 0.8)
+       
+            let progress = minY / (height)
             
             
             Image("logo")
                 .resizable()
                 .padding()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: size.width, height: size.height + (minY > 0 ? minY : 0))
+                .frame(width: size.width * (1 + progress)  , height: size.height * (1 + progress))
                 .clipped()
 //                .overlay(content:{
 //                    ZStack(alignment: .bottom){

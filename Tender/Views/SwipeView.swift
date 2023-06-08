@@ -70,6 +70,7 @@ struct ExtractedView: View {
                 }.foregroundColor(Color("purpleColor"))
                 Spacer()
                 VStack(alignment:.leading){
+                    
                     HStack{
                         Image("briefcase").resizable()
                             .aspectRatio(contentMode: .fit)
@@ -79,6 +80,7 @@ struct ExtractedView: View {
                     
                     
                     HStack{
+                        
                         ForEach(card.skill, id:\.self){ subSkill in
                             Text("\(subSkill)").foregroundColor(Color("purpleColor"))
                                 .fontWeight(.bold)
