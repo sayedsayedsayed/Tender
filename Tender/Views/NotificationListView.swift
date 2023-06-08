@@ -35,10 +35,24 @@ struct NotificationListView: View {
                     List {
                         ForEach(viewModel.notifications) { notification in
                             HStack {
-//                                AsyncImage(url: URL(string: notification.image))
-                                Image("profilPic")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
+                                AsyncImage(url: URL(string: notification.image)) {
+                                    phase in
+                                    switch phase {
+                                    case .empty:
+                                        Color.purple.opacity(0.1)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50)
+                                    case .failure(_):
+                                        Image(systemName: "exclamationmark.icloud")
+                                            .resizable()
+                                            .scaledToFit()
+                                    @unknown default:
+                                        Image(systemName: "exclamationmark.icloud")
+                                    }
+                                }
                                 VStack(alignment: .leading) {
                                     Text(notification.title)
                                         .padding(.leading, 5)
