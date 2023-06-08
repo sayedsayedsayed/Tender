@@ -15,11 +15,13 @@ struct ConnectedView: View {
         case available = "Available"
         case unavailable = "Unavailable"
     }
+
+    @State private var freelancerFiltered: [FreelancerDummyModel] = FreelancerViewModel().freelancer
     @State private var isSearch: Bool = false
     @State private var search: String = ""
     @State private var isPresented: Bool = false
     @Binding var activeScreen: Show
-    
+
     var body: some View {
         VStack {
             ZStack {
@@ -41,20 +43,24 @@ struct ConnectedView: View {
                         ZStack {
                             if isSearch {
                                 HStack(spacing: 0) {
-                                    SearchBar(search: $search, isSearch: $isSearch)
+                                    SearchBar(search: $search, isSearch: $isSearch).onChange(of: search, perform: { value in
+                                        freelancerFiltered = freelancers.filter {$0.name == value}
+                                        print(freelancerFiltered)
+                                        print(value)
+                                    })
                                 }.ignoresSafeArea()
                             } else {
                                 HStack(spacing: 10) {
                                     Spacer()
                                     Image(systemName: "magnifyingglass")
                                         .font(Font.system(.title2))
-                                        .padding(.top, 5)
+                                        .padding(.top, 15)
                                         .onTapGesture {
                                             isSearch.toggle()
                                         }
                                     Image(systemName: "line.3.horizontal.decrease")
                                         .font(Font.system(.title2))
-                                        .padding(.top, 5)
+                                        .padding(.top, 15)
                                         .onTapGesture {
                                             isPresented.toggle()
                                         }
@@ -64,7 +70,7 @@ struct ConnectedView: View {
                         }.ignoresSafeArea()
                         ListFreelancer(freelancers: freelancers)
                         
-                    }
+                    }.transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
                     .scrollIndicators(.hidden)
                     .sheet(isPresented: $isPresented) {
                         VStack {
@@ -98,7 +104,7 @@ struct ConnectedView: View {
             }
             .background(Color("whiteColor"))
             .ignoresSafeArea()
-        }.navigationBarBackButtonHidden()
+        }.transition(.move(edge: .bottom))
     }
 }
 
