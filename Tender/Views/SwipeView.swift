@@ -8,26 +8,28 @@
 import SwiftUI
 
 struct SwipeView: View {
+    @State private var isSearch: Bool = false
+    @State private var search: String = ""
+    @State private var isPresented: Bool = false
+    @Binding var activeScreen: Show
+    var namespace: Namespace.ID
     
     var body: some View {
         VStack{
             //Top Stack
-            HStack{
-                Button(action: {}){
-                    Image("profile")
-                }
-                Spacer()
-                Button(action: {}){
-                    Image("logo")
-                        .resizable().aspectRatio(contentMode: .fit)
-                        .frame(height: 30)
-                }
-                Spacer()
-                Button(action: {}){
-                    Image("chats")
-                }
-                
-            }.padding(.horizontal)
+            MenuItem(namespace: namespace, title: "DISCOVER", color: Color("purpleColor"), isHeader: activeScreen == .connected ? true : false, activeScreen: $activeScreen)
+                .background(Color("purpleColor"))
+                .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
+                    .onEnded { value in
+                        if abs(value.translation.height) > abs(value.translation.width) {
+                            if value.translation.height > 0 {
+                                withAnimation() {
+                                    activeScreen = .menu
+                                }
+                            }
+                        }
+                    }
+                )
             //Card
             ZStack {
                 ForEach(Card.data.reversed()) { card in
@@ -57,8 +59,9 @@ struct SwipeView: View {
 }
 
 struct SwipeView_Previews: PreviewProvider {
+    @Namespace static var namespace
     static var previews: some View {
-        SwipeView()
+        SwipeView(activeScreen: .constant(.menu), namespace: namespace)
     }
 }
 
