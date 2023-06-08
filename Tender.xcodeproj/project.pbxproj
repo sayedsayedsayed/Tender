@@ -21,6 +21,7 @@
 		882B61A52A310B94002CF208 /* RolesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A42A310B94002CF208 /* RolesViewModel.swift */; };
 		882B61A72A310BB8002CF208 /* SkillsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A62A310BB8002CF208 /* SkillsViewModel.swift */; };
 		882B61A92A310BE8002CF208 /* ConnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A82A310BE8002CF208 /* ConnectedView.swift */; };
+		882B61AB2A3111E4002CF208 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61AA2A3111E4002CF208 /* Menu.swift */; };
 		BD2AAA7F2A306C4500867EB4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = BD2AAA7E2A306C4500867EB4 /* README.md */; };
 		BD2AAA812A306C5700867EB4 /* RequestConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA802A306C5700867EB4 /* RequestConnectView.swift */; };
 		BD2AAA832A306C6000867EB4 /* ReferralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA822A306C6000867EB4 /* ReferralView.swift */; };
@@ -55,6 +56,7 @@
 		882B61A42A310B94002CF208 /* RolesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolesViewModel.swift; sourceTree = "<group>"; };
 		882B61A62A310BB8002CF208 /* SkillsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillsViewModel.swift; sourceTree = "<group>"; };
 		882B61A82A310BE8002CF208 /* ConnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedView.swift; sourceTree = "<group>"; };
+		882B61AA2A3111E4002CF208 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		BD2AAA7E2A306C4500867EB4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD2AAA802A306C5700867EB4 /* RequestConnectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestConnectView.swift; sourceTree = "<group>"; };
 		BD2AAA822A306C6000867EB4 /* ReferralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralView.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				882B619B2A310B27002CF208 /* FreelancerDummy.swift */,
 				882B619D2A310B36002CF208 /* Roles.swift */,
 				882B619F2A310B43002CF208 /* Skills.swift */,
+				882B61AA2A3111E4002CF208 /* Menu.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 				882B61982A310AEA002CF208 /* MenuItem.swift in Sources */,
 				882B61A02A310B43002CF208 /* Skills.swift in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,
+				882B61AB2A3111E4002CF208 /* Menu.swift in Sources */,
 				BD2AAA832A306C6000867EB4 /* ReferralView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,7 +434,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Tender/Preview Content\"";
-				DEVELOPMENT_TEAM = FZWD842KM9;
+				DEVELOPMENT_TEAM = 9UX8BMAVFK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tender/Info.plist;
@@ -439,12 +443,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sharia.Tender;
+				PRODUCT_BUNDLE_IDENTIFIER = com.agfiddprsty.Tender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -461,7 +466,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Tender/Preview Content\"";
-				DEVELOPMENT_TEAM = FZWD842KM9;
+				DEVELOPMENT_TEAM = 9UX8BMAVFK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tender/Info.plist;
@@ -470,12 +475,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sharia.Tender;
+				PRODUCT_BUNDLE_IDENTIFIER = com.agfiddprsty.Tender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

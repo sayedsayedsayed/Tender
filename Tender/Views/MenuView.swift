@@ -8,61 +8,51 @@
 import SwiftUI
 
 struct MenuView: View {
-    @Namespace var namespace
+    @Namespace var connected
+    @Namespace var discover
+    @Namespace var notification
+    @Namespace var profile
     @State private var menuNameList = MenuList.menuList()
-    @State private var isConnectedView: Bool = false
+    @State private var activeScreen: Show = .menu
+
     var body: some View {
         ZStack {
-            VStack{
-                HStack{
-                    
-                    Text("Hi, ") +
-                    Text("John").fontWeight(.bold)
-                    
-                    Image("profilPic")
-                }.frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding()
-                    .padding(.top, 50)
-                    .frame(maxHeight: .infinity)
-                
+            VStack(spacing: 0) {
                 Image("logo")
                     .padding(50)
                 Button(action:{
                     
                 }){
-                    Text("DISCOVER")
-                        .font(.title)
-                        .padding()
-                        .frame(width: 400)
-                        .frame(height: 195)
-                        .background(Color("purpleColor"))
-                        .foregroundColor(Color("whiteColor"))
+                    MenuItem(namespace: discover, title: "DISCOVER", color: Color("purpleColor"), isHeader: false, activeScreen: $activeScreen)
                 }
 
                 
                 Button(action:{
                     withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                        isConnectedView.toggle()
+                        activeScreen = .connected
                     }
                 }){
-                    MenuItem(namespace: namespace, title: "CONNECTED", isHeader: false, isConnectedView: $isConnectedView)
-                }.offset(y:-8)
+                    MenuItem(namespace: connected, title: "CONNECTED", color: Color("pinkColor"), isHeader: false, activeScreen: $activeScreen)
+                }
                 Button(action:{
                     
                 }){
-                    Text("NOTIFICATION")
-                        .font(.title)
-                        .padding()
-                        .frame(width: 400)
-                        .frame(height: 195)
-                        .background(Color("orangeColor"))
-                        .foregroundColor(Color("whiteColor"))
-                }.offset(y:-16)
+                    MenuItem(namespace: notification, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: false, activeScreen: $activeScreen)
+                }
+                Button(action:{
+                    
+                }){
+                    MenuItem(namespace: profile, title: "PROFILE", color: Color("yellowColor"), isHeader: false, activeScreen: $activeScreen)
+                }
                 
             }
+            .frame(maxHeight: .infinity)
             .background(Color("whiteColor"))
-            if isConnectedView {
-                ConnectedView(namespace: namespace, isConnectedView: $isConnectedView)
+            switch activeScreen {
+            case .connected:
+                ConnectedView(namespace: connected, activeScreen: $activeScreen)                    .transition(.move(edge: .bottom))
+            default:
+                EmptyView()
             }
         }
     }
