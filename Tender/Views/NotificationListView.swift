@@ -41,19 +41,29 @@ struct NotificationListView: View {
                                     phase in
                                     switch phase {
                                     case .empty:
-                                        Color.purple.opacity(0.1)
+                                        Image(systemName: "person.circle.fill")
+                                            .resizable()
+                                            .scaledToFill()
                                             .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
                                     case .success(let image):
                                         image
                                             .resizable()
                                             .scaledToFill()
                                             .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
                                     case .failure(_):
-                                        Image(systemName: "exclamationmark.icloud")
+                                        Image(systemName: "person.circle.fill")
                                             .resizable()
-                                            .scaledToFit()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
                                     @unknown default:
-                                        Image(systemName: "exclamationmark.icloud")
+                                        Image(systemName: "person.circle.fill")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
                                     }
                                 }
                                 VStack(alignment: .leading) {
