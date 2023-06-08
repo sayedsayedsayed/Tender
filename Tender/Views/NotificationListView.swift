@@ -40,11 +40,14 @@ struct NotificationListView: View {
                                     switch phase {
                                     case .empty:
                                         Color.purple.opacity(0.1)
+                                            .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
                                     case .success(let image):
                                         image
                                             .resizable()
                                             .scaledToFill()
                                             .frame(width: 50, height: 50)
+                                            .clipShape(Circle())
                                     case .failure(_):
                                         Image(systemName: "exclamationmark.icloud")
                                             .resizable()
