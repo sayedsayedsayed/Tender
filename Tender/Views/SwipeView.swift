@@ -17,7 +17,7 @@ struct SwipeView: View {
     var body: some View {
         VStack{
             //Top Stack
-            MenuItem(namespace: namespace, title: "DISCOVER", color: Color("purpleColor"), isHeader: activeScreen == .connected ? true : false, activeScreen: $activeScreen)
+            MenuItem(namespace: namespace, title: "DISCOVER", color: Color("purpleColor"), isHeader: activeScreen == .discover ? true : false, activeScreen: $activeScreen)
                 .background(Color("purpleColor"))
                 .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
                     .onEnded { value in

@@ -13,7 +13,7 @@ struct TenderApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MenuView()
+            ContentView()
 //            SayedTestView(freelancers: []).environmentObject(FreelancerModel())
         }
     }
