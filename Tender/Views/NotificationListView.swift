@@ -9,7 +9,9 @@ import SwiftUI
 
 struct NotificationListView: View {
     @StateObject private var viewModel = NotificationListViewModel()
+    @State var selectedNotif: Notification = Notification(title: "test", body: "test", name: "afdas", image: "", role: "test")
     @Binding var activeScreen: Show
+    @State var isPresented: Bool = false
     var namespace: Namespace.ID
 
     var body: some View {
@@ -23,7 +25,7 @@ struct NotificationListView: View {
                                     .onEnded { value in
                                         if abs(value.translation.height) > abs(value.translation.width) {
                                             if value.translation.height > 0 {
-                                                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                                withAnimation {
                                                     activeScreen = .menu
                                                 }
                                             }
@@ -40,6 +42,7 @@ struct NotificationListView: View {
                                     switch phase {
                                     case .empty:
                                         Color.purple.opacity(0.1)
+                                            .frame(width: 50, height: 50)
                                     case .success(let image):
                                         image
                                             .resizable()
@@ -65,7 +68,13 @@ struct NotificationListView: View {
                                 .cornerRadius(8)
                                 .padding([.top, .bottom], 10)
                                 
+                            }.onTapGesture {
+                                selectedNotif = notification
+                                isPresented.toggle()
+                            }.navigationDestination(isPresented: $isPresented) {
+                                RequestConnectView(notification: $selectedNotif)
                             }
+
 //                            .padding(.top, 15)
                         }
                     }
@@ -76,28 +85,20 @@ struct NotificationListView: View {
             .navigationBarBackButtonHidden()
             .onAppear {
                 // Add a notification to the list
-                viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg")
-                viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg")
-                viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg")
+                viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")
+                viewModel.addNotification(title: "New Request Connection", body: "Danu wants to connect with you", name: "Danu", image: "https://i.imgur.com/4ho15e6.jpg", role: "Backend Developer")
+                viewModel.addNotification(title: "New Request Connection", body: "Iksan wants to connect with you", name: "Iksan", image: "https://i.imgur.com/4ho15e6.jpg", role: "iOS Developer")
                 
-            }
+            }.background(Color("whiteColor"))
         }
     }
-}
-
-struct Notification: Identifiable {
-    let id = UUID()
-    let title: String
-    let body: String
-    let name: String
-    let image: String
 }
 
 class NotificationListViewModel: ObservableObject {
     @Published var notifications: [Notification] = []
     
-    func addNotification(title: String, body: String, name: String, image: String) {
-        let newNotification = Notification(title: title, body: body, name: name, image: image)
+    func addNotification(title: String, body: String, name: String, image: String, role: String) {
+        let newNotification = Notification(title: title, body: body, name: name, image: image, role: role)
         notifications.append(newNotification)
     }
 }
@@ -106,6 +107,6 @@ class NotificationListViewModel: ObservableObject {
 struct NotificationListView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        NotificationListView(activeScreen: .constant(.notification), namespace: namespace)
+        NotificationListView(selectedNotif: Notification(title: "test", body: "test", name: "afdas", image: "", role: "test"), activeScreen: .constant(.notification), namespace: namespace)
     }
 }

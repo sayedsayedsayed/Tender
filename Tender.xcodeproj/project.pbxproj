@@ -22,6 +22,7 @@
 		882B61A72A310BB8002CF208 /* SkillsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A62A310BB8002CF208 /* SkillsViewModel.swift */; };
 		882B61A92A310BE8002CF208 /* ConnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A82A310BE8002CF208 /* ConnectedView.swift */; };
 		882B61AB2A3111E4002CF208 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61AA2A3111E4002CF208 /* Menu.swift */; };
+		882B61AD2A31DDF7002CF208 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61AC2A31DDF7002CF208 /* Notification.swift */; };
 		BD2AAA7F2A306C4500867EB4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = BD2AAA7E2A306C4500867EB4 /* README.md */; };
 		BD2AAA812A306C5700867EB4 /* RequestConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA802A306C5700867EB4 /* RequestConnectView.swift */; };
 		BD2AAA832A306C6000867EB4 /* ReferralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA822A306C6000867EB4 /* ReferralView.swift */; };
@@ -58,6 +59,7 @@
 		882B61A62A310BB8002CF208 /* SkillsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillsViewModel.swift; sourceTree = "<group>"; };
 		882B61A82A310BE8002CF208 /* ConnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedView.swift; sourceTree = "<group>"; };
 		882B61AA2A3111E4002CF208 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		882B61AC2A31DDF7002CF208 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		BD2AAA7E2A306C4500867EB4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD2AAA802A306C5700867EB4 /* RequestConnectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestConnectView.swift; sourceTree = "<group>"; };
 		BD2AAA822A306C6000867EB4 /* ReferralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralView.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				882B619D2A310B36002CF208 /* Roles.swift */,
 				882B619F2A310B43002CF208 /* Skills.swift */,
 				882B61AA2A3111E4002CF208 /* Menu.swift */,
+				882B61AC2A31DDF7002CF208 /* Notification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				FE1600F62A2DB3D1003691BE /* Card.swift in Sources */,
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
 				882B61912A310AAA002CF208 /* ConnectedCard.swift in Sources */,
+				882B61AD2A31DDF7002CF208 /* Notification.swift in Sources */,
 				882B61A72A310BB8002CF208 /* SkillsViewModel.swift in Sources */,
 				882B61A32A310B7F002CF208 /* FreelancerViewModel.swift in Sources */,
 				ECA30A442A2F720F00C26905 /* Freelancer.swift in Sources */,

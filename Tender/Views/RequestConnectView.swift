@@ -8,30 +8,47 @@
 import SwiftUI
 
 struct RequestConnectView: View {
-    let user: String = "danu"
-    let role: String = "frontend developer"
+    @Binding var notification: Notification
 
     var body: some View {
         ZStack{
             Color("whiteColor").ignoresSafeArea()
             VStack{
                 Spacer()
-                Text("\(user.capitalized) wants to connect with you")
+                Text(notification.body)
                     .frame(width: 250)
                     .font(.largeTitle)
                     .multilineTextAlignment(.center)
                     .foregroundColor(Color("purpleColor"))
                 Spacer()
                 VStack{
-                    Image("p0")
-                        .resizable()
-                        .clipShape(Circle())
-                        .frame(width: 96)
+                    AsyncImage(url: URL(string: notification.image)) {
+                        phase in
+                        switch phase {
+                        case .empty:
+                            Color.purple.opacity(0.1)
+                                .frame(width: 96)
+                                .padding(.top, 25)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(Circle())
+                                .frame(width: 96)
+                                .padding(.top, 25)
+                        case .failure(_):
+                            Image(systemName: "exclamationmark.icloud")
+                                .resizable()
+                                .scaledToFit()
+                        @unknown default:
+                            Image(systemName: "exclamationmark.icloud")
+                        }
+                    }
                     Spacer()
                     VStack{
-                        Text("Prasetyo Danu")
+                        Text(notification.name)
                             .font(.system(size: 12, weight: .bold))
-                        Text(role)
+                        Text(notification.role)
                             .font(.system(size: 12, weight: .medium))
 
                     }
@@ -53,7 +70,7 @@ struct RequestConnectView: View {
                 Button {
                     print("test button")
                 }label: {
-                    Text("detail profile".capitalized)
+                    Text("See Full Profile".capitalized)
                         .frame(width: 173, height: 51)
                         .foregroundColor(.white)
                         .background(Color("pinkColor"))
@@ -68,6 +85,6 @@ struct RequestConnectView: View {
 
 struct RequestConnectView_Previews: PreviewProvider {
     static var previews: some View {
-        RequestConnectView()
+        RequestConnectView(notification: .constant(Notification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")))
     }
 }
