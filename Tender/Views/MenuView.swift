@@ -84,7 +84,7 @@ struct MenuView: View {
         GeometryReader{ proxy in
             let size = proxy.size
             let minY = proxy.frame(in: .named("SCROLL")).minY
-            let progress = minY / (height * 0.8)
+//            let progress = minY / (height * 0.8)
             
             
             Image("logo")
