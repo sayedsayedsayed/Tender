@@ -13,49 +13,60 @@ struct NotificationListView: View {
     var namespace: Namespace.ID
 
     var body: some View {
-        NavigationView {
-            MenuItem(namespace: namespace, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: activeScreen == .notification ? true : false, activeScreen: $activeScreen)
-                .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
-                    .onEnded { value in
-                        if abs(value.translation.height) > abs(value.translation.width) {
-                            if value.translation.height > 0 {
-                                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                                    activeScreen = .menu
+        VStack {
+            ZStack {
+                VStack(spacing: 0) {
+                    ZStack {
+                        VStack {
+                            MenuItem(namespace: namespace, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: activeScreen == .notification ? true : false, activeScreen: $activeScreen)
+                                .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
+                                    .onEnded { value in
+                                        if abs(value.translation.height) > abs(value.translation.width) {
+                                            if value.translation.height > 0 {
+                                                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                                                    activeScreen = .menu
+                                                }
+                                            }
+                                        }
+                                    }
+                                )
+                        }
+                    }
+                    List {
+                        ForEach(viewModel.notifications) { notification in
+                            HStack {
+//                                AsyncImage(url: URL(string: notification.image))
+                                Image("profilPic")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                VStack(alignment: .leading) {
+                                    Text(notification.title)
+                                        .padding(.leading, 5)
+                                        .foregroundColor(.black)
+                                        .font(.headline)
+                                    Text(notification.body)
+                                        .padding(.leading, 5)
+                                        .foregroundColor(.black)
                                 }
+                                .cornerRadius(8)
+                                .padding([.top, .bottom], 10)
+                                
                             }
+//                            .padding(.top, 15)
                         }
                     }
-                )
-
-            List {
-                ForEach(viewModel.notifications) { notification in
-                    HStack {
-                        AsyncImage(url: URL(string: notification.image))
-//                        Image(notification.image)
-//                            .resizable()
-                            .frame(width: 50, height: 50)
-                        VStack(alignment: .leading) {
-                            Text(notification.title)
-                                .padding(.leading, 5)
-                                .foregroundColor(.black)
-                                .font(.headline)
-                            Text(notification.body)
-                                .padding(.leading, 5)
-                                .foregroundColor(.black)
-                        }
-                        .cornerRadius(8)
-                        .padding([.top, .bottom], 10)
-                    }
-                    
                 }
+                .background(Color("whiteColor"))
+                .ignoresSafeArea()
+            }
+            .navigationBarBackButtonHidden()
+            .onAppear {
+                // Add a notification to the list
+                viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg")
+                viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg")
+                viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg")
                 
             }
-//            .navigationTitle("Notifications")
-            .padding(.top, 15)
-        }
-        .onAppear {
-            // Add a notification to the list
-            viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "profilPic")
         }
     }
 }
