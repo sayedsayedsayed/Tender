@@ -16,7 +16,7 @@ struct SearchBar: View {
                 Image(systemName: "magnifyingglass").foregroundColor(.gray)
                 TextField("Search", text: $search)
                     .font(Font.system(.body))
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 12)
             }
             .ignoresSafeArea()
             .padding(.horizontal, 10)
