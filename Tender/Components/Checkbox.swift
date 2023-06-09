@@ -10,11 +10,13 @@ import SwiftUI
 struct Checkbox: View {
     @State var isChecked: Bool = false
     var label: String = "Label"
+    var onTap: () -> Void
     var body: some View {
         Button(action: {
 
             // 2
             isChecked.toggle()
+            onTap()
 
         }, label: {
             HStack {
@@ -29,6 +31,6 @@ struct Checkbox: View {
 
 struct Checkbox_Previews: PreviewProvider {
     static var previews: some View {
-        Checkbox()
+        Checkbox(onTap: {})
     }
 }

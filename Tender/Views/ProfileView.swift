@@ -8,11 +8,35 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State var card: Card
-    @State var isToggleOn: Bool = false
+    @State private var availability: Bool = true
+    @State  var card: Card = Card(name: "Wati", imageName: "p0", age: 22, job: "Backend Developer", skill: ["Python","Swift","SQLite"], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!])
+    
+    
+    
+    init(card: Card) {
+        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(named: "whiteColor")
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(named: "purpleColor") as Any], for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(named: "purpleColor")?.withAlphaComponent(0.4) as Any], for: .normal)
+    }
     var body: some View {
         NavigationView{
             ScrollView{
+                VStack{
+                    HStack{
+                        Image(systemName: "chevron.backward")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 15)
+                            .foregroundColor(Color("purpleColor"))
+                        Spacer()
+                        Image(systemName: "pencil").resizable()
+                            
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25)
+                            .foregroundColor(Color("purpleColor"))
+                    }.padding(.horizontal, 40)
+                        .padding(.top, 30)
+                }
                 VStack{
                     Image(card.imageName)
                         .resizable()
@@ -27,12 +51,20 @@ struct ProfileView: View {
                     Text(card.job)
                         .foregroundColor(Color("purpleColor"))
                     
-                    Toggle(
-                        isOn: $isToggleOn, label: {
-                            
-                        }
-                    ).toggleStyle(SwitchToggleStyle(toggleText: ""))
-                        .offset(x: -80)
+                    Picker("", selection: $availability) {
+                        Text("available".capitalized).tag(true)
+                        Text("unavailable".capitalized).tag(false)
+                    }
+                    .overlay(
+                     RoundedRectangle(cornerRadius: 11)
+                         .stroke(Color("purpleColor"), lineWidth:1)
+                    )
+
+                    .pickerStyle(.segmented)
+                    .frame(width: 200, height: 25)
+                    .padding(.bottom, 20)
+                    
+                    
                     
                     GeometryReader{ geometry in
                         VStack(alignment:.leading){
@@ -71,7 +103,8 @@ struct ProfileView: View {
                             
                             HStack{
                                 ForEach(card.urls, id:\.self){ url in
-                                    Text("\(url)").foregroundColor(Color("purpleColor"))
+                                    Link("\(url)", destination: URL(string: "\(url)")!)
+                                        .foregroundColor(Color("purpleColor"))
                                         .fontWeight(.bold)
                                         .padding(.horizontal, 2)
                                         .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
@@ -88,7 +121,7 @@ struct ProfileView: View {
                             .frame(width: geometry.size.width, height: geometry.size.height * 2.3)
                         VStack(alignment:.leading){
                             HStack{
-                                Image("portfolio").resizable()
+                                Image(systemName: "person").resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 30)
                                 Text("Additional Roles").fontWeight(.bold).font(.title2)
@@ -113,7 +146,7 @@ struct ProfileView: View {
                         
                         VStack(alignment:.leading){
                             HStack{
-                                Image("portfolio").resizable()
+                                Image(systemName: "link").resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 30)
                                 Text("Reffered By").fontWeight(.bold).font(.title2)
@@ -149,42 +182,14 @@ struct ProfileView: View {
     }
 }
 
-struct SwitchToggleStyle: ToggleStyle {
-    var toggleText: String
-    
-    func makeBody(configuration: Configuration) -> some View {
-        HStack {
-            Text(toggleText)
-            Spacer()
-            Button(action: { configuration.isOn.toggle() }) {
-                RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(Color("purpleColor"), lineWidth: 2)
-                    .foregroundColor(Color("whiteColor"))
-                    .frame(width: 200, height: 30)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .frame(width: 100)
-                            .overlay(
-                                configuration.isOn ? Text("Unavailable").foregroundColor(Color("whiteColor")) : Text("Available")
-                                    .foregroundColor(Color("whiteColor"))
-                            )
-                            .foregroundColor(Color("purpleColor"))
-                            .padding(2)
-                            .offset(x: configuration.isOn ? 48 : -48, y: 0)
-                            .animation(Animation.linear(duration: 0.2))
-                    )
-            }
-        }
-        .padding(.horizontal)
-    }
-}
+
 
 struct ProfileView_Previews: PreviewProvider {
 
     static var previews: some View {
-        ForEach(Card.data){ card in
-            ProfileView(card: card)
-        }
+        
+            ProfileView(card: Card(name: "Wati", imageName: "p0", age: 22, job: "Backend Developer", skill: ["Python","Swift","SQLite"], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!]))
+        
         
     }
 }
