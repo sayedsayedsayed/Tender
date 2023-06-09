@@ -16,8 +16,16 @@ struct CapsuleSkillView: View {
             }else{
                 Image(skill.image)
             }
-            Text(skill.name)
+            Text(skill.name).foregroundColor(Color("purpleColor"))
         }
+        .frame(height: 1)
+        .padding()
+        .overlay(
+            RoundedRectangle(cornerRadius: 50)
+                .stroke(Color("purpleColor"), lineWidth:1)
+        )
+//        .border(Color("purpleColor"))
+//        .cornerRadius(10)
     }
 }
 
