@@ -13,6 +13,7 @@ struct CreateProfileView: View {
     @State var availability: Bool = true
     @State private var username: String = ""
     @State private var mainrole: String = ""
+    @State private var additionalRole: String = ""
     @State private var selectedSkills: [Skills] = []
     @State private var portfolioLists: [String] = [""]
     @State private var contactNumber: String = ""
@@ -78,6 +79,13 @@ struct CreateProfileView: View {
                                .padding(.bottom, 15)
                                .textFieldStyle(TextFieldStyleCustom())
                        }
+                        Group {
+                               FormTitleWithIcon(iconName: "role_icon", textTitle: "additional role")
+                               TextField("", text: $additionalRole, prompt: Text("Input your additional role").foregroundColor(Color("purpleColor").opacity(0.4)))
+                                   .frame(width: 350)
+                                   .padding(.bottom, 15)
+                                   .textFieldStyle(TextFieldStyleCustom())
+                           }
                        Group{
                            FormTitleWithIcon(iconName: "briefcase", textTitle: "Skills")
                            HStack{
