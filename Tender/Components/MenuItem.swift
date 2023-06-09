@@ -88,7 +88,7 @@ struct MenuItem: View {
                     Rectangle()
                         .foregroundColor(color)
                         .matchedGeometryEffect(id: "rectangle", in: namespace)
-                        .frame(height: 160)
+                        .frame(height: 200)
                     ZStack {
                         VStack(spacing: 5) {
                             HStack {

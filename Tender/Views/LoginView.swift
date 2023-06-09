@@ -37,9 +37,9 @@ print("test")
             }
             
             VStack{
-                Image("logo")
+                Image("logonew")
                     .resizable()
-                    .frame(width: showLogin ? screen.width * 0.3 : screen.width * 0.6, height: showLogin ? screen.height * 0.04 : screen.height * 0.08)
+                    .frame(width: showLogin ? screen.width * 0.24 : screen.width * 0.48, height: showLogin ? screen.height * 0.04 : screen.height * 0.08)
                     .padding(.top, showLogin ? 60 : screen.height / 2.4)
                 Spacer()
             }.frame(width: screen.width, height: screen.height)

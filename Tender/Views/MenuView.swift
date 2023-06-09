@@ -56,11 +56,7 @@ struct MenuView: View {
                             }){
                                 MenuItem(namespace: notification, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
                             }
-                            Button(action:{
-                                
-                            }){
-                                MenuItem(namespace: profile, title: "PROFILE", color: Color("yellowColor"), isHeader: false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
-                            }
+                            
                             
                         }
                         .frame(maxHeight: .infinity)
@@ -96,29 +92,13 @@ struct MenuView: View {
             
             let progress = minY / (height)
             
-            Image("logo")
+            Image("logonew")
                 .resizable()
                 .padding()
                 .position(x: proxy.frame(in: .local).midX, y: proxy.frame(in: .local).minY + 100)
-                .aspectRatio(contentMode: .fit)
-                .frame(width: size.width * (1 + progress)  , height: size.height * (1 + progress))
-            //                .clipped()
-            //                .overlay(content:{
-            //                    ZStack(alignment: .bottom){
-            //                        Rectangle()
-            //                            .fill(
-            //                                .linearGradient(colors: [
-            //                                    Color("purpleColor").opacity(0 - progress),
-            //                                    Color("purpleColor").opacity(0.1 - progress),
-            //                                    Color("purpleColor").opacity(0.3 - progress),
-            //                                    Color("purpleColor").opacity(0.5 - progress),
-            //                                    Color("purpleColor").opacity(0.8 - progress),
-            //                                    Color("purpleColor").opacity(1 - progress)
-            //
-            //                                ], startPoint: .top, endPoint: .bottom))
-            //                    }
-            //                })
-                .offset(y: -minY)
+                //.aspectRatio(contentMode: .fit)
+                .frame(width: 320 * (1 + progress), height: 140 * (1 + progress))
+                .offset(y: -minY + 90)
             
         }.frame(height: height + safeArea.top)
         
