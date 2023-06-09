@@ -103,7 +103,8 @@ struct ProfileView: View {
                             
                             HStack{
                                 ForEach(card.urls, id:\.self){ url in
-                                    Text("\(url)").foregroundColor(Color("purpleColor"))
+                                    Link("\(url)", destination: URL(string: "\(url)")!)
+                                        .foregroundColor(Color("purpleColor"))
                                         .fontWeight(.bold)
                                         .padding(.horizontal, 2)
                                         .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
