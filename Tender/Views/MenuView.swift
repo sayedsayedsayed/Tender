@@ -12,9 +12,14 @@ struct MenuView: View {
     @Namespace var discover
     @Namespace var notification
     @Namespace var profile
+    @Namespace var profilAnimation
     @State private var menuNameList = MenuList.menuList()
     @State private var activeScreen: Show = .menu
     @State private var isFromMenu: Bool = true
+    @State private var isProfileExpand = false
+    
+    @State private var profileX = 140.0
+    @State private var profileY = 30.0
     
     var safeArea : EdgeInsets
     var size : CGSize
@@ -22,9 +27,13 @@ struct MenuView: View {
         NavigationStack {
             
             ZStack {
+                
                 ScrollView(.vertical, showsIndicators: false){
                     ZStack {
+                        
+                        
                         VStack(spacing: 0) {
+                            
                             HStack {
                                 LogoWork()
                             }
@@ -80,7 +89,17 @@ struct MenuView: View {
                     }
                                 
             }
+            
         }
+        VStack{
+            
+            if isProfileExpand{
+                ExpandedProfileView
+            }else{
+                ProfileView
+            }
+    
+        }.offset(x: profileX, y: profileY)
     }
     
     @ViewBuilder
@@ -103,7 +122,50 @@ struct MenuView: View {
         }.frame(height: height + safeArea.top)
         
     }
+    
+    
+    var ProfileView: some View {
+        
+        return HStack{
+            VStack(alignment: .trailing){
+                Text("Wati")
+                    .font(.title3).bold()
+                    .foregroundColor(Color("purpleColor"))
+                    
+                Text("Frontend Developer")
+                    .foregroundColor(Color("purpleColor"))
+            }
+            ProfileImage
+                .matchedGeometryEffect(id: profile, in: profilAnimation)
+                .frame(width: 60)
+        }
+    }
+    
+    var ExpandedProfileView: some View{
+        LoginView()
+            .matchedGeometryEffect(id: profile, in: profilAnimation)
+//        HStack{
+//            ProfileImage
+//                .frame(width: 120
+//        }
+    }
+    
+    var ProfileImage: some View{
+        Image("p0")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .clipShape(Circle())
+            .onTapGesture {
+                withAnimation(.spring()){
+                    profileX = 0
+                    profileY = 0
+                    isProfileExpand.toggle()
+                }
+                
+            }
+    }
 }
+
 
 struct MenuView_Previews: PreviewProvider {
     
