@@ -8,13 +8,21 @@
 import SwiftUI
 
 struct CapsuleSkillView: View {
+    var skill: Skills
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack{
+            if skill.image.isEmpty{
+                Image(systemName: "square")
+            }else{
+                Image(skill.image)
+            }
+            Text(skill.name)
+        }
     }
 }
 
 struct CapsuleSkillView_Previews: PreviewProvider {
     static var previews: some View {
-        CapsuleSkillView()
+        CapsuleSkillView(skill: Skills(image: "", name: "label"))
     }
 }
