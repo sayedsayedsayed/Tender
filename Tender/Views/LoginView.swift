@@ -9,51 +9,56 @@ import SwiftUI
 
 struct LoginView: View {
     @State var showLogin = false
-    var body: some View {
-        ZStack{
-            Color("whiteColor").ignoresSafeArea()
-            VStack{
-                Spacer()
-                Text("please login first".capitalized)
-                    .font(.system(size: 25))
-                    
-                    .foregroundColor(Color("purpleColor"))
-                Spacer()
-                Image("onboarding_asset")
-                Spacer()
-                Button {
-print("test")
-                }label: {
-                    Image("linkedin_button")
+    @State var isPresented = false
 
+    var body: some View {
+        NavigationStack {
+            ZStack{
+                Color("whiteColor").ignoresSafeArea()
+                VStack{
+                    Spacer()
+                    Text("please login first".capitalized)
+                        .font(.system(size: 25))
+                        
+                        .foregroundColor(Color("purpleColor"))
+                    Spacer()
+                    Image("onboarding_asset")
+                    Spacer()
+                    Button {
+                        isPresented = true
+                    }label: {
+                        Image("linkedin_button")
+
+                    }.navigationDestination(isPresented: $isPresented) {
+                        ReferralView()
+                    }
+                    Spacer()
+                    
+                    
                 }
-                Spacer()
+                if !showLogin{
+                    Color("whiteColor")
+                        .edgesIgnoringSafeArea(.all)
+                }
                 
-                
-            }
-            if !showLogin{
-                Color("whiteColor")
+                VStack{
+                    Image("logonew")
+                        .resizable()
+                        .frame(width: showLogin ? screen.width * 0.24 : screen.width * 0.48, height: showLogin ? screen.height * 0.04 : screen.height * 0.08)
+                        .padding(.top, showLogin ? 60 : screen.height / 2.4)
+                    Spacer()
+                }.frame(width: screen.width, height: screen.height)
                     .edgesIgnoringSafeArea(.all)
-            }
-            
-            VStack{
-                Image("logonew")
-                    .resizable()
-                    .frame(width: showLogin ? screen.width * 0.24 : screen.width * 0.48, height: showLogin ? screen.height * 0.04 : screen.height * 0.08)
-                    .padding(.top, showLogin ? 60 : screen.height / 2.4)
-                Spacer()
-            }.frame(width: screen.width, height: screen.height)
-                .edgesIgnoringSafeArea(.all)
-                .background(Color.clear)
-            
-        }.onAppear{
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
-                withAnimation(.spring()){
-                    showLogin = true
+                    .background(Color.clear)
+                
+            }.onAppear{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                    withAnimation(.spring()){
+                        showLogin = true
+                    }
                 }
             }
         }
-
     }
 
 }

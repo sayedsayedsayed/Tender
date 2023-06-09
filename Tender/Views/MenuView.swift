@@ -11,95 +11,81 @@ struct MenuView: View {
     @Namespace var connected
     @Namespace var discover
     @Namespace var notification
-    @Namespace var profile
+//    @Namespace var profile
     @Namespace var profilAnimation
     @State private var menuNameList = MenuList.menuList()
     @State private var activeScreen: Show = .menu
-    @State private var isFromMenu: Bool = true
     @State private var isProfileExpand = false
-    
-    @State private var profileX = 140.0
-    @State private var profileY = 30.0
     
     var safeArea : EdgeInsets
     var size : CGSize
     var body: some View {
-        NavigationStack {
-            
-            ZStack {
-                
-                ScrollView(.vertical, showsIndicators: false){
-                    ZStack {
-                        
-                        
-                        VStack(spacing: 0) {
-                            
-                            HStack {
-                                LogoWork()
-                            }
+        ZStack {
+            ScrollView(.vertical, showsIndicators: false){
+                ZStack {
+                    VStack(spacing: 0) {
+                        HStack {
+                            LogoWork()
+                        }.padding(.bottom, 30)
+                        if activeScreen == .menu {
                             Button(action:{
                                 withAnimation {
                                     activeScreen = .discover
-                                    isFromMenu = true
                                 }
                                 
                             }){
-                                MenuItem(namespace: discover, title: "DISCOVER", color: Color("purpleColor"), isHeader: false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
+                                MenuItem(namespace: discover, title: "DISCOVER", color: Color("purpleColor"), isHeader: false, activeScreen: $activeScreen)
                             }
                             
                             
                             Button(action:{
-                                withAnimation() {
+                                withAnimation {
                                     activeScreen = .connected
-                                    isFromMenu = true
                                 }
                             }){
-                                MenuItem(namespace: connected, title: "CONNECTED", color: Color("pinkColor"), isHeader: false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
+                                MenuItem(namespace: connected, title: "CONNECTED", color: Color("pinkColor"), isHeader: false, activeScreen: $activeScreen)
                             }
                             Button(action:{
                                 withAnimation {
                                     activeScreen = .notification
-                                    isFromMenu = true
                                 }
                                 
                             }){
-                                MenuItem(namespace: notification, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
+                                MenuItem(namespace: notification, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: false, activeScreen: $activeScreen)
                             }
-                            
-                            
+
                         }
-                        .frame(maxHeight: .infinity)
-                        .background(Color("whiteColor"))
+                        
                     }
                 }
-                    .coordinateSpace(name: "SCROLL")
-                    .edgesIgnoringSafeArea(.all)
-                    .overlay {
-                        switch activeScreen {
-                        case .discover:
-                            SwipeView(activeScreen: $activeScreen, isFromMenu: $isFromMenu, namespace: discover).transition(.move(edge: .bottom))
-                        case .connected:
-                            ConnectedView(namespace: connected, activeScreen: $activeScreen, isFromMenu: $isFromMenu).transition(.move(edge: .bottom))
-                        case .notification:
-                            NotificationListView(activeScreen: $activeScreen, namespace: notification, isFromMenu: $isFromMenu).transition(.move(edge: .bottom))
-                        default:
-                            EmptyView()
-                        }
-
-                    }
-                                
+            }
+            .frame(maxHeight: .infinity)
+            .background(Color("whiteColor"))
+            .coordinateSpace(name: "SCROLL")
+            .edgesIgnoringSafeArea(.all)
+            switch activeScreen {
+            case .discover:
+                SwipeView(activeScreen: $activeScreen, namespace: discover).transition(.move(edge: .bottom))
+            case .connected:
+                ConnectedView(namespace: connected, activeScreen: $activeScreen).transition(.move(edge: .bottom))
+            case .notification:
+                NotificationListView(activeScreen: $activeScreen, namespace: notification).transition(.move(edge: .bottom))
+            default:
+                EmptyView()
             }
             
+            
+        }.navigationBarBackButtonHidden()
+        
+        if activeScreen == .menu {
+            VStack{
+                if isProfileExpand{
+                    ExpandedProfileView
+                }else{
+                    ProfileView
+                }
+            }
         }
-        VStack{
-            
-            if isProfileExpand{
-                ExpandedProfileView
-            }else{
-                ProfileView
-            }
-    
-        }.offset(x: profileX, y: profileY)
     }
     
     @ViewBuilder
@@ -115,7 +101,6 @@ struct MenuView: View {
                 .resizable()
                 .padding()
                 .position(x: proxy.frame(in: .local).midX, y: proxy.frame(in: .local).minY + 100)
-                //.aspectRatio(contentMode: .fit)
                 .frame(width: 320 * (1 + progress), height: 140 * (1 + progress))
                 .offset(y: -minY + 90)
             
@@ -126,28 +111,28 @@ struct MenuView: View {
     
     var ProfileView: some View {
         
-        return HStack{
-            VStack(alignment: .trailing){
+        return HStack {
+                Spacer()
+                Text("Hi,")
+                    .font(.body)
+                    .foregroundColor(Color("purpleColor"))
+                
                 Text("Wati")
-                    .font(.title3).bold()
+                    .font(.body).bold()
                     .foregroundColor(Color("purpleColor"))
-                    
-                Text("Frontend Developer")
-                    .foregroundColor(Color("purpleColor"))
-            }
-            ProfileImage
-                .matchedGeometryEffect(id: profile, in: profilAnimation)
-                .frame(width: 60)
-        }
+                
+                
+                ProfileImage
+                    .matchedGeometryEffect(id: "profile", in: profilAnimation)
+                    .frame(width: 40)
+        }.padding(.init(top: 50, leading: 0, bottom: 0, trailing: 30))
+        
+
     }
     
     var ExpandedProfileView: some View{
         LoginView()
-            .matchedGeometryEffect(id: profile, in: profilAnimation)
-//        HStack{
-//            ProfileImage
-//                .frame(width: 120
-//        }
+            .matchedGeometryEffect(id: "profile", in: profilAnimation)
     }
     
     var ProfileImage: some View{
@@ -156,9 +141,7 @@ struct MenuView: View {
             .aspectRatio(contentMode: .fit)
             .clipShape(Circle())
             .onTapGesture {
-                withAnimation(.spring()){
-                    profileX = 0
-                    profileY = 0
+                withAnimation {
                     isProfileExpand.toggle()
                 }
                 

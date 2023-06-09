@@ -23,7 +23,6 @@ struct ConnectedView: View {
     @State private var isNavigate: Bool = false
     @State var selectedFreelancer: FreelancerDummyModel = FreelancerDummyModel(contact: "08128238", email: "aksjdhakjs", isAvailable: true, name: "name", picture: "alskdja", portfolio: "alksdj", referee: "alskdja", referenceCounter: 1, role: "asjkd", skills: [Skills(image: "asda", name: "alskd")])
     @Binding var activeScreen: Show
-    @Binding var isFromMenu: Bool
     
     func onTap() {
         print("ontap")
@@ -33,12 +32,12 @@ struct ConnectedView: View {
 //        VStack {
 //            ZStack {
                 VStack(spacing: 0) {
-                    MenuItem(namespace: namespace, title: "CONNECTED", isHeader: activeScreen == .connected ? true : false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
+                    MenuItem(namespace: namespace, title: "CONNECTED", isHeader: activeScreen == .connected ? true : false, activeScreen: $activeScreen)
                         .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
                             .onEnded { value in
                                 if abs(value.translation.height) > abs(value.translation.width) {
                                     if value.translation.height > 0 {
-                                        withAnimation() {
+                                        withAnimation(.spring(response: 0.3, dampingFraction: 1)) {
                                             activeScreen = .menu
                                         }
                                     }
@@ -53,8 +52,8 @@ struct ConnectedView: View {
                                 HStack(spacing: 0) {
                                     SearchBar(search: $search, isSearch: $isSearch).onChange(of: search, perform: { value in
                                         freelancerFiltered = freelancers.filter {$0.name == value}
-                                        print(freelancerFiltered)
-                                        print(value)
+//                                        print(freelancerFiltered)
+//                                        print(value)
                                     })
                                 }.ignoresSafeArea()
                             } else {
@@ -76,11 +75,11 @@ struct ConnectedView: View {
                                     .foregroundColor(Color.black)
                             }
                         }.ignoresSafeArea()
-                        ListFreelancer(freelancers: freelancers, selectedFreelancer: $selectedFreelancer, isNavigate: $isNavigate, isFromMenu: $isFromMenu) {
+                        ListFreelancer(freelancers: freelancers, selectedFreelancer: $selectedFreelancer, isNavigate: $isNavigate) {
                             onTap()
                         }
                         
-                    }.transition(.asymmetric(insertion: .move(edge: .top), removal: .move(edge: .bottom)))
+                    }
                     .scrollIndicators(.hidden)
                     .sheet(isPresented: $isPresented) {
                         VStack {
@@ -121,6 +120,6 @@ struct ConnectedView: View {
 struct ConnectedView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        ConnectedView(namespace: namespace, selectedFreelancer: FreelancerViewModel().freelancer.first!, activeScreen: .constant(.menu), isFromMenu: .constant(true))
+        ConnectedView(namespace: namespace, selectedFreelancer: FreelancerViewModel().freelancer.first!, activeScreen: .constant(.menu))
     }
 }

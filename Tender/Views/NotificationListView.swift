@@ -13,20 +13,18 @@ struct NotificationListView: View {
     @Binding var activeScreen: Show
     @State var isPresented: Bool = false
     var namespace: Namespace.ID
-    @Binding var isFromMenu: Bool
 
     var body: some View {
-        print(activeScreen)
         return
             VStack {
                 ZStack {
                     VStack(spacing: 0) {
-                        MenuItem(namespace: namespace, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: activeScreen == .notification ? true : false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
+                        MenuItem(namespace: namespace, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: activeScreen == .notification ? true : false, activeScreen: $activeScreen)
                                     .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
                                         .onEnded { value in
                                             if abs(value.translation.height) > abs(value.translation.width) {
                                                 if value.translation.height > 0 {
-                                                    withAnimation {
+                                                    withAnimation(.spring(response: 0.3, dampingFraction: 1)) {
                                                         activeScreen = .menu
                                                     }
                                                 }
@@ -80,9 +78,8 @@ struct NotificationListView: View {
                                 }.onTapGesture {
                                     selectedNotif = notification
                                     isPresented.toggle()
-                                    print(isPresented)
                                 }.navigationDestination(isPresented: $isPresented) {
-                                    RequestConnectView(notification: $selectedNotif, isFromMenu: $isFromMenu)
+                                    RequestConnectView(notification: $selectedNotif)
                                 }
 
     //                            .padding(.top, 15)
@@ -119,6 +116,6 @@ class NotificationListViewModel: ObservableObject {
 struct NotificationListView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        NotificationListView(selectedNotif: Notification(title: "test", body: "test", name: "afdas", image: "", role: "test"), activeScreen: .constant(.notification), namespace: namespace, isFromMenu: .constant(false))
+        NotificationListView(selectedNotif: Notification(title: "test", body: "test", name: "afdas", image: "", role: "test"), activeScreen: .constant(.notification), namespace: namespace)
     }
 }
