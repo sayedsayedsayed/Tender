@@ -131,7 +131,7 @@ struct MenuView: View {
     }
     
     var ExpandedProfileView: some View{
-        LoginView()
+        Tender.ProfileView(card: Card(name: "Wati", imageName: "p0", age: 22, job: "Backend Developer", skill: ["Python","Swift","SQLite"], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!]))
             .matchedGeometryEffect(id: "profile", in: profilAnimation)
     }
     
