@@ -99,31 +99,18 @@ struct ExtractedView: View {
                     .frame(maxWidth: .infinity)
                     //.offset(x:-100)
                 Spacer()
-                VStack(alignment:.leading){
-                    HStack{
-                        Image("portfolio").resizable()
-                            .aspectRatio(contentMode: .fit)
-                        .frame(width: 30)
-                        Text("Portfolio").fontWeight(.bold).font(.title2)
+                Button(action:{
+                    withAnimation() {
+                        
                     }
-                    
-                        HStack{
-                            ForEach(card.urls, id:\.self){ url in
-                                Text("\(url)").foregroundColor(Color("purpleColor"))
-                                    .fontWeight(.bold)
-                                    .padding(.horizontal, 2)
-                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                    .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color("purpleColor"),lineWidth: 2)
-                                )
-                        }
-                        }
-                    
-                    
-                    
-                }.foregroundColor(Color("purpleColor"))
-                    .frame(maxWidth: .infinity)
+                }){
+                   Text ("See Profile")
+                        .padding(.horizontal, 15)
+                        .padding(.vertical, 3)
+                        .foregroundColor(Color("whiteColor")).bold()
+                    //Harusnya langsung ke ProfileView
+                }.buttonStyle(.borderedProminent).tint(Color("purpleColor"))
+                
                     //.offset(x:-100)
                 //Belum Bisa Wrapping
                 //Nanti coba lihat di link: https://stackoverflow.com/questions/58842453/swiftui-hstack-with-wrap
