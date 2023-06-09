@@ -21,7 +21,7 @@ struct Accordion: View {
                     Spacer()
                 }
             } label: {
-                Text(title).bold().foregroundColor(Color.black)
+                Text(title).bold().foregroundColor(Color("purpleColor"))
             }
             .padding(.horizontal)
             .foregroundColor(Color.black)
