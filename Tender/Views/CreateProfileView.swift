@@ -10,7 +10,7 @@ import SwiftUI
 struct CreateProfileView: View {
 
     // Profile value
-    @State private var availability: Bool = true
+    @State var availability: Bool = true
     @State private var username: String = ""
     @State private var mainrole: String = ""
     @State private var selectedSkills: [Skills] = []
