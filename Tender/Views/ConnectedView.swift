@@ -88,13 +88,13 @@ struct ConnectedView: View {
                             Spacer()
                             ScrollView {
                                 Accordion(title: "Skills", content: AnyView(ForEach(SkillsViewModel().skills) { skill in
-                                    Checkbox(label: skill.name)
+                                    Checkbox(label: skill.name, onTap: {})
                                 }))
                                 Accordion(title: "Roles", content: AnyView(ForEach(roles) {role in
-                                    Checkbox(label: role.name)
+                                    Checkbox(label: role.name, onTap: {})
                                 }))
                                 Accordion(title: "Availability", content: AnyView(ForEach(availability.allCases, id: \.rawValue) {role in
-                                    Checkbox(label: role.rawValue)
+                                    Checkbox(label: role.rawValue, onTap: {})
                                 }))
                                 ZStack {
                                     VStack {

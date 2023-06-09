@@ -28,6 +28,9 @@
 		BD2AAA832A306C6000867EB4 /* ReferralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA822A306C6000867EB4 /* ReferralView.swift */; };
 		BD2AAA902A30706200867EB4 /* TextFieldStyleCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA8F2A30706200867EB4 /* TextFieldStyleCustom.swift */; };
 		BD9230B02A31C0CC006C8EDB /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9230AF2A31C0CC006C8EDB /* NotificationListView.swift */; };
+		BDA0A4C92A336DC300F6513F /* CreateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0A4C82A336DC300F6513F /* CreateProfileView.swift */; };
+		BDA0A4CB2A336E1700F6513F /* FormTitleWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0A4CA2A336E1700F6513F /* FormTitleWithIcon.swift */; };
+		BDA0A4CD2A336F7C00F6513F /* CapsuleSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0A4CC2A336F7C00F6513F /* CapsuleSkillView.swift */; };
 		BDFDC87F2A2D653D00776B60 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFDC87E2A2D653D00776B60 /* LoginView.swift */; };
 		ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309E52A25ED9000C26905 /* TenderApp.swift */; };
 		ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309E72A25ED9000C26905 /* ContentView.swift */; };
@@ -66,6 +69,9 @@
 		BD2AAA822A306C6000867EB4 /* ReferralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralView.swift; sourceTree = "<group>"; };
 		BD2AAA8F2A30706200867EB4 /* TextFieldStyleCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyleCustom.swift; sourceTree = "<group>"; };
 		BD9230AF2A31C0CC006C8EDB /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
+		BDA0A4C82A336DC300F6513F /* CreateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileView.swift; sourceTree = "<group>"; };
+		BDA0A4CA2A336E1700F6513F /* FormTitleWithIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTitleWithIcon.swift; sourceTree = "<group>"; };
+		BDA0A4CC2A336F7C00F6513F /* CapsuleSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleSkillView.swift; sourceTree = "<group>"; };
 		BDFDC87E2A2D653D00776B60 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		ECA309E22A25ED9000C26905 /* Tender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA309E52A25ED9000C26905 /* TenderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenderApp.swift; sourceTree = "<group>"; };
@@ -106,6 +112,8 @@
 				882B61972A310AEA002CF208 /* MenuItem.swift */,
 				882B61942A310AD3002CF208 /* ListSkills.swift */,
 				882B61992A310B01002CF208 /* SearchBar.swift */,
+				BDA0A4CA2A336E1700F6513F /* FormTitleWithIcon.swift */,
+				BDA0A4CC2A336F7C00F6513F /* CapsuleSkillView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -194,6 +202,7 @@
 				FE1600F32A2CD40F003691BE /* MenuList.swift */,
 				BDFDC87E2A2D653D00776B60 /* LoginView.swift */,
 				882B61A82A310BE8002CF208 /* ConnectedView.swift */,
+				BDA0A4C82A336DC300F6513F /* CreateProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -291,6 +300,7 @@
 				FE1600F62A2DB3D1003691BE /* Card.swift in Sources */,
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
 				882B61912A310AAA002CF208 /* ConnectedCard.swift in Sources */,
+				BDA0A4C92A336DC300F6513F /* CreateProfileView.swift in Sources */,
 				882B61AD2A31DDF7002CF208 /* Notification.swift in Sources */,
 				882B61A72A310BB8002CF208 /* SkillsViewModel.swift in Sources */,
 				882B61A32A310B7F002CF208 /* FreelancerViewModel.swift in Sources */,
@@ -311,7 +321,9 @@
 				BD2AAA812A306C5700867EB4 /* RequestConnectView.swift in Sources */,
 				FEDF986A2A33605F00167A9A /* ProfileView.swift in Sources */,
 				FE1600F02A2CD388003691BE /* SwipeView.swift in Sources */,
+				BDA0A4CD2A336F7C00F6513F /* CapsuleSkillView.swift in Sources */,
 				ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */,
+				BDA0A4CB2A336E1700F6513F /* FormTitleWithIcon.swift in Sources */,
 				882B61982A310AEA002CF208 /* MenuItem.swift in Sources */,
 				882B61A02A310B43002CF208 /* Skills.swift in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,
