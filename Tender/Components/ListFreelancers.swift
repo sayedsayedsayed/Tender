@@ -11,7 +11,6 @@ struct ListFreelancer: View {
     var freelancers: [FreelancerDummyModel]
     @Binding var selectedFreelancer: FreelancerDummyModel
     @Binding var isNavigate: Bool
-    @Binding var isFromMenu: Bool
     var onTap: () -> Void
     @State private var totalHeight = CGFloat.zero       // << variant for ScrollView/List
     //    = CGFloat.infinity   // << variant for VStack
@@ -60,7 +59,6 @@ struct ListFreelancer: View {
                             selectedFreelancer = freelancer
                             onTap()
                             isNavigate = true
-                            isFromMenu = false
                         }.navigationDestination(isPresented: $isNavigate, destination: {
                             LoginView()
                         })
@@ -83,6 +81,6 @@ struct ListFreelancer: View {
 
 struct ListFreelancer_Previews: PreviewProvider {
     static var previews: some View {
-        ListFreelancer(freelancers: [], selectedFreelancer: .constant(FreelancerViewModel().freelancer.first!), isNavigate: .constant(false), isFromMenu: .constant(false), onTap: {})
+        ListFreelancer(freelancers: [], selectedFreelancer: .constant(FreelancerViewModel().freelancer.first!), isNavigate: .constant(false), onTap: {})
     }
 }

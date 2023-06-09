@@ -9,23 +9,10 @@ import SwiftUI
 
 struct RequestConnectView: View {
     @Binding var notification: Notification
-    @Environment(\.presentationMode) var presentationMode
-    @Binding var isFromMenu: Bool
-    var onDismiss: ((_ isHeader: Bool) -> Void)?
 
     var body: some View {
         ZStack{
             Color("whiteColor").ignoresSafeArea()
-            VStack {
-                Image(systemName: "briefcase").foregroundColor(Color.black).font(Font.system(.title)).onTapGesture {
-                    isFromMenu = true
-                    onDismiss?(isFromMenu)
-                    presentationMode.wrappedValue.dismiss()
-
-                }
-                Spacer()
-            }.hidden()
-
             VStack{
                 Spacer()
                 Text(notification.body)
@@ -98,6 +85,6 @@ struct RequestConnectView: View {
 
 struct RequestConnectView_Previews: PreviewProvider {
     static var previews: some View {
-        RequestConnectView(notification: .constant(Notification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")), isFromMenu: .constant(false))
+        RequestConnectView(notification: .constant(Notification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")))
     }
 }

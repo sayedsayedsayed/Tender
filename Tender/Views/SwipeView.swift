@@ -12,19 +12,18 @@ struct SwipeView: View {
     @State private var search: String = ""
     @State private var isPresented: Bool = false
     @Binding var activeScreen: Show
-    @Binding var isFromMenu: Bool
     var namespace: Namespace.ID
     
     var body: some View {
         VStack{
             //Top Stack
-            MenuItem(namespace: namespace, title: "DISCOVER", color: Color("purpleColor"), isHeader: activeScreen == .discover ? true : false, activeScreen: $activeScreen, isFromMenu: $isFromMenu)
+            MenuItem(namespace: namespace, title: "DISCOVER", color: Color("purpleColor"), isHeader: activeScreen == .discover ? true : false, activeScreen: $activeScreen)
                 .background(Color("purpleColor"))
                 .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
                     .onEnded { value in
                         if abs(value.translation.height) > abs(value.translation.width) {
                             if value.translation.height > 0 {
-                                withAnimation() {
+                                withAnimation(.spring(response: 0.3, dampingFraction: 1)) {
                                     activeScreen = .menu
                                 }
                             }
@@ -46,7 +45,7 @@ struct SwipeView: View {
 struct SwipeView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        SwipeView(activeScreen: .constant(.menu), isFromMenu: .constant(false), namespace: namespace)
+        SwipeView(activeScreen: .constant(.menu), namespace: namespace)
     }
 }
 
