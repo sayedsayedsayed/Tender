@@ -120,7 +120,7 @@ struct ProfileView: View {
                             .frame(width: geometry.size.width, height: geometry.size.height * 2.3)
                         VStack(alignment:.leading){
                             HStack{
-                                Image("portfolio").resizable()
+                                Image(systemName: "person").resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 30)
                                 Text("Additional Roles").fontWeight(.bold).font(.title2)
@@ -145,7 +145,7 @@ struct ProfileView: View {
                         
                         VStack(alignment:.leading){
                             HStack{
-                                Image("portfolio").resizable()
+                                Image(systemName: "link").resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 30)
                                 Text("Reffered By").fontWeight(.bold).font(.title2)
