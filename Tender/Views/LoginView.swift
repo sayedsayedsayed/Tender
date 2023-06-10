@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @State var showLogin = false
     @State var isPresented = false
+    @StateObject var user = UserViewModel()
 
     var body: some View {
         NavigationStack {
@@ -58,7 +59,7 @@ struct LoginView: View {
                     }
                 }
             }
-        }
+        }.environmentObject(user)
     }
 
 }

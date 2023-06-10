@@ -35,7 +35,7 @@ struct ReferralView: View {
                         .background(Color("pinkColor"))
                         .cornerRadius(11)
                 }.navigationDestination(isPresented: $isPresented) {
-                    ContentView()
+                    CreateProfileView()
                 }
                 Spacer()
             }

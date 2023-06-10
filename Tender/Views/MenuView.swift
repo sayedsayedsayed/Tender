@@ -16,7 +16,8 @@ struct MenuView: View {
     @State private var menuNameList = MenuList.menuList()
     @State private var activeScreen: Show = .menu
     @State private var isProfileExpand = false
-    
+    @EnvironmentObject var user: UserViewModel
+
     var safeArea : EdgeInsets
     var size : CGSize
     var body: some View {
@@ -117,7 +118,7 @@ struct MenuView: View {
                     .font(.body)
                     .foregroundColor(Color("purpleColor"))
                 
-                Text("Wati")
+            Text(user.user.name.components(separatedBy: " ")[0])
                     .font(.body).bold()
                     .foregroundColor(Color("purpleColor"))
                 

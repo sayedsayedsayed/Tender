@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CreateProfileView: View {
+    @EnvironmentObject var user: UserViewModel
 
     // Profile value
     @State var availability: Bool = true
@@ -20,6 +21,7 @@ struct CreateProfileView: View {
 
     // Value to control sheet visibility
     @State private var isPresented: Bool = false
+    @State private var isNavigate: Bool = false
 
     init() {
         UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(named: "whiteColor")
@@ -119,12 +121,15 @@ struct CreateProfileView: View {
                                            .autocorrectionDisabled(true)
                                            .textFieldStyle(TextFieldStyleCustom())
                                            .onSubmit {
-                                               if !portfolioLists[index].isEmpty  {
+                                               print (portfolioLists.filter({$0 == portfolioLists[index]}))
+                                               if portfolioLists.count == 1 {
+                                                   portfolioLists.append("")
+                                               } else if !portfolioLists[index].isEmpty && portfolioLists.filter({$0 == portfolioLists[index]}).count == 1 {
                                                    portfolioLists.append("")
                                                    print(portfolioLists)
 
                                                }
-                                           }
+                                            }
 
                                        Button{
                                            if !portfolioLists[index].isEmpty{
@@ -147,15 +152,23 @@ struct CreateProfileView: View {
                            print(selectedSkills)
                            print(portfolioLists)
                            print(contactNumber)
+                           if username != "" && availability && mainrole != "" && selectedSkills.count > 0 && portfolioLists.count > 0 && contactNumber != "" {
+                               user.user = Users(contact: contactNumber, email: "email", isAvailable: availability, name: username, picture: "test", portfolio: portfolioLists, referee: "ME", referenceCounter: 0, role: mainrole, skills: selectedSkills)
+                               isNavigate = true
+//                               user = tmpUser
+                               print(user.user)
+                           }
                        }label: {
                            Text("Save Profile")
                                .frame(width: 157, height: 52)
                                .background(Color("pinkColor"))
                                .foregroundColor(Color("whiteColor"))
                                .cornerRadius(11)
+                       }.navigationDestination(isPresented: $isNavigate) {
+                           ContentView()
                        }
                    }
-                   }
+                   }.environmentObject(user)
                .sheet(isPresented: $isPresented) {
                        VStack{
                            Text("Skill").font(.headline).fontWeight(.bold).padding(.vertical, 20)
