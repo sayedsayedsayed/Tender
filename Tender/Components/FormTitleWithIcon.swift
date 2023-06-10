@@ -10,11 +10,18 @@ import SwiftUI
 struct FormTitleWithIcon: View {
     var iconName: String = ""
     var textTitle: String = "label"
+    var systemName: String = ""
     var body: some View {
         HStack{
-            if iconName.isEmpty {
+            if iconName.isEmpty && systemName.isEmpty {
                 Image(systemName: "square")
-            }else {
+            }else if !systemName.isEmpty {
+                Image(systemName: systemName)
+                    .resizable()
+                    .frame(width: 27, height: 27)
+                    .foregroundColor(Color("purpleColor"))
+            }
+            else {
                 Image(iconName)
             }
             Text(textTitle.capitalized)
