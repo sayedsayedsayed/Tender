@@ -7,10 +7,18 @@
 
 import Foundation
 
-func generateReferenceCode(id: Int, counter: Int) -> String{
-    //TODO: create reference code generator based on combination of userid and reference counter
-    var result = ""
-    return result
+func generateReferenceCode() -> String{
+
+    let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+    var combination = ""
+
+    for _ in 1...6 {
+        let randomIndex = Int.random(in: 0..<characters.count)
+        let randomCharacter = characters[characters.index(characters.startIndex, offsetBy: randomIndex)]
+        combination.append(randomCharacter)
+    }
+    return combination
 }
 
 func decryptReferenceCode(referenceCode: String) -> (Int, Int){

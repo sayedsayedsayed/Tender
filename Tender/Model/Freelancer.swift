@@ -14,6 +14,7 @@ enum FreelancerRecordKeys: String {
     case name
     case picture
     case referee
+    case referenceCode
     case referenceCounter
     case contact
     case portfolio
@@ -35,6 +36,7 @@ struct Freelancer {
     var name: String
     var picture: String
     var referee: String = ""
+    var referenceCode: String
     var referenceCounter: Int = 0
     var contact: String = ""
     var portfolio: String = ""
@@ -50,6 +52,7 @@ extension Freelancer {
               let name = record[FreelancerRecordKeys.name.rawValue] as? String,
               let picture = record[FreelancerRecordKeys.picture.rawValue] as? String,
               let referee = record[FreelancerRecordKeys.referee.rawValue] as? String,
+              let referenceCode = record[FreelancerRecordKeys.referenceCode.rawValue] as? String,
               let referenceCounter = record[FreelancerRecordKeys.referenceCounter.rawValue] as? Int,
               let contact = record[FreelancerRecordKeys.contact.rawValue] as? String,
               let portfolio = record[FreelancerRecordKeys.portfolio.rawValue] as? String,
@@ -59,7 +62,7 @@ extension Freelancer {
             return nil
         }
         
-        self.init(recordId: record.recordID, email: email, name: name, picture: picture, referee: referee, referenceCounter: referenceCounter, contact: contact, portfolio: portfolio, role: role, skill: skill, isAvailable: isAvailable)
+        self.init(recordId: record.recordID, email: email, name: name, picture: picture, referee: referee, referenceCode: referenceCode, referenceCounter: referenceCounter, contact: contact, portfolio: portfolio, role: role, skill: skill, isAvailable: isAvailable)
     }
 }
 
@@ -71,6 +74,7 @@ extension Freelancer {
         record[FreelancerRecordKeys.name.rawValue] = name
         record[FreelancerRecordKeys.picture.rawValue] = picture
         record[FreelancerRecordKeys.referee.rawValue] = referee
+        record[FreelancerRecordKeys.referenceCode.rawValue] = referenceCode
         record[FreelancerRecordKeys.referenceCounter.rawValue] = referenceCounter
         record[FreelancerRecordKeys.contact.rawValue] = contact
         record[FreelancerRecordKeys.portfolio.rawValue] = portfolio

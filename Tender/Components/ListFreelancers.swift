@@ -60,7 +60,7 @@ struct ListFreelancer: View {
                             onTap()
                             isNavigate = true
                         }.navigationDestination(isPresented: $isNavigate, destination: {
-                            LoginView()
+//                            LoginView()
                         })
                     
 //                }.padding(.horizontal, 10)

@@ -28,8 +28,6 @@ enum LoginState: String {
 
 struct LoginView: View {
     @State var isPresent = false
-    
-    //    @ObservedObject var logInObj = LoginViewController()
     @EnvironmentObject private var logInObj: LoginViewController
     
     @EnvironmentObject private var freelancerModel: FreelancerModel
@@ -64,6 +62,7 @@ struct LoginView: View {
             }
             .onAppear() {
                 Task {
+                    print("Checking Email in DB")
                     do {
                         initFreelancer = try await freelancerModel.searchFreelancerByEmail(email: logInObj.linkedInEmail)
                         DispatchQueue.main.async {
@@ -82,7 +81,7 @@ struct LoginView: View {
                                     logInObj.loginState = .hasReffCode
                                 }
                             }
-                            print("logInObj.linkedInState == .gotEmail DONE!")
+                            
                         }
                     } catch {
                         // Handle error
@@ -99,8 +98,9 @@ struct LoginView: View {
             }
             .onAppear() {
                 Task {
+                    print("Creating New Account")
                     do {
-                        let freelancer = Freelancer(email: logInObj.linkedInEmail, name: logInObj.linkedInFirstName + logInObj.linkedInLastName, picture: logInObj.linkedInProfilePicURL)
+                        let freelancer = Freelancer(email: logInObj.linkedInEmail, name: logInObj.linkedInFirstName + logInObj.linkedInLastName, picture: logInObj.linkedInProfilePicURL, referenceCode: generateReferenceCode())
                         try await freelancerModel.addFreelancer(freelancer: freelancer)
                         
                         DispatchQueue.main.async {
@@ -124,10 +124,6 @@ struct LoginView: View {
         else {
             DefaultLoginView(isPresent: $isPresent)
         }
-        
-        
-        
-        
     }
 }
 
@@ -164,28 +160,9 @@ struct DefaultLoginView: View {
     @State var showLogin = false
     @State var isPresented = false
     @StateObject var user = UserViewModel()
-
+    
     var body: some View {
-        ZStack{
-            Color("whiteColor").ignoresSafeArea()
-            VStack{
-                Spacer()
-                Text("please login first".capitalized)
-                    .font(.system(size: 25))
-                    .foregroundColor(Color("purpleColor"))
-                Spacer()
-                Image("onboarding_asset")
-                Spacer()
-                Button {
-                    self.isPresent = true
-                }label: {
-                    Image("linkedin_button")
-                }
-                .sheet(isPresented: $isPresent) {
-                    ViewControllerWrapper()
-                }
-                Spacer()
-                
+        
         NavigationStack {
             ZStack{
                 Color("whiteColor").ignoresSafeArea()
@@ -193,7 +170,7 @@ struct DefaultLoginView: View {
                     Spacer()
                     Text("please login first".capitalized)
                         .font(.system(size: 25))
-                        
+                    
                         .foregroundColor(Color("purpleColor"))
                     Spacer()
                     Image("onboarding_asset")
@@ -202,9 +179,10 @@ struct DefaultLoginView: View {
                         isPresented = true
                     }label: {
                         Image("linkedin_button")
-
+                        
                     }.navigationDestination(isPresented: $isPresented) {
-                        ReferralView()
+//                        ReferralView()
+                        ViewControllerWrapper()
                     }
                     Spacer()
                     
@@ -235,6 +213,7 @@ struct DefaultLoginView: View {
         }.environmentObject(user)
     }
 }
+
 
 struct LoadingView: View {
     var body: some View {

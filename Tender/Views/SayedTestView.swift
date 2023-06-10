@@ -51,9 +51,9 @@ struct SayedTestView: View {
     @State private var searchEmail = ""
     @State private var isFound = ""
     
-    private let emptyFreelancer = Freelancer(email: "", name: "", picture: "")
+    private let emptyFreelancer = Freelancer(email: "", name: "", picture: "", referenceCode: "")
     
-    @State private var selectedFreelancer = Freelancer(email: "", name: "", picture: "")
+    @State private var selectedFreelancer = Freelancer(email: "", name: "", picture: "", referenceCode: "")
     
     @State private var showLinkedIn = false
     
@@ -104,7 +104,7 @@ struct SayedTestView: View {
                                 HStack {
                                     Spacer()
                                     Button("Add Freelancer") {
-                                        let freelancer = Freelancer(email: email, name: name, picture: picture)
+                                        let freelancer = Freelancer(email: email, name: name, picture: picture, referenceCode: generateReferenceCode())
                                         Task {
                                             try await model.addFreelancer(freelancer: freelancer)
                                             name = ""

@@ -14,9 +14,6 @@ class FreelancerModel: ObservableObject {
     
     private var db = CKContainer.default().publicCloudDatabase
     @Published private var freelancersDictionary: [CKRecord.ID: Freelancer] = [:]
-    @Published private var isEmailExistInDB = 0
-    
-//    private var initFreelancerArray: [Freelancer] = []
     
     var freelancers: [Freelancer] {
         freelancersDictionary.values.compactMap { $0 }
@@ -41,6 +38,7 @@ class FreelancerModel: ObservableObject {
             record[FreelancerRecordKeys.name.rawValue] = editedFreelancer.name
             record[FreelancerRecordKeys.picture.rawValue] = editedFreelancer.picture
             record[FreelancerRecordKeys.referee.rawValue] = editedFreelancer.referee
+            record[FreelancerRecordKeys.referenceCode.rawValue] = editedFreelancer.referenceCode
             record[FreelancerRecordKeys.referenceCounter.rawValue] = editedFreelancer.referenceCounter
             record[FreelancerRecordKeys.contact.rawValue] = editedFreelancer.contact
             record[FreelancerRecordKeys.portfolio.rawValue] = editedFreelancer.portfolio
@@ -69,9 +67,7 @@ class FreelancerModel: ObservableObject {
     
     //Search freelancer in Cloud by email
     func searchFreelancerByEmail(email: String) async throws -> [Freelancer] {
-        var res: Bool = false
-        
-//        var initFreelancerDictionary: [CKRecord.ID: Freelancer] = [:]
+
         var initFreelancerArray : [Freelancer] = []
         
         let predicate = NSPredicate(format: "email == %@", email)
@@ -81,34 +77,30 @@ class FreelancerModel: ObservableObject {
         let result = try await db.records(matching: query)
         let records = result.matchResults.compactMap { try? $0.1.get() }
         
-        
         records.forEach { record in
-//            initFreelancerDictionary[record.recordID] = Freelancer(record: record)
             initFreelancerArray.append(Freelancer(record: record)!)
         }
         
-        if records.count > 0 {
-            res = true
-        }
-        print("DIMARI")
         return initFreelancerArray
     }
     
     //Search if ReffCode exist in Cloud
-//    func checkReffCode(email: String) async throws -> [CKRecord] {
-//        var res: Bool = false
-//        let predicate = NSPredicate(format: "email == %@", email)
-//
-//        let query = CKQuery(recordType: FreelancerRecordKeys.type.rawValue, predicate: predicate)
-//
-//        let result = try await db.records(matching: query)
-//        let records = result.matchResults.compactMap { try? $0.1.get() }
-//
-//        if records.count > 0 {
-//            res = true
-//        }
-//        return records
-//    }
+    func checkReffCode(reffCode: String) async throws -> [Freelancer] {
+        var initFreelancerArray : [Freelancer] = []
+        
+        let predicate = NSPredicate(format: "referenceCode == %@", reffCode)
+        
+        let query = CKQuery(recordType: FreelancerRecordKeys.type.rawValue, predicate: predicate)
+        
+        let result = try await db.records(matching: query)
+        let records = result.matchResults.compactMap { try? $0.1.get() }
+        
+        records.forEach { record in
+            initFreelancerArray.append(Freelancer(record: record)!)
+        }
+        
+        return initFreelancerArray
+    }
     
     //Get all the freelancers data from Cloud
     func populateFreelancer() async throws {
@@ -117,7 +109,6 @@ class FreelancerModel: ObservableObject {
         query.sortDescriptors = [NSSortDescriptor(key: FreelancerRecordKeys.name.rawValue, ascending: false)]
         let result = try await db.records(matching: query)
         let records = result.matchResults.compactMap { try? $0.1.get() }
-        
         records.forEach { record in
             freelancersDictionary[record.recordID] = Freelancer(record: record)
         }
