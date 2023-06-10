@@ -10,25 +10,35 @@ import SwiftUI
 struct ProfileView: View {
     let sameUser: Bool = false
     @State private var availability: Bool = true
-    @State  var card: Card = Card(name: "Wati", imageName: "p0", age: 22, job: "Backend Developer", skill: ["Python","Swift","SQLite"], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!])
+    @State  var card: Card
+    @State var isPresented = false
     
     
     
-    init(card: Card) {
-        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(named: "whiteColor")
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(named: "purpleColor") as Any], for: .selected)
-        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(named: "purpleColor")?.withAlphaComponent(0.4) as Any], for: .normal)
-    }
+    
+//    init(card: Card) {
+//        UISegmentedControl.appearance().selectedSegmentTintColor = UIColor(named: "whiteColor")
+//        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(named: "purpleColor") as Any], for: .selected)
+//        UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor(named: "purpleColor")?.withAlphaComponent(0.4) as Any], for: .normal)
+//    }
     var body: some View {
         NavigationView{
             ScrollView{
                 VStack{
                     HStack{
-                        Image(systemName: "chevron.backward")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 15)
-                            .foregroundColor(Color("purpleColor"))
+                        Button{
+                            isPresented = true
+                        } label: {
+                            Image(systemName: "chevron.backward")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 15)
+                                .foregroundColor(Color("purpleColor"))
+                        }.navigationDestination(isPresented: $isPresented){
+                            //Destination to SwipeView
+                        }
+                        
+                        
                         Spacer()
                         if sameUser{
                             Image(systemName: "pencil").resizable()
@@ -208,7 +218,7 @@ struct ProfileView: View {
                 }
             }
             
-        }
+        }.navigationBarBackButtonHidden()
 
     }
 }
@@ -216,11 +226,12 @@ struct ProfileView: View {
 
 
 struct ProfileView_Previews: PreviewProvider {
-
+    @State var card: Card
+    
     static var previews: some View {
-        
-            ProfileView(card: Card(name: "Wati", imageName: "p0", age: 22, job: "Backend Developer", skill: ["Python","Swift","SQLite"], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!]))
-        
-        
+        ForEach(Card.data){ card in
+            ProfileView(card: card)
+        }
+
     }
 }
