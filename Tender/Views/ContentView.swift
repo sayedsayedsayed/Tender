@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var user: UserViewModel
     var body: some View {
         GeometryReader{
             let safeArea = $0.safeAreaInsets
             let size = $0.size
             
            
-            MenuView(safeArea: safeArea, size: size)
+            MenuView(user: _user, safeArea: safeArea, size: size)
                 .ignoresSafeArea(.container, edges: .top)
         }
     }
