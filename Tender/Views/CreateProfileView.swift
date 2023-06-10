@@ -168,7 +168,9 @@ struct CreateProfileView: View {
                            ContentView()
                        }
                    }
-                   }.environmentObject(user)
+                   }
+               .navigationBarBackButtonHidden()
+               .environmentObject(user)
                .sheet(isPresented: $isPresented) {
                        VStack{
                            Text("Skill").font(.headline).fontWeight(.bold).padding(.vertical, 20)
