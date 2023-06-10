@@ -33,20 +33,9 @@ struct ProfileView: View {
             ScrollView{
                 VStack{
                     HStack{
-                        Button{
-                            isPresented = true
-                        } label: {
-                            
-                        }.navigationDestination(isPresented: $isPresented){
-                            //Destination to SwipeView
-                        }
-                        
-                        
                         Spacer()
                         if sameUser{
                             Image(systemName: "pencil").resizable()
-
-
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 25)
                                 .foregroundColor(Color("purpleColor"))
@@ -197,22 +186,34 @@ struct ProfileView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 //                .padding(.top, -10)
                 if !sameUser{
-                    HStack(alignment: .center, spacing: 60){
+                    HStack(alignment: .center, spacing: 100){
                         Button{
 
                         }label: {
                             ZStack{
-                                Circle().frame(width: 60)
+                                Circle().frame(width: 59)
+                                    .foregroundColor(Color("purpleColor"))
+                                Image(systemName: "x.circle.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 60)
                                     .foregroundColor(Color("whiteColor"))
-                                Text("X").foregroundColor(Color("purpleColor")).font(.system(size: 30))
+                                    
+                                    
+//                                Circle().frame(width: 60)
+//                                    .foregroundColor(Color("whiteColor"))
+//                                Text("X").foregroundColor(Color("purpleColor")).font(.system(size: 30)).bold()
                             }
                         }
+                        
+                        
                         Button{
 
                         }label: {
                             ZStack{
                                 Circle().frame(width: 60).foregroundColor(Color("purpleColor"))
                                 Image(systemName: "checkmark").foregroundColor(Color("whiteColor")).font(.system(size: 30))
+                                    .fontWeight(.semibold)
                             }
                         }
 
