@@ -80,7 +80,7 @@ struct CreateProfileView: View {
                                .textFieldStyle(TextFieldStyleCustom())
                        }
                         Group {
-                               FormTitleWithIcon(iconName: "role_icon", textTitle: "additional role")
+                            FormTitleWithIcon(textTitle: "additional role", systemName: "person" )
                                TextField("", text: $additionalRole, prompt: Text("Input your additional role").foregroundColor(Color("purpleColor").opacity(0.4)))
                                    .frame(width: 350)
                                    .padding(.bottom, 15)
