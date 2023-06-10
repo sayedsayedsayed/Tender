@@ -12,6 +12,11 @@
 		BD2AAA832A306C6000867EB4 /* ReferralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA822A306C6000867EB4 /* ReferralView.swift */; };
 		BD2AAA902A30706200867EB4 /* TextFieldStyleCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA8F2A30706200867EB4 /* TextFieldStyleCustom.swift */; };
 		BDFDC87F2A2D653D00776B60 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFDC87E2A2D653D00776B60 /* LoginView.swift */; };
+		EC8AAE572A3296F20062D97E /* LinkedInConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE562A3296F20062D97E /* LinkedInConstants.swift */; };
+		EC8AAE592A3297230062D97E /* LinkedInEmailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE582A3297230062D97E /* LinkedInEmailModel.swift */; };
+		EC8AAE5B2A3297390062D97E /* LinkedInProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE5A2A3297390062D97E /* LinkedInProfileModel.swift */; };
+		EC8AAE5D2A33104B0062D97E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE5C2A33104B0062D97E /* LoginViewController.swift */; };
+		EC8AAE5F2A3322DE0062D97E /* LinkedInBasicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE5E2A3322DE0062D97E /* LinkedInBasicModel.swift */; };
 		ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309E52A25ED9000C26905 /* TenderApp.swift */; };
 		ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECA309E72A25ED9000C26905 /* ContentView.swift */; };
 		ECA309EA2A25ED9100C26905 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ECA309E92A25ED9100C26905 /* Assets.xcassets */; };
@@ -32,6 +37,11 @@
 		BD2AAA822A306C6000867EB4 /* ReferralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralView.swift; sourceTree = "<group>"; };
 		BD2AAA8F2A30706200867EB4 /* TextFieldStyleCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyleCustom.swift; sourceTree = "<group>"; };
 		BDFDC87E2A2D653D00776B60 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		EC8AAE562A3296F20062D97E /* LinkedInConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInConstants.swift; sourceTree = "<group>"; };
+		EC8AAE582A3297230062D97E /* LinkedInEmailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInEmailModel.swift; sourceTree = "<group>"; };
+		EC8AAE5A2A3297390062D97E /* LinkedInProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInProfileModel.swift; sourceTree = "<group>"; };
+		EC8AAE5C2A33104B0062D97E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		EC8AAE5E2A3322DE0062D97E /* LinkedInBasicModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInBasicModel.swift; sourceTree = "<group>"; };
 		ECA309E22A25ED9000C26905 /* Tender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECA309E52A25ED9000C26905 /* TenderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TenderApp.swift; sourceTree = "<group>"; };
 		ECA309E72A25ED9000C26905 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -90,12 +100,10 @@
 			children = (
 				ECA309FE2A274D8B00C26905 /* Info.plist */,
 				ECA309FD2A27415200C26905 /* Tender.entitlements */,
-				ECA309E52A25ED9000C26905 /* TenderApp.swift */,
-				ECA309F52A25EDD600C26905 /* Model */,
 				BD2AAA892A306D0D00867EB4 /* CustomStyle */,
 				ECA309E52A25ED9000C26905 /* TenderApp.swift */,
 				FE1600F52A2DB3D1003691BE /* Card.swift */,
-				ECA309F52A25EDD600C26905 /* DataModel */,
+				ECA309F52A25EDD600C26905 /* Model */,
 				ECA309F42A25EDAB00C26905 /* Views */,
 				ECA309F32A25EDA000C26905 /* Helpers */,
 				ECA309E92A25ED9100C26905 /* Assets.xcassets */,
@@ -116,6 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				ECA309FB2A26D3E500C26905 /* ReferenceHelper.swift */,
+				EC8AAE562A3296F20062D97E /* LinkedInConstants.swift */,
+				EC8AAE5C2A33104B0062D97E /* LoginViewController.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -140,6 +150,9 @@
 			children = (
 				ECA30A432A2F720F00C26905 /* Freelancer.swift */,
 				ECA30A452A2F75A400C26905 /* FreelancerModel.swift */,
+				EC8AAE582A3297230062D97E /* LinkedInEmailModel.swift */,
+				EC8AAE5A2A3297390062D97E /* LinkedInProfileModel.swift */,
+				EC8AAE5E2A3322DE0062D97E /* LinkedInBasicModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -218,17 +231,20 @@
 				BD2AAA902A30706200867EB4 /* TextFieldStyleCustom.swift in Sources */,
 				FE1600F22A2CD39C003691BE /* MenuView.swift in Sources */,
 				FE1600F62A2DB3D1003691BE /* Card.swift in Sources */,
+				EC8AAE5F2A3322DE0062D97E /* LinkedInBasicModel.swift in Sources */,
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
 				ECA30A442A2F720F00C26905 /* Freelancer.swift in Sources */,
+				EC8AAE5B2A3297390062D97E /* LinkedInProfileModel.swift in Sources */,
 				ECA30A462A2F75A400C26905 /* FreelancerModel.swift in Sources */,
+				EC8AAE592A3297230062D97E /* LinkedInEmailModel.swift in Sources */,
+				EC8AAE5D2A33104B0062D97E /* LoginViewController.swift in Sources */,
 				ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,
 				ECA30A202A27591C00C26905 /* SayedTestView.swift in Sources */,
 				FE1600F42A2CD40F003691BE /* MenuList.swift in Sources */,
 				BDFDC87F2A2D653D00776B60 /* LoginView.swift in Sources */,
-				ECA309FA2A266D4E00C26905 /* DataController.swift in Sources */,
+				EC8AAE572A3296F20062D97E /* LinkedInConstants.swift in Sources */,
 				BD2AAA812A306C5700867EB4 /* RequestConnectView.swift in Sources */,
-				ECA309F82A25F36700C26905 /* FreelancerModel.xcdatamodeld in Sources */,
 				FE1600F02A2CD388003691BE /* SwipeView.swift in Sources */,
 				ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,

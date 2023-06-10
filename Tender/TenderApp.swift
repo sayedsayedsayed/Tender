@@ -10,10 +10,12 @@ import SwiftUI
 @main
 struct TenderApp: App {
 //    let persistenceContainer = PersistenceController.shared
+    @StateObject private var logInObj = LoginViewController()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+            LoginView(freelancers: []).environmentObject(FreelancerModel()).environmentObject(logInObj)
 //            SayedTestView(freelancers: []).environmentObject(FreelancerModel())
         }
     }

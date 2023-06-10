@@ -25,7 +25,7 @@ struct ReferralView: View {
                     .frame(width: 350, height: 48)
                     .padding(.bottom, 33)
                 Button{
-print(referral)
+                    print(referral)
                 }label: {
                     Text("submit".capitalized)
                         .font(.system(size: 20, weight: .medium))

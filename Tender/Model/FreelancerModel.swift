@@ -14,6 +14,9 @@ class FreelancerModel: ObservableObject {
     
     private var db = CKContainer.default().publicCloudDatabase
     @Published private var freelancersDictionary: [CKRecord.ID: Freelancer] = [:]
+    @Published private var isEmailExistInDB = 0
+    
+//    private var initFreelancerArray: [Freelancer] = []
     
     var freelancers: [Freelancer] {
         freelancersDictionary.values.compactMap { $0 }
@@ -65,8 +68,12 @@ class FreelancerModel: ObservableObject {
     }
     
     //Search freelancer in Cloud by email
-    func searchFreelancerByEmail(email: String) async throws -> Bool {
+    func searchFreelancerByEmail(email: String) async throws -> [Freelancer] {
         var res: Bool = false
+        
+//        var initFreelancerDictionary: [CKRecord.ID: Freelancer] = [:]
+        var initFreelancerArray : [Freelancer] = []
+        
         let predicate = NSPredicate(format: "email == %@", email)
         
         let query = CKQuery(recordType: FreelancerRecordKeys.type.rawValue, predicate: predicate)
@@ -74,11 +81,34 @@ class FreelancerModel: ObservableObject {
         let result = try await db.records(matching: query)
         let records = result.matchResults.compactMap { try? $0.1.get() }
         
+        
+        records.forEach { record in
+//            initFreelancerDictionary[record.recordID] = Freelancer(record: record)
+            initFreelancerArray.append(Freelancer(record: record)!)
+        }
+        
         if records.count > 0 {
             res = true
         }
-        return res
+        print("DIMARI")
+        return initFreelancerArray
     }
+    
+    //Search if ReffCode exist in Cloud
+//    func checkReffCode(email: String) async throws -> [CKRecord] {
+//        var res: Bool = false
+//        let predicate = NSPredicate(format: "email == %@", email)
+//
+//        let query = CKQuery(recordType: FreelancerRecordKeys.type.rawValue, predicate: predicate)
+//
+//        let result = try await db.records(matching: query)
+//        let records = result.matchResults.compactMap { try? $0.1.get() }
+//
+//        if records.count > 0 {
+//            res = true
+//        }
+//        return records
+//    }
     
     //Get all the freelancers data from Cloud
     func populateFreelancer() async throws {
