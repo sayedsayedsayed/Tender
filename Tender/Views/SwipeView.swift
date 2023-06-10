@@ -15,30 +15,32 @@ struct SwipeView: View {
     var namespace: Namespace.ID
     
     var body: some View {
-        VStack{
-            //Top Stack
-            MenuItem(namespace: namespace, title: "DISCOVER", color: Color("purpleColor"), isHeader: activeScreen == .discover ? true : false, activeScreen: $activeScreen)
-                .background(Color("purpleColor"))
-                .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
-                    .onEnded { value in
-                        if abs(value.translation.height) > abs(value.translation.width) {
-                            if value.translation.height > 0 {
-                                withAnimation(.spring(response: 0.3, dampingFraction: 1)) {
-                                    activeScreen = .menu
+        NavigationStack{
+            VStack{
+                //Top Stack
+                MenuItem(namespace: namespace, title: "DISCOVER", color: Color("purpleColor"), isHeader: activeScreen == .discover ? true : false, activeScreen: $activeScreen)
+                    .background(Color("purpleColor"))
+                    .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
+                        .onEnded { value in
+                            if abs(value.translation.height) > abs(value.translation.width) {
+                                if value.translation.height > 0 {
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 1)) {
+                                        activeScreen = .menu
+                                    }
                                 }
                             }
                         }
+                    )
+                //Card
+                ZStack {
+                    ForEach(Card.data.reversed()) { card in
+                        ExtractedView(card: card).padding(8)
                     }
-                )
-            //Card
-            ZStack {
-                ForEach(Card.data.reversed()) { card in
-                    ExtractedView(card: card).padding(8)
-                }
-            }.zIndex(1.0)
-            
-        }.background(Color("whiteColor"))
-            .edgesIgnoringSafeArea(.all)
+                }.zIndex(1.0)
+                
+            }.background(Color("whiteColor"))
+                .edgesIgnoringSafeArea(.all)
+        }.navigationBarBackButtonHidden(false)
     }
 }
 
@@ -50,12 +52,15 @@ struct SwipeView_Previews: PreviewProvider {
 }
 
 struct ExtractedView: View {
+    @State var isPresented = false
     
     @State var card: Card
     let cardGradient = Gradient(colors: [Color.white.opacity(1), Color.white.opacity(1)])
     var body: some View {
         ZStack(alignment: .center){
             LinearGradient(gradient: cardGradient, startPoint: .top, endPoint: .bottom).frame(width: 350, height: 600).cornerRadius(8)
+                
+                
             VStack {
                 Spacer()
                 Image(card.imageName)
@@ -98,17 +103,19 @@ struct ExtractedView: View {
                     .frame(maxWidth: .infinity)
                     //.offset(x:-100)
                 Spacer()
-                Button(action:{
-                    withAnimation() {
+                
+                    Button{
+                        isPresented = true
+                    }label:{
+                        Text ("See Profile")
+                            .padding(.horizontal, 15)
+                            .padding(.vertical, 3)
+                            .foregroundColor(Color("whiteColor")).bold()
+                        //Harusnya langsung ke ProfileView
                         
+                    }.buttonStyle(.borderedProminent).tint(Color("purpleColor"))                    .navigationDestination(isPresented: $isPresented){
+                            ProfileView(card: card)
                     }
-                }){
-                   Text ("See Profile")
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 3)
-                        .foregroundColor(Color("whiteColor")).bold()
-                    //Harusnya langsung ke ProfileView
-                }.buttonStyle(.borderedProminent).tint(Color("purpleColor"))
                 
                     //.offset(x:-100)
                 //Belum Bisa Wrapping
@@ -140,6 +147,7 @@ struct ExtractedView: View {
             
         }
         .cornerRadius(8)
+        .shadow(color: Color("purpleColor").opacity(0.2), radius: 5, x: 0, y: 0)
         
         //Step 1 - Zstack follows the coordinate of the card model
         .offset(x:card.x, y: card.y)
