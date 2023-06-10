@@ -13,7 +13,6 @@ struct ContentView: View {
         GeometryReader{
             let safeArea = $0.safeAreaInsets
             let size = $0.size
-            
            
             MenuView(user: _user, safeArea: safeArea, size: size)
                 .ignoresSafeArea(.container, edges: .top)
@@ -21,8 +20,9 @@ struct ContentView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LoginView()
-//    }
-//}
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    .environmentObject(UserViewModel())
+    }
+}

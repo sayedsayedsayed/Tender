@@ -16,10 +16,8 @@ enum LoginState: String {
     case gotEmail
     
     //DB
-    case checkingEmail
     case creatingAccount
     //    case checkingReffCode
-    
     
     //finalise
     case hasReffCode
@@ -27,110 +25,126 @@ enum LoginState: String {
 }
 
 struct LoginView: View {
+    @EnvironmentObject var user: UserViewModel
+    
     @State var isPresent = false
     @EnvironmentObject private var logInObj: LoginViewController
     
-    @EnvironmentObject private var freelancerModel: FreelancerModel
-    @State private var filterOption: FilterOptions = .all
-    
-    private var filteredFreelancer: [Freelancer] {
-        freelancerModel.filterFreelancer(by: .all)
-    }
-    
-    let freelancers: [Freelancer]
-    
-    @State private var isEmailExist: Bool = false
-    @State private var hasCheckedEmail: Bool = false
-    
+    private var freelancerModel = FreelancerModel()
     @State private var initFreelancer: [Freelancer] = []
-    
+
     var body: some View {
         
-        if logInObj.loginState == .initial {
+       
+        switch logInObj.loginState {
+        case .initial:
             DefaultLoginView(isPresent: $isPresent)
-        }
-        else if logInObj.loginState == .waitingResponse{
-            VStack{
-                LoaderView(tintColor: .red, scaleSize: 3.0).padding(.bottom,50).padding()
-                Text("Waiting Response: \(logInObj.loginState.rawValue)")
-            }
-        }
-        else if logInObj.loginState == .gotEmail {
-            VStack{
-                LoaderView(tintColor: .red, scaleSize: 3.0).padding(.bottom,50).padding()
-                Text("Waiting Response: \(logInObj.loginState.rawValue)")
-            }
-            .onAppear() {
-                Task {
-                    print("Checking Email in DB")
-                    do {
-                        initFreelancer = try await freelancerModel.searchFreelancerByEmail(email: logInObj.linkedInEmail)
-                        DispatchQueue.main.async {
-                            if initFreelancer.count == 0 {
-                                //email not exist in DB, proceed to create a new freelancer
-                                logInObj.loginState = .creatingAccount
-                            }
-                            else {
-                                //email exist in DB, proceed to check ReffCode
-                                let theFreelancer = initFreelancer[0]
-                                
-                                if theFreelancer.referee == "" {
-                                    logInObj.loginState = .noReffCode
+            
+        case .waitingResponse:
+            LoaderView(tintColor: .red, scaleSize: 3.0).padding(.bottom,50).padding()
+            
+        case .gotEmail:
+            LoaderView(tintColor: .red, scaleSize: 3.0).padding(.bottom,50).padding()
+                .onAppear() {
+                    Task {
+                        print("Checking Email in DB")
+                        do {
+                            initFreelancer = try await freelancerModel.searchFreelancerByEmail(email: logInObj.linkedInEmail)
+                            DispatchQueue.main.async {
+                                if initFreelancer.count == 0 {
+                                    //email not exist in DB, proceed to create a new freelancer
+                                    logInObj.loginState = .creatingAccount
                                 }
                                 else {
-                                    logInObj.loginState = .hasReffCode
+                                    //email exist in DB, proceed to check ReffCode
+                                    let theFreelancer = initFreelancer[0]
+                                    
+                                    //but first update uvm
+                                    user.user.recordId = theFreelancer.recordId
+                                    user.user.contact = theFreelancer.contact
+                                    user.user.email = theFreelancer.email
+                                    user.user.isAvailable = theFreelancer.isAvailable
+                                    user.user.name = theFreelancer.name
+                                    user.user.picture = theFreelancer.picture
+                                    let portofolios = theFreelancer.portfolio.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    user.user.portfolio = portofolios
+                                    user.user.referee = theFreelancer.referee
+                                    user.user.referenceCode = theFreelancer.referenceCode
+                                    user.user.referenceCounter = theFreelancer.referenceCounter
+                                    user.user.role = theFreelancer.role
+    //                                uvm.user.skills = theFreelancer.skill
+                                    
+                                    user.mainFreelancer.recordId = theFreelancer.recordId
+                                    user.mainFreelancer.contact = theFreelancer.contact
+                                    user.mainFreelancer.email = theFreelancer.email
+                                    user.mainFreelancer.isAvailable = theFreelancer.isAvailable
+                                    user.mainFreelancer.name = theFreelancer.name
+                                    user.mainFreelancer.picture = theFreelancer.picture
+                                    user.mainFreelancer.portfolio = theFreelancer.portfolio
+                                    user.mainFreelancer.referee = theFreelancer.referee
+                                    user.mainFreelancer.referenceCode = theFreelancer.referenceCode
+                                    user.mainFreelancer.referenceCounter = theFreelancer.referenceCounter
+                                    user.mainFreelancer.role = theFreelancer.role
+    //                                uvm.mainFreelancer.skills = theFreelancer.skill
+                                    
+                                    if theFreelancer.referee == "" {
+                                        logInObj.loginState = .noReffCode
+                                    }
+                                    else {
+                                        logInObj.loginState = .hasReffCode
+                                    }
                                 }
+                                
+                            }
+                        } catch {
+                            // Handle error
+                            print("Error: \(error)")
+                        }
+                    }
+                }
+            
+        case .creatingAccount:
+            LoaderView(tintColor: .red, scaleSize: 3.0).padding(.bottom,50).padding()
+                .onAppear() {
+                    Task {
+                        print("Creating New Account")
+                        do {
+                            let theFreelancer = Freelancer(email: logInObj.linkedInEmail, name: logInObj.linkedInFirstName + logInObj.linkedInLastName, picture: logInObj.linkedInProfilePicURL, referenceCode: generateReferenceCode())
+                            let recordId = try await freelancerModel.addFreelancer(freelancer: theFreelancer, type: .individual)
+                            
+                            DispatchQueue.main.async {
+                                //Done create new freelancer, proceed to ReferralView
+                                logInObj.loginState = .noReffCode
+                                
+                                //but first update uvm
+                                user.user.recordId = recordId
+                                user.user.email = theFreelancer.email
+                                user.user.name = theFreelancer.name
+                                user.user.picture = theFreelancer.picture
+                                user.user.referenceCode = theFreelancer.referenceCode
+                                
+                                user.mainFreelancer.recordId = recordId
+                                user.mainFreelancer.email = theFreelancer.email
+                                user.mainFreelancer.name = theFreelancer.name
+                                user.mainFreelancer.picture = theFreelancer.picture
+                                user.mainFreelancer.referenceCode = theFreelancer.referenceCode
+                                
                             }
                             
+                        } catch {
+                            // Handle error
+                            print("Error: \(error)")
                         }
-                    } catch {
-                        // Handle error
-                        print("Error: \(error)")
                     }
                 }
-            }
-        }
-        
-        else if logInObj.loginState == .creatingAccount {
-            VStack{
-                LoaderView(tintColor: .red, scaleSize: 3.0).padding(.bottom,50).padding()
-                Text("Waiting Response: \(logInObj.loginState.rawValue)")
-            }
-            .onAppear() {
-                Task {
-                    print("Creating New Account")
-                    do {
-                        let freelancer = Freelancer(email: logInObj.linkedInEmail, name: logInObj.linkedInFirstName + logInObj.linkedInLastName, picture: logInObj.linkedInProfilePicURL, referenceCode: generateReferenceCode())
-                        try await freelancerModel.addFreelancer(freelancer: freelancer)
-                        
-                        DispatchQueue.main.async {
-                            //Done create new freelancer, proceed to ReferralView
-                            logInObj.loginState = .noReffCode
-                        }
-                        
-                    } catch {
-                        // Handle error
-                        print("Error: \(error)")
-                    }
-                }
-            }
-        }
-        else if logInObj.loginState == .noReffCode {
+            
+        case .noReffCode:
             ReferralView()
-        }
-        else if logInObj.loginState == .hasReffCode {
+            
+        case .hasReffCode:
             ContentView()
         }
-        else {
-            DefaultLoginView(isPresent: $isPresent)
-        }
-    }
-}
-
-struct LoginView_Previews: PreviewProvider {
-    //    @StateObject private var logInObj = LoginViewController()
-    static var previews: some View {
-        LoginView(freelancers: []).environmentObject(FreelancerModel()).environmentObject(LoginViewController())
     }
 }
 
@@ -159,7 +173,7 @@ struct DefaultLoginView: View {
     
     @State var showLogin = false
     @State var isPresented = false
-    @StateObject var user = UserViewModel()
+    
     
     var body: some View {
         
@@ -210,7 +224,7 @@ struct DefaultLoginView: View {
                     }
                 }
             }
-        }.environmentObject(user)
+        }
     }
 }
 
@@ -225,3 +239,12 @@ struct LoadingView: View {
 }
 
 let screen = UIScreen.main.bounds
+
+struct LoginView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        LoginView()
+            .environmentObject(LoginViewController())
+            .environmentObject(UserViewModel())
+    }
+}

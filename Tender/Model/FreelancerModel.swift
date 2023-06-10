@@ -8,6 +8,11 @@
 import Foundation
 import CloudKit
 
+enum TypeSaveorUpdate {
+    case individual
+    case global
+}
+
 // AGGREGATE MODEL for Freelancer entity
 @MainActor
 class FreelancerModel: ObservableObject {
@@ -20,16 +25,25 @@ class FreelancerModel: ObservableObject {
     }
     
     //Create new freelancer
-    func addFreelancer(freelancer: Freelancer) async throws {
+    func addFreelancer(freelancer: Freelancer, type: TypeSaveorUpdate) async throws -> CKRecord.ID {
+        var defaultRecordID = CKRecord.ID(recordName: "defaultRecord")
+        
         let record = try await db.save(freelancer.record)
-        guard let f = Freelancer(record: record) else { return }
-        freelancersDictionary[f.recordId!] = f
+        guard let f = Freelancer(record: record) else { return defaultRecordID}
+        
+        if type == .global {
+            freelancersDictionary[f.recordId!] = f
+        }
+        
+        return f.recordId!
     }
     
     //Update a freelancer
-    func updateFreelancer(editedFreelancer: Freelancer) async throws {
+    func updateFreelancer(editedFreelancer: Freelancer, type: TypeSaveorUpdate) async throws {
         
-        freelancersDictionary[editedFreelancer.recordId!] = editedFreelancer
+        if type == .global {
+            freelancersDictionary[editedFreelancer.recordId!] = editedFreelancer
+        }
         
         do {
             let record = try await db.record(for: editedFreelancer.recordId!)
@@ -45,6 +59,7 @@ class FreelancerModel: ObservableObject {
             record[FreelancerRecordKeys.role.rawValue] = editedFreelancer.role
             record[FreelancerRecordKeys.skill.rawValue] = editedFreelancer.skill
             record[FreelancerRecordKeys.isAvailable.rawValue] = editedFreelancer.isAvailable
+            
             
             try await db.save(record)
         } catch {
@@ -85,7 +100,7 @@ class FreelancerModel: ObservableObject {
     }
     
     //Search if ReffCode exist in Cloud
-    func checkReffCode(reffCode: String) async throws -> [Freelancer] {
+    func searchFreelancerByReffCode(reffCode: String) async throws -> [Freelancer] {
         var initFreelancerArray : [Freelancer] = []
         
         let predicate = NSPredicate(format: "referenceCode == %@", reffCode)

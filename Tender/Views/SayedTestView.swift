@@ -106,7 +106,7 @@ struct SayedTestView: View {
                                     Button("Add Freelancer") {
                                         let freelancer = Freelancer(email: email, name: name, picture: picture, referenceCode: generateReferenceCode())
                                         Task {
-                                            try await model.addFreelancer(freelancer: freelancer)
+                                            try await model.addFreelancer(freelancer: freelancer, type: .global)
                                             name = ""
                                             email = ""
                                             picture = ""
@@ -150,7 +150,7 @@ struct SayedTestView: View {
                                     selectedFreelancer.role = role
                                     selectedFreelancer.skill = skill
                                     Task {
-                                        try await model.updateFreelancer(editedFreelancer: selectedFreelancer)
+                                        try await model.updateFreelancer(editedFreelancer: selectedFreelancer, type: .global)
                                         
                                         selectedFreelancer = emptyFreelancer
                                         showingAddView = false
