@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
+    let sameUser: Bool = false
     @State private var availability: Bool = true
     @State  var card: Card = Card(name: "Wati", imageName: "p0", age: 22, job: "Backend Developer", skill: ["Python","Swift","SQLite"], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!])
     
@@ -29,11 +30,14 @@ struct ProfileView: View {
                             .frame(width: 15)
                             .foregroundColor(Color("purpleColor"))
                         Spacer()
-                        Image(systemName: "pencil").resizable()
-                            
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 25)
-                            .foregroundColor(Color("purpleColor"))
+                        if sameUser{
+                            Image(systemName: "pencil").resizable()
+
+
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 25)
+                                .foregroundColor(Color("purpleColor"))
+                        }
                     }.padding(.horizontal, 40)
                         .padding(.top, 30)
                 }
@@ -50,19 +54,21 @@ struct ProfileView: View {
                     
                     Text(card.job)
                         .foregroundColor(Color("purpleColor"))
-                    
-                    Picker("", selection: $availability) {
-                        Text("available".capitalized).tag(true)
-                        Text("unavailable".capitalized).tag(false)
-                    }
-                    .overlay(
-                     RoundedRectangle(cornerRadius: 11)
-                         .stroke(Color("purpleColor"), lineWidth:1)
-                    )
 
-                    .pickerStyle(.segmented)
-                    .frame(width: 200, height: 25)
-                    .padding(.bottom, 20)
+                    if sameUser{
+                        Picker("", selection: $availability) {
+                            Text("available".capitalized).tag(true)
+                            Text("unavailable".capitalized).tag(false)
+                        }
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 11)
+                                .stroke(Color("purpleColor"), lineWidth:1)
+                        )
+
+                        .pickerStyle(.segmented)
+                        .frame(width: 200, height: 25)
+                        .padding(.bottom, -10)
+                    }
                     
                     
                     
@@ -91,7 +97,7 @@ struct ProfileView: View {
                             
                         }.foregroundColor(Color("purpleColor"))
                             .frame(width: geometry.size.width * 0.7, height: geometry.size.height)
-                            //still static size
+                        //still static size
                         
                         VStack(alignment:.leading){
                             HStack{
@@ -129,14 +135,14 @@ struct ProfileView: View {
                             
                             HStack{
                                 
-                                    Text("UI Design").foregroundColor(Color("purpleColor"))
-                                        .fontWeight(.bold)
-                                        .padding(.horizontal, 2)
-                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color("purpleColor"),lineWidth: 2)
-                                        )
+                                Text("UI Design").foregroundColor(Color("purpleColor"))
+                                    .fontWeight(.bold)
+                                    .padding(.horizontal, 2)
+                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color("purpleColor"),lineWidth: 2)
+                                    )
                             }
                             
                             
@@ -153,32 +159,57 @@ struct ProfileView: View {
                             }
                             
                             HStack{
-                                    Text("Steve Jobs").foregroundColor(Color("purpleColor"))
-                                        .fontWeight(.bold)
-                                        .padding(.horizontal, 2)
-                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color("purpleColor"),lineWidth: 2)
-                                        )
+                                Text("Steve Jobs").foregroundColor(Color("purpleColor"))
+                                    .fontWeight(.bold)
+                                    .padding(.horizontal, 2)
+                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color("purpleColor"),lineWidth: 2)
+                                    )
                             }
+
                             
                             
                             
                         }.foregroundColor(Color("purpleColor"))
                             .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
-                        
-                        
-                        
+
+
                     }
-                    
-                    
-                    
+
+
                 }
                 
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                //                .padding(.top, -10)
+                if !sameUser{
+                    HStack(alignment: .center, spacing: 60){
+                        Button{
+
+                        }label: {
+                            ZStack{
+                                Circle().frame(width: 60)
+                                    .foregroundColor(Color("whiteColor"))
+                                Text("X").foregroundColor(Color("purpleColor")).font(.system(size: 30))
+                            }
+                        }
+                        Button{
+
+                        }label: {
+                            ZStack{
+                                Circle().frame(width: 60).foregroundColor(Color("purpleColor"))
+                                Image(systemName: "checkmark").foregroundColor(Color("whiteColor")).font(.system(size: 30))
+                            }
+                        }
+
+                    }
+                    .padding(.top, 260)
+                }
             }
+            
         }
+
     }
 }
 
