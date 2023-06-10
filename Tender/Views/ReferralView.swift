@@ -65,24 +65,31 @@ struct ReferralView: View {
                                 initFreelancer = try await freelancerModel.searchFreelancerByReffCode(reffCode: referral)
                                     
                                 DispatchQueue.main.async {
-                                    if initFreelancer.count == 0 {
-                                        //ReffCode not exist in DB, show error
-                                        errMessage = "ReffCode Not Found!"
+                                    if referral == "SHARIA" {
+                                        //hardcode for convinient
+                                        print("MASTER Reffcode Detected!")
+                                        errMessage = "VALID"
+                                        
+                                        user.user.referee = "SHARIA@apple.com"
+                                        user.mainFreelancer.referee = "SHARIA@apple.com"
                                     }
                                     else {
-                                        //ReffCode exist in DB, proceed to save ReffCode
-                                        print("Reffcode is Valid!")
-                                        errMessage = "VALID"
-                                        let theFreelancer = initFreelancer[0]
-
-                                        //but first update uvm
-
-                                        user.user.referee = theFreelancer.email
-                                        user.mainFreelancer.referee = theFreelancer.email
-                                        
-                                        
+                                        if initFreelancer.count == 0 {
+                                            //ReffCode not exist in DB, show error
+                                            errMessage = "ReffCode Not Found!"
+                                        }
+                                        else {
+                                            //ReffCode exist in DB, proceed to save ReffCode
+                                            print("Reffcode is Valid!")
+                                            errMessage = "VALID"
+                                            let theFreelancer = initFreelancer[0]
+                                            
+                                            //but first update uvm
+                                            
+                                            user.user.referee = theFreelancer.email
+                                            user.mainFreelancer.referee = theFreelancer.email
+                                        }
                                     }
-                                    
                                 }
                             } catch {
                                 // Handle error
