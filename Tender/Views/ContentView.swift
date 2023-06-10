@@ -8,19 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var user: UserViewModel
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        GeometryReader{
+            let safeArea = $0.safeAreaInsets
+            let size = $0.size
+            
+           
+            MenuView(user: _user, safeArea: safeArea, size: size)
+                .ignoresSafeArea(.container, edges: .top)
         }
-        .padding()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        LoginView()
     }
 }

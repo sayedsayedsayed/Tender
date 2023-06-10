@@ -7,10 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		882B618D2A310A7E002CF208 /* Accordion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B618C2A310A7E002CF208 /* Accordion.swift */; };
+		882B618F2A310A95002CF208 /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B618E2A310A95002CF208 /* Checkbox.swift */; };
+		882B61912A310AAA002CF208 /* ConnectedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61902A310AAA002CF208 /* ConnectedCard.swift */; };
+		882B61932A310AC3002CF208 /* ListFreelancers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61922A310AC3002CF208 /* ListFreelancers.swift */; };
+		882B61952A310AD3002CF208 /* ListSkills.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61942A310AD3002CF208 /* ListSkills.swift */; };
+		882B61982A310AEA002CF208 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61972A310AEA002CF208 /* MenuItem.swift */; };
+		882B619A2A310B01002CF208 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61992A310B01002CF208 /* SearchBar.swift */; };
+		882B619C2A310B27002CF208 /* FreelancerDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B619B2A310B27002CF208 /* FreelancerDummy.swift */; };
+		882B619E2A310B37002CF208 /* Roles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B619D2A310B36002CF208 /* Roles.swift */; };
+		882B61A02A310B43002CF208 /* Skills.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B619F2A310B43002CF208 /* Skills.swift */; };
+		882B61A32A310B7F002CF208 /* FreelancerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A22A310B7F002CF208 /* FreelancerViewModel.swift */; };
+		882B61A52A310B94002CF208 /* RolesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A42A310B94002CF208 /* RolesViewModel.swift */; };
+		882B61A72A310BB8002CF208 /* SkillsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A62A310BB8002CF208 /* SkillsViewModel.swift */; };
+		882B61A92A310BE8002CF208 /* ConnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61A82A310BE8002CF208 /* ConnectedView.swift */; };
+		882B61AB2A3111E4002CF208 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61AA2A3111E4002CF208 /* Menu.swift */; };
+		882B61AD2A31DDF7002CF208 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61AC2A31DDF7002CF208 /* Notification.swift */; };
+		882B61B32A3446F1002CF208 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61B22A3446F1002CF208 /* Users.swift */; };
+		882B61B52A34474C002CF208 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882B61B42A34474C002CF208 /* UserViewModel.swift */; };
 		BD2AAA7F2A306C4500867EB4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = BD2AAA7E2A306C4500867EB4 /* README.md */; };
 		BD2AAA812A306C5700867EB4 /* RequestConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA802A306C5700867EB4 /* RequestConnectView.swift */; };
 		BD2AAA832A306C6000867EB4 /* ReferralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA822A306C6000867EB4 /* ReferralView.swift */; };
 		BD2AAA902A30706200867EB4 /* TextFieldStyleCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2AAA8F2A30706200867EB4 /* TextFieldStyleCustom.swift */; };
+		BD9230B02A31C0CC006C8EDB /* NotificationListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9230AF2A31C0CC006C8EDB /* NotificationListView.swift */; };
+		BDA0A4C92A336DC300F6513F /* CreateProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0A4C82A336DC300F6513F /* CreateProfileView.swift */; };
+		BDA0A4CB2A336E1700F6513F /* FormTitleWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0A4CA2A336E1700F6513F /* FormTitleWithIcon.swift */; };
+		BDA0A4CD2A336F7C00F6513F /* CapsuleSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0A4CC2A336F7C00F6513F /* CapsuleSkillView.swift */; };
 		BDFDC87F2A2D653D00776B60 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFDC87E2A2D653D00776B60 /* LoginView.swift */; };
 		EC8AAE572A3296F20062D97E /* LinkedInConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE562A3296F20062D97E /* LinkedInConstants.swift */; };
 		EC8AAE592A3297230062D97E /* LinkedInEmailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE582A3297230062D97E /* LinkedInEmailModel.swift */; };
@@ -29,13 +51,36 @@
 		FE1600F22A2CD39C003691BE /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1600F12A2CD39C003691BE /* MenuView.swift */; };
 		FE1600F42A2CD40F003691BE /* MenuList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1600F32A2CD40F003691BE /* MenuList.swift */; };
 		FE1600F62A2DB3D1003691BE /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1600F52A2DB3D1003691BE /* Card.swift */; };
+		FEDF986A2A33605F00167A9A /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDF98692A33605F00167A9A /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		882B618C2A310A7E002CF208 /* Accordion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accordion.swift; sourceTree = "<group>"; };
+		882B618E2A310A95002CF208 /* Checkbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
+		882B61902A310AAA002CF208 /* ConnectedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedCard.swift; sourceTree = "<group>"; };
+		882B61922A310AC3002CF208 /* ListFreelancers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListFreelancers.swift; sourceTree = "<group>"; };
+		882B61942A310AD3002CF208 /* ListSkills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSkills.swift; sourceTree = "<group>"; };
+		882B61972A310AEA002CF208 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
+		882B61992A310B01002CF208 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
+		882B619B2A310B27002CF208 /* FreelancerDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreelancerDummy.swift; sourceTree = "<group>"; };
+		882B619D2A310B36002CF208 /* Roles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Roles.swift; sourceTree = "<group>"; };
+		882B619F2A310B43002CF208 /* Skills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Skills.swift; sourceTree = "<group>"; };
+		882B61A22A310B7F002CF208 /* FreelancerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreelancerViewModel.swift; sourceTree = "<group>"; };
+		882B61A42A310B94002CF208 /* RolesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolesViewModel.swift; sourceTree = "<group>"; };
+		882B61A62A310BB8002CF208 /* SkillsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillsViewModel.swift; sourceTree = "<group>"; };
+		882B61A82A310BE8002CF208 /* ConnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectedView.swift; sourceTree = "<group>"; };
+		882B61AA2A3111E4002CF208 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		882B61AC2A31DDF7002CF208 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		882B61B22A3446F1002CF208 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		882B61B42A34474C002CF208 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		BD2AAA7E2A306C4500867EB4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD2AAA802A306C5700867EB4 /* RequestConnectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestConnectView.swift; sourceTree = "<group>"; };
 		BD2AAA822A306C6000867EB4 /* ReferralView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferralView.swift; sourceTree = "<group>"; };
 		BD2AAA8F2A30706200867EB4 /* TextFieldStyleCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldStyleCustom.swift; sourceTree = "<group>"; };
+		BD9230AF2A31C0CC006C8EDB /* NotificationListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListView.swift; sourceTree = "<group>"; };
+		BDA0A4C82A336DC300F6513F /* CreateProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileView.swift; sourceTree = "<group>"; };
+		BDA0A4CA2A336E1700F6513F /* FormTitleWithIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTitleWithIcon.swift; sourceTree = "<group>"; };
+		BDA0A4CC2A336F7C00F6513F /* CapsuleSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleSkillView.swift; sourceTree = "<group>"; };
 		BDFDC87E2A2D653D00776B60 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		EC8AAE562A3296F20062D97E /* LinkedInConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInConstants.swift; sourceTree = "<group>"; };
 		EC8AAE582A3297230062D97E /* LinkedInEmailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInEmailModel.swift; sourceTree = "<group>"; };
@@ -57,6 +102,7 @@
 		FE1600F12A2CD39C003691BE /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		FE1600F32A2CD40F003691BE /* MenuList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuList.swift; sourceTree = "<group>"; };
 		FE1600F52A2DB3D1003691BE /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		FEDF98692A33605F00167A9A /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +116,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		882B618B2A310A63002CF208 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				882B618C2A310A7E002CF208 /* Accordion.swift */,
+				882B618E2A310A95002CF208 /* Checkbox.swift */,
+				882B61902A310AAA002CF208 /* ConnectedCard.swift */,
+				882B61922A310AC3002CF208 /* ListFreelancers.swift */,
+				882B61972A310AEA002CF208 /* MenuItem.swift */,
+				882B61942A310AD3002CF208 /* ListSkills.swift */,
+				882B61992A310B01002CF208 /* SearchBar.swift */,
+				BDA0A4CA2A336E1700F6513F /* FormTitleWithIcon.swift */,
+				BDA0A4CC2A336F7C00F6513F /* CapsuleSkillView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		882B61A12A310B64002CF208 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				882B61A22A310B7F002CF208 /* FreelancerViewModel.swift */,
+				882B61A62A310BB8002CF208 /* SkillsViewModel.swift */,
+				882B61A42A310B94002CF208 /* RolesViewModel.swift */,
+				882B61B42A34474C002CF208 /* UserViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		BD2AAA892A306D0D00867EB4 /* CustomStyle */ = {
 			isa = PBXGroup;
 			children = (
@@ -98,6 +171,8 @@
 		ECA309E42A25ED9000C26905 /* Tender */ = {
 			isa = PBXGroup;
 			children = (
+				882B61A12A310B64002CF208 /* ViewModel */,
+				882B618B2A310A63002CF208 /* Components */,
 				ECA309FE2A274D8B00C26905 /* Info.plist */,
 				ECA309FD2A27415200C26905 /* Tender.entitlements */,
 				BD2AAA892A306D0D00867EB4 /* CustomStyle */,
@@ -135,12 +210,16 @@
 			children = (
 				BD2AAA822A306C6000867EB4 /* ReferralView.swift */,
 				BD2AAA802A306C5700867EB4 /* RequestConnectView.swift */,
+				FEDF98692A33605F00167A9A /* ProfileView.swift */,
+				BD9230AF2A31C0CC006C8EDB /* NotificationListView.swift */,
 				ECA309E72A25ED9000C26905 /* ContentView.swift */,
 				ECA30A1F2A27591C00C26905 /* SayedTestView.swift */,
 				FE1600EF2A2CD388003691BE /* SwipeView.swift */,
 				FE1600F12A2CD39C003691BE /* MenuView.swift */,
 				FE1600F32A2CD40F003691BE /* MenuList.swift */,
 				BDFDC87E2A2D653D00776B60 /* LoginView.swift */,
+				882B61A82A310BE8002CF208 /* ConnectedView.swift */,
+				BDA0A4C82A336DC300F6513F /* CreateProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -153,6 +232,12 @@
 				EC8AAE582A3297230062D97E /* LinkedInEmailModel.swift */,
 				EC8AAE5A2A3297390062D97E /* LinkedInProfileModel.swift */,
 				EC8AAE5E2A3322DE0062D97E /* LinkedInBasicModel.swift */,
+				882B619B2A310B27002CF208 /* FreelancerDummy.swift */,
+				882B619D2A310B36002CF208 /* Roles.swift */,
+				882B619F2A310B43002CF208 /* Skills.swift */,
+				882B61AA2A3111E4002CF208 /* Menu.swift */,
+				882B61AC2A31DDF7002CF208 /* Notification.swift */,
+				882B61B22A3446F1002CF208 /* Users.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -230,24 +315,47 @@
 			files = (
 				BD2AAA902A30706200867EB4 /* TextFieldStyleCustom.swift in Sources */,
 				FE1600F22A2CD39C003691BE /* MenuView.swift in Sources */,
+				882B61A92A310BE8002CF208 /* ConnectedView.swift in Sources */,
+				882B61952A310AD3002CF208 /* ListSkills.swift in Sources */,
+				882B618F2A310A95002CF208 /* Checkbox.swift in Sources */,
 				FE1600F62A2DB3D1003691BE /* Card.swift in Sources */,
 				EC8AAE5F2A3322DE0062D97E /* LinkedInBasicModel.swift in Sources */,
 				ECA309E82A25ED9000C26905 /* ContentView.swift in Sources */,
+				882B61912A310AAA002CF208 /* ConnectedCard.swift in Sources */,
+				BDA0A4C92A336DC300F6513F /* CreateProfileView.swift in Sources */,
+				882B61AD2A31DDF7002CF208 /* Notification.swift in Sources */,
+				882B61A72A310BB8002CF208 /* SkillsViewModel.swift in Sources */,
+				882B61A32A310B7F002CF208 /* FreelancerViewModel.swift in Sources */,
 				ECA30A442A2F720F00C26905 /* Freelancer.swift in Sources */,
 				EC8AAE5B2A3297390062D97E /* LinkedInProfileModel.swift in Sources */,
 				ECA30A462A2F75A400C26905 /* FreelancerModel.swift in Sources */,
 				EC8AAE592A3297230062D97E /* LinkedInEmailModel.swift in Sources */,
 				EC8AAE5D2A33104B0062D97E /* LoginViewController.swift in Sources */,
+				882B618D2A310A7E002CF208 /* Accordion.swift in Sources */,
+				882B61A52A310B94002CF208 /* RolesViewModel.swift in Sources */,
 				ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */,
+				882B619C2A310B27002CF208 /* FreelancerDummy.swift in Sources */,
+				882B61932A310AC3002CF208 /* ListFreelancers.swift in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,
 				ECA30A202A27591C00C26905 /* SayedTestView.swift in Sources */,
+				BD9230B02A31C0CC006C8EDB /* NotificationListView.swift in Sources */,
+				882B61B52A34474C002CF208 /* UserViewModel.swift in Sources */,
 				FE1600F42A2CD40F003691BE /* MenuList.swift in Sources */,
 				BDFDC87F2A2D653D00776B60 /* LoginView.swift in Sources */,
 				EC8AAE572A3296F20062D97E /* LinkedInConstants.swift in Sources */,
+				882B61B32A3446F1002CF208 /* Users.swift in Sources */,
+				882B619A2A310B01002CF208 /* SearchBar.swift in Sources */,
+				882B619E2A310B37002CF208 /* Roles.swift in Sources */,
 				BD2AAA812A306C5700867EB4 /* RequestConnectView.swift in Sources */,
+				FEDF986A2A33605F00167A9A /* ProfileView.swift in Sources */,
 				FE1600F02A2CD388003691BE /* SwipeView.swift in Sources */,
+				BDA0A4CD2A336F7C00F6513F /* CapsuleSkillView.swift in Sources */,
 				ECA309FC2A26D3E500C26905 /* ReferenceHelper.swift in Sources */,
+				BDA0A4CB2A336E1700F6513F /* FormTitleWithIcon.swift in Sources */,
+				882B61982A310AEA002CF208 /* MenuItem.swift in Sources */,
+				882B61A02A310B43002CF208 /* Skills.swift in Sources */,
 				ECA309E62A25ED9000C26905 /* TenderApp.swift in Sources */,
+				882B61AB2A3111E4002CF208 /* Menu.swift in Sources */,
 				BD2AAA832A306C6000867EB4 /* ReferralView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,7 +486,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Tender/Preview Content\"";
-				DEVELOPMENT_TEAM = FZWD842KM9;
+				DEVELOPMENT_TEAM = 9UX8BMAVFK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tender/Info.plist;
@@ -387,12 +495,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sharia.Tender;
+				PRODUCT_BUNDLE_IDENTIFIER = com.agfiddprsty.Tender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -409,7 +518,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Tender/Preview Content\"";
-				DEVELOPMENT_TEAM = FZWD842KM9;
+				DEVELOPMENT_TEAM = 9UX8BMAVFK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tender/Info.plist;
@@ -418,12 +527,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sharia.Tender;
+				PRODUCT_BUNDLE_IDENTIFIER = com.agfiddprsty.Tender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

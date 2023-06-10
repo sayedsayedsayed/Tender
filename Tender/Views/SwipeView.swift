@@ -8,67 +8,59 @@
 import SwiftUI
 
 struct SwipeView: View {
+    @State private var isSearch: Bool = false
+    @State private var search: String = ""
+    @State private var isPresented: Bool = false
+    @Binding var activeScreen: Show
+    var namespace: Namespace.ID
     
     var body: some View {
-        VStack{
-            //Top Stack
-            HStack{
-                Button(action: {}){
-                    Image("profile")
-                }
-                Spacer()
-                Button(action: {}){
-                    Image("logo")
-                        .resizable().aspectRatio(contentMode: .fit)
-                        .frame(height: 30)
-                }
-                Spacer()
-                Button(action: {}){
-                    Image("chats")
-                }
+        NavigationStack{
+            VStack{
+                //Top Stack
+                MenuItem(namespace: namespace, title: "DISCOVER", color: Color("purpleColor"), isHeader: activeScreen == .discover ? true : false, activeScreen: $activeScreen)
+                    .background(Color("purpleColor"))
+                    .highPriorityGesture(DragGesture(minimumDistance: 30, coordinateSpace: .local)
+                        .onEnded { value in
+                            if abs(value.translation.height) > abs(value.translation.width) {
+                                if value.translation.height > 0 {
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 1)) {
+                                        activeScreen = .menu
+                                    }
+                                }
+                            }
+                        }
+                    )
+                //Card
+                ZStack {
+                    ForEach(Card.data.reversed()) { card in
+                        ExtractedView(card: card).padding(8)
+                    }
+                }.zIndex(1.0)
                 
-            }.padding(.horizontal)
-            //Card
-            ZStack {
-                ForEach(Card.data.reversed()) { card in
-                    ExtractedView(card: card).padding(8)
-                }
-            }.zIndex(1.0)
-            //Bottom Stack
-            HStack(spacing: 0){
-                Button(action: {}){
-                    Image("refresh")
-                }
-                Button(action: {}){
-                    Image("dismiss")
-                }
-                Button(action: {}){
-                    Image("super_like")
-                }
-                Button(action: {}){
-                    Image("like")
-                }
-                Button(action: {}){
-                    Image("boost")
-                }
-            }
-        }.background(Color("whiteColor"))
+            }.background(Color("whiteColor"))
+                .edgesIgnoringSafeArea(.all)
+        }.navigationBarBackButtonHidden(false)
     }
 }
 
 struct SwipeView_Previews: PreviewProvider {
+    @Namespace static var namespace
     static var previews: some View {
-        SwipeView()
+        SwipeView(activeScreen: .constant(.menu), namespace: namespace)
     }
 }
 
 struct ExtractedView: View {
+    @State var isPresented = false
     
     @State var card: Card
     let cardGradient = Gradient(colors: [Color.white.opacity(1), Color.white.opacity(1)])
     var body: some View {
         ZStack(alignment: .center){
             LinearGradient(gradient: cardGradient, startPoint: .top, endPoint: .bottom).frame(width: 350, height: 600).cornerRadius(8)
+                
+                
             VStack {
                 Spacer()
                 Image(card.imageName)
@@ -83,6 +75,7 @@ struct ExtractedView: View {
                 }.foregroundColor(Color("purpleColor"))
                 Spacer()
                 VStack(alignment:.leading){
+                    
                     HStack{
                         Image("briefcase").resizable()
                             .aspectRatio(contentMode: .fit)
@@ -92,6 +85,7 @@ struct ExtractedView: View {
                     
                     
                     HStack{
+                        
                         ForEach(card.skill, id:\.self){ subSkill in
                             Text("\(subSkill)").foregroundColor(Color("purpleColor"))
                                 .fontWeight(.bold)
@@ -109,31 +103,20 @@ struct ExtractedView: View {
                     .frame(maxWidth: .infinity)
                     //.offset(x:-100)
                 Spacer()
-                VStack(alignment:.leading){
-                    HStack{
-                        Image("portfolio").resizable()
-                            .aspectRatio(contentMode: .fit)
-                        .frame(width: 30)
-                        Text("Portfolio").fontWeight(.bold).font(.title2)
+                
+                    Button{
+                        isPresented = true
+                    }label:{
+                        Text ("See Profile")
+                            .padding(.horizontal, 15)
+                            .padding(.vertical, 3)
+                            .foregroundColor(Color("whiteColor")).bold()
+                        //Harusnya langsung ke ProfileView
+                        
+                    }.buttonStyle(.borderedProminent).tint(Color("purpleColor"))                    .navigationDestination(isPresented: $isPresented){
+                            ProfileView(card: card)
                     }
-                    
-                        HStack{
-                            ForEach(card.urls, id:\.self){ url in
-                                Text("\(url)").foregroundColor(Color("purpleColor"))
-                                    .fontWeight(.bold)
-                                    .padding(.horizontal, 2)
-                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                    .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color("purpleColor"),lineWidth: 2)
-                                )
-                        }
-                        }
-                    
-                    
-                    
-                }.foregroundColor(Color("purpleColor"))
-                    .frame(maxWidth: .infinity)
+                
                     //.offset(x:-100)
                 //Belum Bisa Wrapping
                 //Nanti coba lihat di link: https://stackoverflow.com/questions/58842453/swiftui-hstack-with-wrap
@@ -164,6 +147,7 @@ struct ExtractedView: View {
             
         }
         .cornerRadius(8)
+        .shadow(color: Color("purpleColor").opacity(0.2), radius: 5, x: 0, y: 0)
         
         //Step 1 - Zstack follows the coordinate of the card model
         .offset(x:card.x, y: card.y)

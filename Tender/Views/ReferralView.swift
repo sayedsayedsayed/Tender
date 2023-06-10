@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReferralView: View {
     @State var referral:String = ""
+    @State var isPresented: Bool = false
     var body: some View {
         ZStack{
             Color("whiteColor").ignoresSafeArea()
@@ -25,7 +26,7 @@ struct ReferralView: View {
                     .frame(width: 350, height: 48)
                     .padding(.bottom, 33)
                 Button{
-                    print(referral)
+                    isPresented = true
                 }label: {
                     Text("submit".capitalized)
                         .font(.system(size: 20, weight: .medium))
@@ -33,10 +34,12 @@ struct ReferralView: View {
                         .foregroundColor(.white)
                         .background(Color("pinkColor"))
                         .cornerRadius(11)
+                }.navigationDestination(isPresented: $isPresented) {
+                    CreateProfileView()
                 }
                 Spacer()
             }
-        }
+        }.navigationBarBackButtonHidden()
     }
 }
 
