@@ -72,7 +72,10 @@ struct LoginView: View {
                                     user.user.referee = theFreelancer.referee
                                     user.user.referenceCode = theFreelancer.referenceCode
                                     user.user.referenceCounter = theFreelancer.referenceCounter
-                                    user.user.role = theFreelancer.role
+                                    user.user.mainRole = theFreelancer.mainRole
+                                    let addRoles = theFreelancer.additionalRole.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    user.user.additionalRole = addRoles
     //                                uvm.user.skills = theFreelancer.skill
                                     
                                     user.mainFreelancer.recordId = theFreelancer.recordId
@@ -85,7 +88,8 @@ struct LoginView: View {
                                     user.mainFreelancer.referee = theFreelancer.referee
                                     user.mainFreelancer.referenceCode = theFreelancer.referenceCode
                                     user.mainFreelancer.referenceCounter = theFreelancer.referenceCounter
-                                    user.mainFreelancer.role = theFreelancer.role
+                                    user.mainFreelancer.mainRole = theFreelancer.mainRole
+                                    user.mainFreelancer.additionalRole = theFreelancer.additionalRole
     //                                uvm.mainFreelancer.skills = theFreelancer.skill
                                     
                                     if theFreelancer.referee == "" {
@@ -110,7 +114,7 @@ struct LoginView: View {
                     Task {
                         print("Creating New Account")
                         do {
-                            let theFreelancer = Freelancer(email: logInObj.linkedInEmail, name: logInObj.linkedInFirstName + logInObj.linkedInLastName, picture: logInObj.linkedInProfilePicURL, referenceCode: generateReferenceCode())
+                            let theFreelancer = Freelancer(email: logInObj.linkedInEmail, name: logInObj.linkedInFirstName + " " + logInObj.linkedInLastName, picture: logInObj.linkedInProfilePicURL, referenceCode: generateReferenceCode())
                             let recordId = try await freelancerModel.addFreelancer(freelancer: theFreelancer, type: .individual)
                             
                             DispatchQueue.main.async {

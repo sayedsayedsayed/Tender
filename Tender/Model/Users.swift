@@ -20,6 +20,7 @@ struct Users: Identifiable, Hashable {
     var referee: String
     var referenceCode: String
     var referenceCounter: Int
-    var role: String
+    var mainRole: String
+    var additionalRole: [String]
     var skills: [Skills]
 }

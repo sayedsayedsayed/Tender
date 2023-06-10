@@ -18,7 +18,8 @@ enum FreelancerRecordKeys: String {
     case referenceCounter
     case contact
     case portfolio
-    case role
+    case mainRole
+    case additionalRole
     case skill
     case isAvailable
 }
@@ -40,7 +41,8 @@ struct Freelancer {
     var referenceCounter: Int = 0
     var contact: String = ""
     var portfolio: String = ""
-    var role: String = ""
+    var mainRole: String = ""
+    var additionalRole: String = ""
     var skill: String = ""
     var isAvailable: Bool = true
     
@@ -56,13 +58,14 @@ extension Freelancer {
               let referenceCounter = record[FreelancerRecordKeys.referenceCounter.rawValue] as? Int,
               let contact = record[FreelancerRecordKeys.contact.rawValue] as? String,
               let portfolio = record[FreelancerRecordKeys.portfolio.rawValue] as? String,
-              let role = record[FreelancerRecordKeys.role.rawValue] as? String,
+              let mainRole = record[FreelancerRecordKeys.mainRole.rawValue] as? String,
+              let additionalRole = record[FreelancerRecordKeys.additionalRole.rawValue] as? String,
               let skill = record[FreelancerRecordKeys.skill.rawValue] as? String,
               let isAvailable = record[FreelancerRecordKeys.isAvailable.rawValue] as? Bool else {
             return nil
         }
         
-        self.init(recordId: record.recordID, email: email, name: name, picture: picture, referee: referee, referenceCode: referenceCode, referenceCounter: referenceCounter, contact: contact, portfolio: portfolio, role: role, skill: skill, isAvailable: isAvailable)
+        self.init(recordId: record.recordID, email: email, name: name, picture: picture, referee: referee, referenceCode: referenceCode, referenceCounter: referenceCounter, contact: contact, portfolio: portfolio, mainRole: mainRole, additionalRole: additionalRole, skill: skill, isAvailable: isAvailable)
     }
 }
 
@@ -78,7 +81,8 @@ extension Freelancer {
         record[FreelancerRecordKeys.referenceCounter.rawValue] = referenceCounter
         record[FreelancerRecordKeys.contact.rawValue] = contact
         record[FreelancerRecordKeys.portfolio.rawValue] = portfolio
-        record[FreelancerRecordKeys.role.rawValue] = role
+        record[FreelancerRecordKeys.mainRole.rawValue] = mainRole
+        record[FreelancerRecordKeys.additionalRole.rawValue] = additionalRole
         record[FreelancerRecordKeys.skill.rawValue] = skill
         record[FreelancerRecordKeys.isAvailable.rawValue] = isAvailable
         return record

@@ -147,7 +147,7 @@ struct SayedTestView: View {
                                     selectedFreelancer.referenceCounter = referenceCounter
                                     selectedFreelancer.contact = contact
                                     selectedFreelancer.portfolio = portfolio
-                                    selectedFreelancer.role = role
+                                    selectedFreelancer.mainRole = role
                                     selectedFreelancer.skill = skill
                                     Task {
                                         try await model.updateFreelancer(editedFreelancer: selectedFreelancer, type: .global)
@@ -202,7 +202,7 @@ struct SayedTestView: View {
                                     referenceCounter = selectedFreelancer.referenceCounter
                                     contact = selectedFreelancer.contact
                                     portfolio = selectedFreelancer.portfolio
-                                    role = selectedFreelancer.role
+                                    role = selectedFreelancer.mainRole
                                     skill = selectedFreelancer.skill
                                     showingEditView = true
                                     showingAddView = false

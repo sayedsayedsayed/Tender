@@ -56,7 +56,8 @@ class FreelancerModel: ObservableObject {
             record[FreelancerRecordKeys.referenceCounter.rawValue] = editedFreelancer.referenceCounter
             record[FreelancerRecordKeys.contact.rawValue] = editedFreelancer.contact
             record[FreelancerRecordKeys.portfolio.rawValue] = editedFreelancer.portfolio
-            record[FreelancerRecordKeys.role.rawValue] = editedFreelancer.role
+            record[FreelancerRecordKeys.mainRole.rawValue] = editedFreelancer.mainRole
+            record[FreelancerRecordKeys.additionalRole.rawValue] = editedFreelancer.additionalRole
             record[FreelancerRecordKeys.skill.rawValue] = editedFreelancer.skill
             record[FreelancerRecordKeys.isAvailable.rawValue] = editedFreelancer.isAvailable
             

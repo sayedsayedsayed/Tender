@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CreateProfileView: View {
     @EnvironmentObject var user: UserViewModel
+    @State private var errMessage = ""
+    private var freelancerModel = FreelancerModel()
     
     // Profile value
     @State var availability: Bool = true
@@ -39,19 +41,19 @@ struct CreateProfileView: View {
                 Spacer()
                 Group{
                     // FOr testing purpose only, use AsyncImage on prod
-                    Image("p0")
-                        .resizable()
-                        .clipShape(Circle())
-                        .frame(width: 123, height: 123)
-                        .padding(.bottom, 20)
-                    //                       AsyncImage(url: URL(string: "https://thispersondoesnotexist.com/")) { image in
-                    //                           image.resizable()
-                    //                               .clipShape(Circle())
-                    //                               .frame(width:123, height: 123)
-                    
-                    //                       } placeholder: {
-                    //                           ProgressView()
-                    //                       }
+                    //                    Image("p0")
+                    //                        .resizable()
+                    //                        .clipShape(Circle())
+                    //                        .frame(width: 123, height: 123)
+                    //                        .padding(.bottom, 20)
+                    AsyncImage(url: URL(string: user.user.picture)) { image in
+                        image.resizable()
+                            .clipShape(Circle())
+                            .frame(width:123, height: 123)
+                        
+                    } placeholder: {
+                        ProgressView()
+                    }
                     
                     Picker("", selection: $availability) {
                         Text("available".capitalized).tag(true)
@@ -66,6 +68,7 @@ struct CreateProfileView: View {
                     .frame(width: 200, height: 25)
                     .padding(.bottom, 20)
                 }
+                Text(errMessage).foregroundColor(.red)
                 ScrollView{
                     Group{
                         FormTitleWithIcon(iconName: "name_icon", textTitle: "name")
@@ -95,7 +98,8 @@ struct CreateProfileView: View {
                                 Text("Input your skills").frame(width: 310, height: 40, alignment: .leading)
                                     .foregroundColor(Color("purpleColor").opacity(0.4))
                                     .background(Color("whiteColor"))
-                            }else{
+                            }
+                            else{
                                 ForEach(selectedSkills.prefix(3), id:\.self) {skill in
                                     CapsuleSkillView(skill: skill)
                                 }
@@ -116,20 +120,21 @@ struct CreateProfileView: View {
                     FormTitleWithIcon(iconName: "portfolio", textTitle: "portfolios")
                     ForEach(0..<portfolioLists.count, id: \.self) {index in
                         HStack{
-                            TextField("", text: $portfolioLists[index], prompt: Text("Your portfolio link").foregroundColor(Color("purpleColor").opacity(0.4)))
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled(true)
-                                .textFieldStyle(TextFieldStyleCustom())
-                                .onSubmit {
-                                    print (portfolioLists.filter({$0 == portfolioLists[index]}))
-                                    if portfolioLists.count == 1 {
-                                        portfolioLists.append("")
-                                    } else if !portfolioLists[index].isEmpty && portfolioLists.filter({$0 == portfolioLists[index]}).count == 1 {
-                                        portfolioLists.append("")
-                                        print(portfolioLists)
-                                        
-                                    }
+                            TextField("", text: $portfolioLists[index], prompt: Text("Your portfolio link")
+                            .foregroundColor(Color("purpleColor").opacity(0.4)))
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                            .textFieldStyle(TextFieldStyleCustom())
+                            .onSubmit {
+                                print (portfolioLists.filter({$0 == portfolioLists[index]}))
+                                if portfolioLists.count == 1 {
+                                    portfolioLists.append("")
+                                } else if !portfolioLists[index].isEmpty && portfolioLists.filter({$0 == portfolioLists[index]}).count == 1 {
+                                    portfolioLists.append("")
+                                    print(portfolioLists)
+                                    
                                 }
+                            }
                             
                             Button{
                                 if !portfolioLists[index].isEmpty{
@@ -146,19 +151,62 @@ struct CreateProfileView: View {
                         .textFieldStyle(TextFieldStyleCustom())
                 }.scrollIndicators(.hidden)
                 Button {
-                    print(username)
-                    print(availability)
-                    print(mainrole)
-                    print(selectedSkills)
-                    print(portfolioLists)
-                    print(contactNumber)
-                    if username != "" && availability && mainrole != "" && selectedSkills.count > 0 && portfolioLists.count > 0 && contactNumber != "" {
-                        user.user = Users(contact: contactNumber, email: "email", isAvailable: availability, name: username, picture: "test", portfolio: portfolioLists, referee: "ME", referenceCode: "REFCODE", referenceCounter: 0, role: mainrole, skills: selectedSkills)
-                        isNavigate = true
-                        //                               user = tmpUser
-                        print(user.user)
+                    //TODO: Skill need to be confirmed
+                    //TODO: Contact Number to be only acccept standard phone number?
+                    
+                    if username == "" {
+                        errMessage = "Name can not be empty!"
                     }
-                }label: {
+                    else {
+                        user.user.name = username
+                        user.user.mainRole = mainrole
+                        if additionalRole != "" {
+                            user.user.additionalRole[0] = additionalRole
+                        }
+                        else {
+                            user.user.additionalRole = user.user.additionalRole.filter { !$0.isEmpty }
+                        }
+//                        user.user.skills = ????
+                        user.user.portfolio = portfolioLists
+                        user.user.contact = contactNumber
+                        
+                        user.mainFreelancer.name = username
+                        user.mainFreelancer.mainRole = mainrole
+                        if additionalRole != "" {
+                            user.mainFreelancer.additionalRole = additionalRole
+                        }
+                        else {
+                            user.user.additionalRole = user.user.additionalRole.filter { !$0.isEmpty }
+                        }
+//                        user.user.skills = ????
+                        
+                        var porto = ""
+                        if portfolioLists.count > 0 {
+                            portfolioLists.forEach { p in
+                                porto += "|" + p
+                            }
+                        }
+                        
+                        user.mainFreelancer.portfolio = porto
+                        user.mainFreelancer.contact = contactNumber
+                        
+                        Task {
+                            print("Updating details to DB")
+                            do {
+                                try await freelancerModel.updateFreelancer(editedFreelancer: user.mainFreelancer, type: .individual)
+                                    
+                                DispatchQueue.main.async {
+                                    print("Update Reffcode to DB DONE!)")
+                                    errMessage = "Data Saved!"
+                                }
+                            } catch {
+                                // Handle error
+                                print("Error: \(error)")
+                            }
+                        }
+                    }
+                }
+            label: {
                     Text("Save Profile")
                         .frame(width: 157, height: 52)
                         .background(Color("pinkColor"))
@@ -169,8 +217,27 @@ struct CreateProfileView: View {
                 }
             }
         }
+        .onAppear(){
+            availability = user.user.isAvailable
+            username = user.user.name
+            mainrole = user.user.mainRole
+            contactNumber = user.user.contact
+            if user.user.additionalRole.count > 0 {
+                additionalRole = user.user.additionalRole[0]
+            }
+            
+            if user.user.portfolio.count > 0 {
+                if user.user.portfolio[0] != "" {
+                    user.user.portfolio.forEach { porto in
+                        portfolioLists.append(porto)
+                    }
+                    portfolioLists = portfolioLists.filter { !$0.isEmpty }
+                }
+            }
+            
+        }
         .navigationBarBackButtonHidden()
-//        .environmentObject(user)
+        //        .environmentObject(user)
         .sheet(isPresented: $isPresented) {
             VStack{
                 Text("Skill").font(.headline).fontWeight(.bold).padding(.vertical, 20)
