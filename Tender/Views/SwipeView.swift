@@ -14,6 +14,9 @@ struct SwipeView: View {
     @Binding var activeScreen: Show
     var namespace: Namespace.ID
     
+    @EnvironmentObject var model: FreelancerModel
+    @EnvironmentObject var cardData: CardData
+    
     var body: some View {
         NavigationStack{
             VStack{
@@ -33,7 +36,8 @@ struct SwipeView: View {
                     )
                 //Card
                 ZStack {
-                    ForEach(Card.data.reversed()) { card in
+//                    ForEach(Card.data.reversed()) { card in
+                    ForEach(cardData.cards) { card in
                         ExtractedView(card: card).padding(8)
                     }
                 }.zIndex(1.0)
@@ -48,6 +52,7 @@ struct SwipeView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
         SwipeView(activeScreen: .constant(.menu), namespace: namespace)
+            .environmentObject(CardData())
     }
 }
 
@@ -63,11 +68,19 @@ struct ExtractedView: View {
                 
             VStack {
                 Spacer()
-                Image(card.imageName)
-                    .resizable()
-                    .clipShape(Circle())
-                    .aspectRatio(contentMode: .fit)
-                .frame(width: 200, height: 200)
+//                Image(card.imageName)
+//                    .resizable()
+//                    .clipShape(Circle())
+//                    .aspectRatio(contentMode: .fit)
+//                .frame(width: 200, height: 200)
+                AsyncImage(url: URL(string: card.imageName)) { image in
+                    image.resizable()
+                        .clipShape(Circle())
+                        .frame(width: 200, height: 200)
+                    
+                } placeholder: {
+                    ProgressView()
+                }
                 Spacer()
                 VStack{
                     Text(card.name).font(.largeTitle).fontWeight(.bold)
@@ -86,15 +99,16 @@ struct ExtractedView: View {
                     
                     HStack{
                         
-                        ForEach(card.skill, id:\.self){ subSkill in
-                            Text("\(subSkill)").foregroundColor(Color("purpleColor"))
-                                .fontWeight(.bold)
-                                .padding(.horizontal, 2)
-                                .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color("purpleColor"),lineWidth: 2)
-                            )
+                        ForEach(card.skills, id:\.self){ subSkill in
+                            Image(subSkill.image)
+//                            Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
+//                                .fontWeight(.bold)
+//                                .padding(.horizontal, 2)
+//                                .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+//                                .background(
+//                                RoundedRectangle(cornerRadius: 10)
+//                                    .stroke(Color("purpleColor"),lineWidth: 2)
+//                            )
                         }
                     }
                     

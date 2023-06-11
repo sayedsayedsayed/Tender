@@ -12,6 +12,7 @@ struct TenderApp: App {
 
     var logInObj = LoginViewController()
     var user = UserViewModel()
+    var cardData = CardData()
     
     var body: some Scene {
         WindowGroup {
@@ -20,6 +21,8 @@ struct TenderApp: App {
             LoginView()
                 .environmentObject(logInObj)
                 .environmentObject(user)
+                .environmentObject(FreelancerModel())
+                .environmentObject(cardData)
             
 //            SayedTestView(freelancers: []).environmentObject(FreelancerModel())
         }

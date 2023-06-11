@@ -34,6 +34,7 @@
 		BDA0A4CB2A336E1700F6513F /* FormTitleWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0A4CA2A336E1700F6513F /* FormTitleWithIcon.swift */; };
 		BDA0A4CD2A336F7C00F6513F /* CapsuleSkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA0A4CC2A336F7C00F6513F /* CapsuleSkillView.swift */; };
 		BDFDC87F2A2D653D00776B60 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFDC87E2A2D653D00776B60 /* LoginView.swift */; };
+		EC6FCEBC2A35BCF40052EB22 /* CardData.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6FCEBB2A35BCF40052EB22 /* CardData.swift */; };
 		EC8AAE572A3296F20062D97E /* LinkedInConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE562A3296F20062D97E /* LinkedInConstants.swift */; };
 		EC8AAE592A3297230062D97E /* LinkedInEmailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE582A3297230062D97E /* LinkedInEmailModel.swift */; };
 		EC8AAE5B2A3297390062D97E /* LinkedInProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AAE5A2A3297390062D97E /* LinkedInProfileModel.swift */; };
@@ -82,6 +83,7 @@
 		BDA0A4CA2A336E1700F6513F /* FormTitleWithIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTitleWithIcon.swift; sourceTree = "<group>"; };
 		BDA0A4CC2A336F7C00F6513F /* CapsuleSkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleSkillView.swift; sourceTree = "<group>"; };
 		BDFDC87E2A2D653D00776B60 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		EC6FCEBB2A35BCF40052EB22 /* CardData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardData.swift; sourceTree = "<group>"; };
 		EC8AAE562A3296F20062D97E /* LinkedInConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInConstants.swift; sourceTree = "<group>"; };
 		EC8AAE582A3297230062D97E /* LinkedInEmailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInEmailModel.swift; sourceTree = "<group>"; };
 		EC8AAE5A2A3297390062D97E /* LinkedInProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedInProfileModel.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				882B61AA2A3111E4002CF208 /* Menu.swift */,
 				882B61AC2A31DDF7002CF208 /* Notification.swift */,
 				882B61B22A3446F1002CF208 /* Users.swift */,
+				EC6FCEBB2A35BCF40052EB22 /* CardData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 				882B61A32A310B7F002CF208 /* FreelancerViewModel.swift in Sources */,
 				ECA30A442A2F720F00C26905 /* Freelancer.swift in Sources */,
 				EC8AAE5B2A3297390062D97E /* LinkedInProfileModel.swift in Sources */,
+				EC6FCEBC2A35BCF40052EB22 /* CardData.swift in Sources */,
 				ECA30A462A2F75A400C26905 /* FreelancerModel.swift in Sources */,
 				EC8AAE592A3297230062D97E /* LinkedInEmailModel.swift in Sources */,
 				EC8AAE5D2A33104B0062D97E /* LoginViewController.swift in Sources */,

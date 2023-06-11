@@ -76,7 +76,15 @@ struct LoginView: View {
                                     let addRoles = theFreelancer.additionalRole.components(separatedBy: "|")
                                         .filter { !$0.isEmpty }
                                     user.user.additionalRole = addRoles
-    //                                uvm.user.skills = theFreelancer.skill
+                                    let skills = theFreelancer.skill.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    var theSkill:[Skills] = []
+                                    for skill in skills {
+                                        theSkill.append(Skills(image: skill, name: skill))
+                                    }
+                                    
+                                    
+                                    user.user.skills = theSkill
                                     
                                     user.mainFreelancer.recordId = theFreelancer.recordId
                                     user.mainFreelancer.contact = theFreelancer.contact
@@ -90,7 +98,7 @@ struct LoginView: View {
                                     user.mainFreelancer.referenceCounter = theFreelancer.referenceCounter
                                     user.mainFreelancer.mainRole = theFreelancer.mainRole
                                     user.mainFreelancer.additionalRole = theFreelancer.additionalRole
-    //                                uvm.mainFreelancer.skills = theFreelancer.skill
+                                    user.mainFreelancer.skill = theFreelancer.skill
                                     
                                     if theFreelancer.referee == "" {
                                         logInObj.loginState = .noReffCode

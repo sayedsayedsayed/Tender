@@ -84,8 +84,8 @@ struct ProfileView: View {
                                 Text("Skills").fontWeight(.bold).font(.title2)
                             }
                             HStack{
-                                ForEach(card.skill, id:\.self){ subSkill in
-                                    Text("\(subSkill)").foregroundColor(Color("purpleColor"))
+                                ForEach(card.skills, id:\.self){ subSkill in
+                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
                                         .fontWeight(.bold)
                                         .padding(.horizontal, 2)
                                         .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))

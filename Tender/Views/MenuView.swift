@@ -3,7 +3,7 @@
 //  Tender
 //
 //  Created by Norman Mukhallish on 04/06/23.
-//
+//  Modified by Sayed on 11/06/23 - Connect to the DB
 
 import SwiftUI
 
@@ -17,6 +17,10 @@ struct MenuView: View {
     @State private var activeScreen: Show = .menu
     @State private var isProfileExpand = false
     @EnvironmentObject var user: UserViewModel
+    
+    @EnvironmentObject var model: FreelancerModel
+    @EnvironmentObject var cardData: CardData
+    @State private var filterOption: FilterOptions = .all
 
     var safeArea : EdgeInsets
     var size : CGSize
@@ -76,7 +80,41 @@ struct MenuView: View {
             }
             
             
-        }.navigationBarBackButtonHidden()
+        }
+        .navigationBarBackButtonHidden()
+        .task {
+            do {
+                try await model.populateFreelancer()
+                DispatchQueue.main.async {
+                    print("Data Populated)")
+                    let freelancers = model.filterFreelancer(by: .available)
+                    
+                    for freelancer in freelancers {
+                        if freelancer.email != user.mainFreelancer.email {
+                            
+                            let skills = freelancer.skill.components(separatedBy: "|")
+                                .filter { !$0.isEmpty }
+                            var theSkill:[Skills] = []
+                            for skill in skills {
+                                theSkill.append(Skills(image: skill, name: skill))
+                            }
+                            
+                            var card = Card(name: freelancer.name, imageName: freelancer.picture, age: 0, job: freelancer.mainRole, skills: theSkill)
+                            
+                            card.score = cardData.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
+                            
+                            cardData.cards.append(card)
+                        }
+                    }
+                    //since the first element is an empty card
+                    cardData.cards.removeFirst()
+                    //sort it based on Score
+                    cardData.cards.sort { $0.score > $1.score }
+                }
+            } catch {
+                print(error)
+            }
+        }
         
         if activeScreen == .menu {
             VStack{
@@ -132,12 +170,12 @@ struct MenuView: View {
     }
     
     var ExpandedProfileView: some View{
-        Tender.ProfileView(card: Card(name: "Wati", imageName: "p0", age: 22, job: "Backend Developer", skill: ["Python","Swift","SQLite"], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!]))
+        Tender.ProfileView(card: Card(name: "Wati", imageName: "p2", age: 22, job: "Backend Developer", skills: [Skills(image: "Python", name: "Python"), Skills(image: "Swift", name: "Swift")], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!]))
             .matchedGeometryEffect(id: "profile", in: profilAnimation)
     }
     
     var ProfileImage: some View{
-        Image("p0")
+        Image("p2")
             .resizable()
             .aspectRatio(contentMode: .fit)
             .clipShape(Circle())
@@ -152,8 +190,19 @@ struct MenuView: View {
 
 
 struct MenuView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
-        ContentView()
+//        ContentView()
+        GeometryReader{
+            let safeArea = $0.safeAreaInsets
+            let size = $0.size
+           
+            MenuView(safeArea: safeArea, size: size)
+                .ignoresSafeArea(.container, edges: .top)
+                .environmentObject(FreelancerModel())
+                .environmentObject(UserViewModel())
+                .environmentObject(CardData())
+        }
+//        MenuView().environmentObject(FreelancerModel())
     }
 }
