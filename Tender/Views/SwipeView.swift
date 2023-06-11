@@ -15,7 +15,7 @@ struct SwipeView: View {
     var namespace: Namespace.ID
     
     @EnvironmentObject var model: FreelancerModel
-    @EnvironmentObject var cardData: CardData
+    @EnvironmentObject var user: UserViewModel
     
     var body: some View {
         NavigationStack{
@@ -37,7 +37,7 @@ struct SwipeView: View {
                 //Card
                 ZStack {
 //                    ForEach(Card.data.reversed()) { card in
-                    ForEach(cardData.cards) { card in
+                    ForEach(user.cards) { card in
                         ExtractedView(card: card).padding(8)
                     }
                 }.zIndex(1.0)
@@ -52,7 +52,7 @@ struct SwipeView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
         SwipeView(activeScreen: .constant(.menu), namespace: namespace)
-            .environmentObject(CardData())
+            .environmentObject(UserViewModel())
     }
 }
 

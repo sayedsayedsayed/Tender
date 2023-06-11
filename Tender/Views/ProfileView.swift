@@ -27,7 +27,6 @@ struct ProfileView: View {
         }
     }
     
-    
     var body: some View {
         NavigationView{
             ScrollView{
@@ -44,11 +43,23 @@ struct ProfileView: View {
                         .padding(.top, 30)
                 }
                 VStack{
-                    Image(card.imageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
-                        .frame(width: 180)
+//                    Image("p0")
+//                        .resizable()
+//                        .aspectRatio(contentMode: .fit)
+//                        .clipShape(Circle())
+//                        .frame(width: 180)
+//                        .padding(.top, -10)
+                    VStack{
+                        AsyncImage(url: URL(string: card.imageName)) { image in
+                            image.resizable()
+                                .clipShape(Circle())
+                                .aspectRatio(contentMode: .fit)
+
+
+                        } placeholder: {
+                            ProgressView()
+                        }
+                    }.frame(width: 250)
                         .padding(.top, -10)
                     
                     Text(card.name).font(.title).bold()
@@ -85,20 +96,23 @@ struct ProfileView: View {
                             }
                             HStack{
                                 ForEach(card.skills, id:\.self){ subSkill in
-                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
-                                        .fontWeight(.bold)
-                                        .padding(.horizontal, 2)
-                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color("purpleColor"),lineWidth: 2)
-                                        )
+                                    Image(subSkill.image)
+                                    
+//                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
+//                                        .fontWeight(.bold)
+//                                        .padding(.horizontal, 2)
+//                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+//                                        .background(
+//                                            RoundedRectangle(cornerRadius: 10)
+//                                                .stroke(Color("purpleColor"),lineWidth: 2)
+//                                        )
                                 }
                             }
                             
                             
                         }.foregroundColor(Color("purpleColor"))
                             .frame(width: geometry.size.width * 0.7, height: geometry.size.height)
+                        
                         //still static size
                         
                         VStack(alignment:.leading){
@@ -127,6 +141,7 @@ struct ProfileView: View {
                             
                         }.foregroundColor(Color("purpleColor"))
                             .frame(width: geometry.size.width, height: geometry.size.height * 2.3)
+                        
                         VStack(alignment:.leading){
                             HStack{
                                 Image(systemName: "person").resizable()
@@ -161,7 +176,7 @@ struct ProfileView: View {
                             }
                             
                             HStack{
-                                Text("Steve Jobs").foregroundColor(Color("purpleColor"))
+                                Text(card.reff).foregroundColor(Color("purpleColor"))
                                     .fontWeight(.bold)
                                     .padding(.horizontal, 2)
                                     .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
@@ -176,6 +191,7 @@ struct ProfileView: View {
                             
                         }.foregroundColor(Color("purpleColor"))
                             .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
+                            
 
 
                     }
@@ -231,12 +247,13 @@ struct ProfileView: View {
 
 
 struct ProfileView_Previews: PreviewProvider {
-    @State var card: Card
+//    @State var card: Card
+    
     
     static var previews: some View {
-        ForEach(Card.data){ card in
-            ProfileView(card: card)
-        }
+        var card = Card(name: "Wati", imageName: "https://thispersondoesnotexist.com/", age: 22, job: "Backend Developer", skills: [Skills(image: "Python", name: "Python"), Skills(image: "Swift", name: "Swift")], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!], reff: "Steve Jobs")
+        
+        ProfileView(card: card)
 
     }
 }

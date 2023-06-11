@@ -59,23 +59,15 @@ struct LoginView: View {
                                     //email exist in DB, proceed to check ReffCode
                                     let theFreelancer = initFreelancer[0]
                                     
-                                    //but first update uvm
-                                    user.user.recordId = theFreelancer.recordId
-                                    user.user.contact = theFreelancer.contact
-                                    user.user.email = theFreelancer.email
-                                    user.user.isAvailable = theFreelancer.isAvailable
-                                    user.user.name = theFreelancer.name
-                                    user.user.picture = theFreelancer.picture
+                                    //but first update the necessary data
+                                    
                                     let portofolios = theFreelancer.portfolio.components(separatedBy: "|")
                                         .filter { !$0.isEmpty }
-                                    user.user.portfolio = portofolios
-                                    user.user.referee = theFreelancer.referee
-                                    user.user.referenceCode = theFreelancer.referenceCode
-                                    user.user.referenceCounter = theFreelancer.referenceCounter
-                                    user.user.mainRole = theFreelancer.mainRole
+                                    
                                     let addRoles = theFreelancer.additionalRole.components(separatedBy: "|")
                                         .filter { !$0.isEmpty }
-                                    user.user.additionalRole = addRoles
+                                    
+                                    
                                     let skills = theFreelancer.skill.components(separatedBy: "|")
                                         .filter { !$0.isEmpty }
                                     var theSkill:[Skills] = []
@@ -83,22 +75,14 @@ struct LoginView: View {
                                         theSkill.append(Skills(image: skill, name: skill))
                                     }
                                     
+                                    let theUser = Users(contact: theFreelancer.contact, email: theFreelancer.email, isAvailable: theFreelancer.isAvailable, name: theFreelancer.name, picture: theFreelancer.picture, portfolio: portofolios, referee: theFreelancer.referee, referenceCode: theFreelancer.referenceCode, referenceCounter: theFreelancer.referenceCounter, mainRole: theFreelancer.mainRole, additionalRole: addRoles, skills: theSkill)
                                     
-                                    user.user.skills = theSkill
+                                    user.user = theUser
+                                    user.mainFreelancer = theFreelancer
                                     
-                                    user.mainFreelancer.recordId = theFreelancer.recordId
-                                    user.mainFreelancer.contact = theFreelancer.contact
-                                    user.mainFreelancer.email = theFreelancer.email
-                                    user.mainFreelancer.isAvailable = theFreelancer.isAvailable
-                                    user.mainFreelancer.name = theFreelancer.name
-                                    user.mainFreelancer.picture = theFreelancer.picture
-                                    user.mainFreelancer.portfolio = theFreelancer.portfolio
-                                    user.mainFreelancer.referee = theFreelancer.referee
-                                    user.mainFreelancer.referenceCode = theFreelancer.referenceCode
-                                    user.mainFreelancer.referenceCounter = theFreelancer.referenceCounter
-                                    user.mainFreelancer.mainRole = theFreelancer.mainRole
-                                    user.mainFreelancer.additionalRole = theFreelancer.additionalRole
-                                    user.mainFreelancer.skill = theFreelancer.skill
+                                    let card = Card(name: theFreelancer.name, imageName: theFreelancer.picture, age: 0, job: theFreelancer.mainRole, skills: theSkill, reff: theFreelancer.referee)
+                                    
+                                    user.mainCard = card
                                     
                                     if theFreelancer.referee == "" {
                                         logInObj.loginState = .noReffCode
@@ -142,6 +126,16 @@ struct LoginView: View {
                                 user.mainFreelancer.picture = theFreelancer.picture
                                 user.mainFreelancer.referenceCode = theFreelancer.referenceCode
                                 
+                                let skills = theFreelancer.skill.components(separatedBy: "|")
+                                    .filter { !$0.isEmpty }
+                                var theSkill:[Skills] = []
+                                for skill in skills {
+                                    theSkill.append(Skills(image: skill, name: skill))
+                                }
+                                
+                                let card = Card(name: theFreelancer.name, imageName: theFreelancer.picture, age: 0, job: theFreelancer.mainRole, skills: theSkill, reff: theFreelancer.referee)
+                                
+                                user.mainCard = card
                             }
                             
                         } catch {

@@ -19,7 +19,7 @@ struct MenuView: View {
     @EnvironmentObject var user: UserViewModel
     
     @EnvironmentObject var model: FreelancerModel
-    @EnvironmentObject var cardData: CardData
+    
     @State private var filterOption: FilterOptions = .all
 
     var safeArea : EdgeInsets
@@ -86,7 +86,7 @@ struct MenuView: View {
             do {
                 try await model.populateFreelancer()
                 DispatchQueue.main.async {
-                    print("Data Populated)")
+                    print("Data Populated!")
                     let freelancers = model.filterFreelancer(by: .available)
                     
                     for freelancer in freelancers {
@@ -99,17 +99,17 @@ struct MenuView: View {
                                 theSkill.append(Skills(image: skill, name: skill))
                             }
                             
-                            var card = Card(name: freelancer.name, imageName: freelancer.picture, age: 0, job: freelancer.mainRole, skills: theSkill)
+                            var card = Card(name: freelancer.name, imageName: freelancer.picture, age: 0, job: freelancer.mainRole, skills: theSkill, reff: freelancer.referee)
                             
-                            card.score = cardData.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
+                            card.score = user.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
                             
-                            cardData.cards.append(card)
+                            user.cards.append(card)
                         }
                     }
                     //since the first element is an empty card
-                    cardData.cards.removeFirst()
+                    user.cards.removeFirst()
                     //sort it based on Score
-                    cardData.cards.sort { $0.score > $1.score }
+                    user.cards.sort { $0.score > $1.score }
                 }
             } catch {
                 print(error)
@@ -156,7 +156,7 @@ struct MenuView: View {
                     .font(.body)
                     .foregroundColor(Color("purpleColor"))
                 
-            Text(user.user.name.components(separatedBy: " ")[0])
+            Text(user.mainCard.name.components(separatedBy: " ")[0])
                     .font(.body).bold()
                     .foregroundColor(Color("purpleColor"))
                 
@@ -170,21 +170,36 @@ struct MenuView: View {
     }
     
     var ExpandedProfileView: some View{
-        Tender.ProfileView(card: Card(name: "Wati", imageName: "p2", age: 22, job: "Backend Developer", skills: [Skills(image: "Python", name: "Python"), Skills(image: "Swift", name: "Swift")], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!]))
+        
+        Tender.ProfileView(card: user.mainCard)
             .matchedGeometryEffect(id: "profile", in: profilAnimation)
     }
     
     var ProfileImage: some View{
-        Image("p2")
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .clipShape(Circle())
-            .onTapGesture {
-                withAnimation {
-                    isProfileExpand.toggle()
+//        Image("p2")
+//            .resizable()
+//            .aspectRatio(contentMode: .fit)
+//            .clipShape(Circle())
+//            .onTapGesture {
+//                withAnimation {
+//                    isProfileExpand.toggle()
+//                }
+//
+//            }
+        AsyncImage(url: URL(string: user.mainCard.imageName)) { image in
+            image.resizable()
+                .clipShape(Circle())
+                .aspectRatio(contentMode: .fit)
+                .onTapGesture {
+                    withAnimation {
+                        isProfileExpand.toggle()
+                    }
+                    
                 }
-                
-            }
+            
+        } placeholder: {
+            ProgressView()
+        }
     }
 }
 
@@ -201,7 +216,6 @@ struct MenuView_Previews: PreviewProvider {
                 .ignoresSafeArea(.container, edges: .top)
                 .environmentObject(FreelancerModel())
                 .environmentObject(UserViewModel())
-                .environmentObject(CardData())
         }
 //        MenuView().environmentObject(FreelancerModel())
     }

@@ -70,8 +70,8 @@ struct ReferralView: View {
                                         print("MASTER Reffcode Detected!")
                                         errMessage = "VALID"
                                         
-                                        user.user.referee = "SHARIA@apple.com"
-                                        user.mainFreelancer.referee = "SHARIA@apple.com"
+                                        user.user.referee = "SHARIA Admin"
+                                        user.mainFreelancer.referee = "SHARIA Admin"
                                     }
                                     else {
                                         if initFreelancer.count == 0 {
@@ -86,8 +86,8 @@ struct ReferralView: View {
                                             
                                             //but first update uvm
                                             
-                                            user.user.referee = theFreelancer.email
-                                            user.mainFreelancer.referee = theFreelancer.email
+                                            user.user.referee = theFreelancer.name
+                                            user.mainFreelancer.referee = theFreelancer.name
                                         }
                                     }
                                 }
