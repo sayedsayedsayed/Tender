@@ -12,4 +12,5 @@ enum Show: CaseIterable {
     case discover
     case connected
     case notification
+    case profile
 }

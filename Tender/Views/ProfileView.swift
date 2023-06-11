@@ -9,22 +9,57 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var user: UserViewModel
     let sameUser: Bool = false
     @State private var availability: Bool = true
     @State  var card: Card
     @State var isPresented = false
+    @State var isNavigate = false
+    @Binding var activeScreen: Show
+    var namespace: Namespace.ID
     
     var btnBack: some View{
         Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
+            withAnimation {
+                if activeScreen == .profile {
+                    activeScreen = .menu
+                } else {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+            }
         }) {
-
             Image(systemName: "chevron.backward")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 15)
                 .foregroundColor(Color("purpleColor"))
         }
+    }
+    
+    var editButton: some View{
+        HStack {
+            if activeScreen == .profile {
+                Button(action: {
+                    withAnimation {
+                        isNavigate = true
+                        print("test")
+                    }
+                }) {
+                    Image(systemName: "pencil").resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 25)
+                        .foregroundColor(Color("purpleColor"))
+                }.navigationDestination(isPresented: $isNavigate) {
+                    CreateProfileView()
+                }
+
+            } else {
+                EmptyView()
+                
+            }
+
+        }
+                
     }
     
     var body: some View {
@@ -50,7 +85,7 @@ struct ProfileView: View {
 //                        .frame(width: 180)
 //                        .padding(.top, -10)
                     VStack{
-                        AsyncImage(url: URL(string: card.imageName)) { image in
+                        AsyncImage(url: URL(string: user.user.picture)) { image in
                             image.resizable()
                                 .clipShape(Circle())
                                 .aspectRatio(contentMode: .fit)
@@ -62,13 +97,13 @@ struct ProfileView: View {
                     }.frame(width: 250)
                         .padding(.top, -10)
                     
-                    Text(card.name).font(.title).bold()
-                        .foregroundColor(Color("purpleColor"))
+                    Text(user.user.name).font(.title).bold()
+                        .foregroundColor(Color("purpleColor")).matchedGeometryEffect(id: "name", in: namespace)
                     
-                    Text(card.job)
+                    Text(user.user.mainRole)
                         .foregroundColor(Color("purpleColor"))
 
-                    if sameUser{
+                    if activeScreen == .menu {
                         Picker("", selection: $availability) {
                             Text("available".capitalized).tag(true)
                             Text("unavailable".capitalized).tag(false)
@@ -95,18 +130,32 @@ struct ProfileView: View {
                                 Text("Skills").fontWeight(.bold).font(.title2)
                             }
                             HStack{
-                                ForEach(card.skills, id:\.self){ subSkill in
-                                    Image(subSkill.image)
-                                    
-//                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
-//                                        .fontWeight(.bold)
-//                                        .padding(.horizontal, 2)
-//                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-//                                        .background(
-//                                            RoundedRectangle(cornerRadius: 10)
-//                                                .stroke(Color("purpleColor"),lineWidth: 2)
-//                                        )
+                                if user.user.skills.count > 0 {
+                                    ForEach(user.user.skills, id:\.self){ subSkill in
+                                        Image(subSkill.image)
+                                        
+                                        Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
+                                            .fontWeight(.bold)
+                                            .padding(.horizontal, 2)
+                                            .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                            .background(
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .stroke(Color("purpleColor"),lineWidth: 2)
+                                            )
+                                    }
+                                } else {
+                                    Text("-").foregroundColor(Color("purpleColor"))
+                                        .fontWeight(.bold)
+                                        .padding(.horizontal, 2)
+                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(Color("purpleColor"),lineWidth: 2)
+                                        )
+
                                 }
+                            }.onAppear {
+                                print(user.user)
                             }
                             
                             
@@ -124,7 +173,7 @@ struct ProfileView: View {
                             }
                             
                             HStack{
-                                ForEach(card.urls, id:\.self){ url in
+                                ForEach(user.user.portfolio, id:\.self){ url in
                                     Link("\(url)", destination: URL(string: "\(url)")!)
                                         .foregroundColor(Color("purpleColor"))
                                         .fontWeight(.bold)
@@ -149,7 +198,21 @@ struct ProfileView: View {
                                     .frame(width: 30)
                                 Text("Additional Roles").fontWeight(.bold).font(.title2)
                             }
-                            
+                            HStack{
+                                ForEach(user.user.skills, id:\.self){ subSkill in
+                                    Image(subSkill.image)
+                                    
+//                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
+//                                        .fontWeight(.bold)
+//                                        .padding(.horizontal, 2)
+//                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+//                                        .background(
+//                                            RoundedRectangle(cornerRadius: 10)
+//                                                .stroke(Color("purpleColor"),lineWidth: 2)
+//                                        )
+                                }
+                            }
+
                             HStack{
                                 
                                 Text("UI Design").foregroundColor(Color("purpleColor"))
@@ -176,7 +239,7 @@ struct ProfileView: View {
                             }
                             
                             HStack{
-                                Text(card.reff).foregroundColor(Color("purpleColor"))
+                                Text(user.user.referee).foregroundColor(Color("purpleColor"))
                                     .fontWeight(.bold)
                                     .padding(.horizontal, 2)
                                     .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
@@ -201,7 +264,7 @@ struct ProfileView: View {
                 
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 //                .padding(.top, -10)
-                if !sameUser{
+                if activeScreen != .menu{
                     HStack(alignment: .center, spacing: 100){
                         Button{
 
@@ -239,7 +302,7 @@ struct ProfileView: View {
             }
             
         }.navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: btnBack)
+            .navigationBarItems(leading: btnBack, trailing: editButton)
 
     }
 }
@@ -248,12 +311,12 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
 //    @State var card: Card
-    
+    @Namespace static var namespace
     
     static var previews: some View {
-        var card = Card(name: "Wati", imageName: "https://thispersondoesnotexist.com/", age: 22, job: "Backend Developer", skills: [Skills(image: "Python", name: "Python"), Skills(image: "Swift", name: "Swift")], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!], reff: "Steve Jobs")
+        let card = Card(name: "Wati", imageName: "https://thispersondoesnotexist.com/", age: 22, job: "Backend Developer", skills: [Skills(image: "Python", name: "Python"), Skills(image: "Swift", name: "Swift")], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!], reff: "Steve Jobs")
         
-        ProfileView(card: card)
+        ProfileView(card: card, activeScreen: .constant(.connected), namespace: namespace)
 
     }
 }
