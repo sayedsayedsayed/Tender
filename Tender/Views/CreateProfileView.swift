@@ -11,6 +11,7 @@ struct CreateProfileView: View {
     @EnvironmentObject var user: UserViewModel
     @State private var errMessage = ""
     private var freelancerModel = FreelancerModel()
+    @State var listRole = RolesViewModel().roles.map {$0.name}
     
     // Profile value
     @State var availability: Bool = true
@@ -79,10 +80,14 @@ struct CreateProfileView: View {
                     }
                     Group {
                         FormTitleWithIcon(iconName: "role_icon", textTitle: "main role")
-                        TextField("", text: $mainrole, prompt: Text("Input your role").foregroundColor(Color("purpleColor").opacity(0.4)))
+                        TextInputAutocomplete(data: $listRole, text: $mainrole, placeholder: "Input your role")
                             .frame(width: 350)
                             .padding(.bottom, 15)
                             .textFieldStyle(TextFieldStyleCustom())
+//                        TextField("", text: $mainrole, prompt: Text("Input your role").foregroundColor(Color("purpleColor").opacity(0.4)))
+//                            .frame(width: 350)
+//                            .padding(.bottom, 15)
+//                            .textFieldStyle(TextFieldStyleCustom())
                     }
                     Group {
                         FormTitleWithIcon(textTitle: "additional role", systemName: "person" )
@@ -127,7 +132,9 @@ struct CreateProfileView: View {
                             .textFieldStyle(TextFieldStyleCustom())
                             .onSubmit {
                                 print (portfolioLists.filter({$0 == portfolioLists[index]}))
-                                if portfolioLists.count == 1 {
+                                if portfolioLists.last == "" {
+                                    
+                                } else if portfolioLists.count == 1 {
                                     portfolioLists.append("")
                                 } else if !portfolioLists[index].isEmpty && portfolioLists.filter({$0 == portfolioLists[index]}).count == 1 {
                                     portfolioLists.append("")
@@ -137,11 +144,13 @@ struct CreateProfileView: View {
                             }
                             
                             Button{
-                                if !portfolioLists[index].isEmpty{
+                                if portfolioLists[index] == portfolioLists.last && portfolioLists.last != "" {
+                                    portfolioLists.append("")
+                                } else if !portfolioLists[index].isEmpty{
                                     portfolioLists.remove(at: index)
                                 }
                             }label: {
-                                Text("X").font(.system(size: 30, weight: .bold)).foregroundColor(Color("purpleColor"))
+                                Text(portfolioLists[index] == portfolioLists.last ? "+" : "X").font(.system(size: 30, weight: .bold)).foregroundColor(Color("purpleColor"))
                             }
                         }.frame(width: 350)
                     }

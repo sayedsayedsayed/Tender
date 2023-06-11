@@ -38,7 +38,7 @@ struct SwipeView: View {
                 ZStack {
 //                    ForEach(Card.data.reversed()) { card in
                     ForEach(user.cards) { card in
-                        ExtractedView(card: card).padding(8)
+                        ExtractedView(card: card, activeScreen: $activeScreen, namespace: namespace).padding(8)
                     }
                 }.zIndex(1.0)
                 
@@ -60,6 +60,8 @@ struct ExtractedView: View {
     @State var isPresented = false
     
     @State var card: Card
+    @Binding var activeScreen: Show
+    var namespace: Namespace.ID
     let cardGradient = Gradient(colors: [Color.white.opacity(1), Color.white.opacity(1)])
     var body: some View {
         ZStack(alignment: .center){
@@ -128,7 +130,7 @@ struct ExtractedView: View {
                         //Harusnya langsung ke ProfileView
                         
                     }.buttonStyle(.borderedProminent).tint(Color("purpleColor"))                    .navigationDestination(isPresented: $isPresented){
-                            ProfileView(card: card)
+                        ProfileView(card: card, activeScreen: $activeScreen, namespace: namespace)
                     }
                 
                     //.offset(x:-100)
