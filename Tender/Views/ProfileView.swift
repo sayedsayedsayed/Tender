@@ -12,11 +12,16 @@ struct ProfileView: View {
     @EnvironmentObject var user: UserViewModel
     let sameUser: Bool = false
     @State private var availability: Bool = true
-    @State  var u: Users
+    @Binding  var u: Users
     @State var isPresented = false
     @State var isNavigate = false
     @Binding var activeScreen: Show
     var namespace: Namespace.ID
+    
+    @Namespace var connected
+    @Namespace var discover
+    @Namespace var notification
+    
     
     var btnBack: some View{
         Button(action: {
@@ -76,7 +81,7 @@ struct ProfileView: View {
                         .padding(.top, 30)
                 }
                 .onAppear(){
-                    print(activeScreen)
+                    print("ProfileView: \(activeScreen)")
                 }
                 VStack{
                     AsyncImage(url: URL(string: u.picture)) { image in
@@ -237,6 +242,10 @@ struct ProfileView: View {
                             //TODO: create reject function
                             if activeScreen == .discover {
                                 //skip connect
+                                u.x = -500; u.degree = -12
+                                print("Reject!")
+                                self.presentationMode.wrappedValue.dismiss()
+                               
                             }
                             else if activeScreen == .notification {
                                 //reject to connect
@@ -341,7 +350,7 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         var u: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""])
         
-        ProfileView(u: u, activeScreen: .constant(.discover), namespace: namespace)
+        ProfileView(u: .constant(u), activeScreen: .constant(.discover), namespace: namespace)
             .environmentObject(UserViewModel())
         
     }

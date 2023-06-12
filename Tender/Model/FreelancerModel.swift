@@ -20,6 +20,8 @@ class FreelancerModel: ObservableObject {
     private var db = CKContainer.default().publicCloudDatabase
     @Published private var freelancersDictionary: [CKRecord.ID: Freelancer] = [:]
     
+    @Published var hasPopulateData: Bool = false
+    
     var freelancers: [Freelancer] {
         freelancersDictionary.values.compactMap { $0 }
     }

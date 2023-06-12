@@ -77,7 +77,7 @@ struct MenuView: View {
                 case .notification:
                     NotificationListView(activeScreen: $activeScreen, namespace: notification).transition(.move(edge: .bottom))
                 case .profile:
-                    Tender.ProfileView(u: user.user, activeScreen: $activeScreen, namespace: profilAnimation)
+                    Tender.ProfileView(u: $user.user, activeScreen: $activeScreen, namespace: profilAnimation)
                     
                 default:
                     EmptyView()
@@ -108,45 +108,49 @@ struct MenuView: View {
             }
             .navigationBarBackButtonHidden()
             .task {
-                do {
-                    try await model.populateFreelancer()
-                    DispatchQueue.main.async {
-                        print("Data Populated!")
-                        let freelancers = model.filterFreelancer(by: .available)
-                        
-                        for freelancer in freelancers {
-                            if freelancer.email != user.mainFreelancer.email {
-                                
-                                let skills = freelancer.skill.components(separatedBy: "|")
-                                    .filter { !$0.isEmpty }
-                                var skillList:[Skills] = []
-                                for skill in skills {
-                                    skillList.append(Skills(image: skill, name: skill))
+                if !model.hasPopulateData {
+                    do {
+                        try await model.populateFreelancer()
+                        DispatchQueue.main.async {
+                            print("Data Populated!")
+                            let freelancers = model.filterFreelancer(by: .available)
+                            
+                            for freelancer in freelancers {
+                                if freelancer.email != user.mainFreelancer.email {
+                                    
+                                    let skills = freelancer.skill.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    var skillList:[Skills] = []
+                                    for skill in skills {
+                                        skillList.append(Skills(image: skill, name: skill))
+                                    }
+                                    
+                                    let roles = freelancer.additionalRole.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    let ports = freelancer.portfolio.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    let conns = freelancer.connectList.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    let reqs = freelancer.connectRequest.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    
+                                    var us = Users(contact: freelancer.contact, email: freelancer.email, isAvailable: freelancer.isAvailable, name: freelancer.name, picture: freelancer.picture, portfolio: ports, referee: freelancer.referee, referenceCode: freelancer.referenceCode, referenceCounter: freelancer.referenceCounter, mainRole: freelancer.mainRole, additionalRole: roles, skills: skillList, connectList: conns, connectRequest: reqs)
+                                    
+                                    us.score = user.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
+                                    
+                                    user.allUser.append(us)
                                 }
-                                
-                                let roles = freelancer.additionalRole.components(separatedBy: "|")
-                                    .filter { !$0.isEmpty }
-                                let ports = freelancer.portfolio.components(separatedBy: "|")
-                                    .filter { !$0.isEmpty }
-                                let conns = freelancer.connectList.components(separatedBy: "|")
-                                    .filter { !$0.isEmpty }
-                                let reqs = freelancer.connectRequest.components(separatedBy: "|")
-                                    .filter { !$0.isEmpty }
-                                
-                                var us = Users(contact: freelancer.contact, email: freelancer.email, isAvailable: freelancer.isAvailable, name: freelancer.name, picture: freelancer.picture, portfolio: ports, referee: freelancer.referee, referenceCode: freelancer.referenceCode, referenceCounter: freelancer.referenceCounter, mainRole: freelancer.mainRole, additionalRole: roles, skills: skillList, connectList: conns, connectRequest: reqs)
-                                
-                                us.score = user.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
-                                
-                                user.allUser.append(us)
                             }
+                            //since the first element is an empty card
+                            user.allUser.removeFirst()
+                            //sort it based on Score
+                            user.allUser.sort { $0.score > $1.score }
+                            
+                            model.hasPopulateData = true
                         }
-                        //since the first element is an empty card
-                        user.allUser.removeFirst()
-                        //sort it based on Score
-                        user.allUser.sort { $0.score > $1.score }
+                    } catch {
+                        print(error)
                     }
-                } catch {
-                    print(error)
                 }
             }
         }

@@ -37,7 +37,7 @@ struct SwipeView: View {
                 //Card
                 ZStack {
                     ForEach(user.allUser) { u in
-                        if u.email != user.user.email {
+                        if u.email != user.user.email && !user.user.connectRequest.contains(u.email) && !user.user.connectList.contains(u.email) {
                             ExtractedView(u: u, activeScreen: $activeScreen, namespace: namespace).padding(8)
                         }
                     }
@@ -126,7 +126,7 @@ struct ExtractedView: View {
                         //Harusnya langsung ke ProfileView
                         
                     }.buttonStyle(.borderedProminent).tint(Color("purpleColor"))                    .navigationDestination(isPresented: $isPresented){
-                        ProfileView(u: u, activeScreen: $activeScreen, namespace: namespace)
+                        ProfileView(u: $u, activeScreen: $activeScreen, namespace: namespace)
                     }
                 
                     //.offset(x:-100)
@@ -158,6 +158,7 @@ struct ExtractedView: View {
             }
             
         }
+        
         .cornerRadius(8)
         .shadow(color: Color("purpleColor").opacity(0.2), radius: 5, x: 0, y: 0)
         
