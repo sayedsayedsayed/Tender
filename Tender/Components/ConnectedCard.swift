@@ -12,10 +12,10 @@ struct ConnectedCard: View {
         case available = "Available"
         case unavailable = "Unavailable"
     }
-    var freelancer: FreelancerDummyModel
+    var freelancer: Users
     var available: Available = .available
     
-    init(freelancer: FreelancerDummyModel) {
+    init(freelancer: Users) {
         self.freelancer = freelancer
         self.available = freelancer.isAvailable ? .available : .unavailable
     }
@@ -69,7 +69,7 @@ struct ConnectedCard: View {
                     ZStack {
                         VStack {
                             Text(freelancer.name).font(.caption).fontWeight(.bold).foregroundColor(Color.white).multilineTextAlignment(.center)
-                            Text(freelancer.role)
+                            Text(freelancer.mainRole)
                                 .font(.caption)
                                 .fontWeight(.regular)
                                 .foregroundColor(Color.white)
@@ -86,6 +86,6 @@ struct ConnectedCard: View {
 
 struct ConnectedCard_Previews: PreviewProvider {
     static var previews: some View {
-        ConnectedCard(freelancer: FreelancerDummyModel(contact: "083844300712", email: "agfidprasetyo@gmail.com", isAvailable: true, name: "Agfid Prasetyo", picture: "test", portfolio: "github.com/agfiddprsty", referee: "DANU", referenceCounter: 0, role: "iOS Developer", skills: SkillsViewModel().skills))
+        ConnectedCard(freelancer: Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""]))
     }
 }

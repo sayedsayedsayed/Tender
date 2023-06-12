@@ -12,6 +12,10 @@ struct NotificationListView: View {
     @State var selectedNotif: Notification = Notification(title: "test", body: "test", name: "afdas", image: "", role: "test")
     @Binding var activeScreen: Show
     @State var isPresented: Bool = false
+    
+    @State private var doneGeneratingData = false
+    @EnvironmentObject var user: UserViewModel
+    
     var namespace: Namespace.ID
 
     var body: some View {
@@ -92,9 +96,18 @@ struct NotificationListView: View {
                 .navigationBarBackButtonHidden()
                 .onAppear {
                     // Add a notification to the list
-                    viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")
-                    viewModel.addNotification(title: "New Request Connection", body: "Danu wants to connect with you", name: "Danu", image: "https://i.imgur.com/4ho15e6.jpg", role: "Backend Developer")
-                    viewModel.addNotification(title: "New Request Connection", body: "Iksan wants to connect with you", name: "Iksan", image: "https://i.imgur.com/4ho15e6.jpg", role: "iOS Developer")
+                    if !doneGeneratingData {
+                        for u in user.allUser{
+                            if user.user.connectRequest.contains(u.email) {
+                                viewModel.addNotification(title: "New Request Connection", body: "\(u.name) wants to connect with you", name: u.name, image: u.picture, role: u.mainRole)
+                            }
+                        }
+                        
+                        doneGeneratingData = true
+                    }
+//                    viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")
+//                    viewModel.addNotification(title: "New Request Connection", body: "Danu wants to connect with you", name: "Danu", image: "https://i.imgur.com/4ho15e6.jpg", role: "Backend Developer")
+//                    viewModel.addNotification(title: "New Request Connection", body: "Iksan wants to connect with you", name: "Iksan", image: "https://i.imgur.com/4ho15e6.jpg", role: "iOS Developer")
                     
                 }
                 .frame(maxHeight: .infinity).background(Color("whiteColor"))
@@ -117,5 +130,6 @@ struct NotificationListView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
         NotificationListView(selectedNotif: Notification(title: "test", body: "test", name: "afdas", image: "", role: "test"), activeScreen: .constant(.notification), namespace: namespace)
+            .environmentObject(UserViewModel())
     }
 }

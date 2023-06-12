@@ -37,8 +37,8 @@ struct SwipeView: View {
                 //Card
                 ZStack {
 //                    ForEach(Card.data.reversed()) { card in
-                    ForEach(user.cards) { card in
-                        ExtractedView(card: card).padding(8)
+                    ForEach(user.allUser) { u in
+                        ExtractedView(u: u).padding(8)
                     }
                 }.zIndex(1.0)
                 
@@ -59,7 +59,7 @@ struct SwipeView_Previews: PreviewProvider {
 struct ExtractedView: View {
     @State var isPresented = false
     
-    @State var card: Card
+    @State var u: Users
     let cardGradient = Gradient(colors: [Color.white.opacity(1), Color.white.opacity(1)])
     var body: some View {
         ZStack(alignment: .center){
@@ -73,7 +73,7 @@ struct ExtractedView: View {
 //                    .clipShape(Circle())
 //                    .aspectRatio(contentMode: .fit)
 //                .frame(width: 200, height: 200)
-                AsyncImage(url: URL(string: card.imageName)) { image in
+                AsyncImage(url: URL(string: u.picture)) { image in
                     image.resizable()
                         .clipShape(Circle())
                         .frame(width: 200, height: 200)
@@ -83,8 +83,8 @@ struct ExtractedView: View {
                 }
                 Spacer()
                 VStack{
-                    Text(card.name).font(.largeTitle).fontWeight(.bold)
-                    Text(String(card.job)).font(.title2)
+                    Text(u.name).font(.largeTitle).fontWeight(.bold)
+                    Text(String(u.mainRole)).font(.title2)
                 }.foregroundColor(Color("purpleColor"))
                 Spacer()
                 VStack(alignment:.leading){
@@ -99,7 +99,7 @@ struct ExtractedView: View {
                     
                     HStack{
                         
-                        ForEach(card.skills, id:\.self){ subSkill in
+                        ForEach(u.skills, id:\.self){ subSkill in
                             Image(subSkill.image)
 //                            Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
 //                                .fontWeight(.bold)
@@ -128,7 +128,7 @@ struct ExtractedView: View {
                         //Harusnya langsung ke ProfileView
                         
                     }.buttonStyle(.borderedProminent).tint(Color("purpleColor"))                    .navigationDestination(isPresented: $isPresented){
-                            ProfileView(card: card)
+                            ProfileView(u: u)
                     }
                 
                     //.offset(x:-100)
@@ -149,14 +149,14 @@ struct ExtractedView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 150)
-                    .opacity(Double(card.x/10 - 1))
+                    .opacity(Double(u.x/10 - 1))
 
                 Spacer()
                 Image("nope")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 150)
-                    .opacity(Double(card.x/10 * -1 - 1))
+                    .opacity(Double(u.x/10 * -1 - 1))
             }
             
         }
@@ -164,8 +164,8 @@ struct ExtractedView: View {
         .shadow(color: Color("purpleColor").opacity(0.2), radius: 5, x: 0, y: 0)
         
         //Step 1 - Zstack follows the coordinate of the card model
-        .offset(x:card.x, y: card.y)
-        .rotationEffect(.init(degrees: card.degree))
+        .offset(x:u.x, y: u.y)
+        .rotationEffect(.init(degrees: u.degree))
         //step 2 - gesture recogniser update the coordinate values of the card model
         .gesture(
             
@@ -174,9 +174,9 @@ struct ExtractedView: View {
                 .onChanged{ value in
                     //user is dragging the view
                     withAnimation(.default){
-                        card.x = value.translation.width
-                        card.y = value.translation.height
-                        card.degree = 7 * (value.translation.width > 0 ? 1 : -1)
+                        u.x = value.translation.width
+                        u.y = value.translation.height
+                        u.degree = 7 * (value.translation.width > 0 ? 1 : -1)
                     }
                     
                 }
@@ -185,17 +185,17 @@ struct ExtractedView: View {
                     withAnimation(.interpolatingSpring(mass:1.0, stiffness: 50, damping: 8, initialVelocity: 0)){
                         switch value.translation.width{
                         case 0...100:
-                            card.x = 0; card.degree = 0; card.y = 0
+                            u.x = 0; u.degree = 0; u.y = 0
                             
                         case let x where x > 100:
-                            card.x = 500; card.degree = 12
+                            u.x = 500; u.degree = 12
                             
                         case (-100)...(-1):
-                            card.x = 0; card.degree = 0; card.y = 0;
+                            u.x = 0; u.degree = 0; u.y = 0;
                             
                         case let x where x < -100:
-                            card.x = -500; card.degree = -12
-                        default: card.x = 0; card.y = 0
+                            u.x = -500; u.degree = -12
+                        default: u.x = 0; u.y = 0
                         }
                     }
                 }

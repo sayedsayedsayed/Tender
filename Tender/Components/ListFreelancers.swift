@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ListFreelancer: View {
-    var freelancers: [FreelancerDummyModel]
-    @Binding var selectedFreelancer: FreelancerDummyModel
+//    var freelancers: [FreelancerDummyModel]
+    var freelancers: [Users]
+//    @Binding var selectedFreelancer: FreelancerDummyModel
+    @Binding var selectedFreelancer: Users
     @Binding var isNavigate: Bool
     var onTap: () -> Void
     @State private var totalHeight = CGFloat.zero       // << variant for ScrollView/List
@@ -79,8 +81,8 @@ struct ListFreelancer: View {
     }
 }
 
-struct ListFreelancer_Previews: PreviewProvider {
-    static var previews: some View {
-        ListFreelancer(freelancers: [], selectedFreelancer: .constant(FreelancerViewModel().freelancer.first!), isNavigate: .constant(false), onTap: {})
-    }
-}
+//struct ListFreelancer_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ListFreelancer(freelancers: [], selectedFreelancer: .constant(FreelancerViewModel().freelancer.first!), isNavigate: .constant(false), onTap: {})
+//    }
+//}

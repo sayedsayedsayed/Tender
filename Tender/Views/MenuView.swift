@@ -78,8 +78,7 @@ struct MenuView: View {
             default:
                 EmptyView()
             }
-            
-            
+    
         }
         .navigationBarBackButtonHidden()
         .task {
@@ -94,22 +93,31 @@ struct MenuView: View {
                             
                             let skills = freelancer.skill.components(separatedBy: "|")
                                 .filter { !$0.isEmpty }
-                            var theSkill:[Skills] = []
+                            var skillList:[Skills] = []
                             for skill in skills {
-                                theSkill.append(Skills(image: skill, name: skill))
+                                skillList.append(Skills(image: skill, name: skill))
                             }
                             
-                            var card = Card(name: freelancer.name, imageName: freelancer.picture, age: 0, job: freelancer.mainRole, skills: theSkill, reff: freelancer.referee)
+                            let roles = freelancer.additionalRole.components(separatedBy: "|")
+                                .filter { !$0.isEmpty }
+                            let ports = freelancer.portfolio.components(separatedBy: "|")
+                                .filter { !$0.isEmpty }
+                            let conns = freelancer.connectList.components(separatedBy: "|")
+                                .filter { !$0.isEmpty }
+                            let reqs = freelancer.connectRequest.components(separatedBy: "|")
+                                .filter { !$0.isEmpty }
                             
-                            card.score = user.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
+                            var us = Users(contact: freelancer.contact, email: freelancer.email, isAvailable: freelancer.isAvailable, name: freelancer.name, picture: freelancer.picture, portfolio: ports, referee: freelancer.referee, referenceCode: freelancer.referenceCode, referenceCounter: freelancer.referenceCounter, mainRole: freelancer.mainRole, additionalRole: roles, skills: skillList, connectList: conns, connectRequest: reqs)
                             
-                            user.cards.append(card)
+                            us.score = user.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
+
+                            user.allUser.append(us)
                         }
                     }
                     //since the first element is an empty card
-                    user.cards.removeFirst()
+                    user.allUser.removeFirst()
                     //sort it based on Score
-                    user.cards.sort { $0.score > $1.score }
+                    user.allUser.sort { $0.score > $1.score }
                 }
             } catch {
                 print(error)
@@ -156,7 +164,7 @@ struct MenuView: View {
                     .font(.body)
                     .foregroundColor(Color("purpleColor"))
                 
-            Text(user.mainCard.name.components(separatedBy: " ")[0])
+            Text(user.user.name.components(separatedBy: " ")[0])
                     .font(.body).bold()
                     .foregroundColor(Color("purpleColor"))
                 
@@ -171,7 +179,7 @@ struct MenuView: View {
     
     var ExpandedProfileView: some View{
         
-        Tender.ProfileView(card: user.mainCard)
+        Tender.ProfileView(u: user.user)
             .matchedGeometryEffect(id: "profile", in: profilAnimation)
     }
     
@@ -186,7 +194,7 @@ struct MenuView: View {
 //                }
 //
 //            }
-        AsyncImage(url: URL(string: user.mainCard.imageName)) { image in
+        AsyncImage(url: URL(string: user.user.picture)) { image in
             image.resizable()
                 .clipShape(Circle())
                 .aspectRatio(contentMode: .fit)

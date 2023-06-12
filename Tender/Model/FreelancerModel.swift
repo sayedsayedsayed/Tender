@@ -60,7 +60,8 @@ class FreelancerModel: ObservableObject {
             record[FreelancerRecordKeys.additionalRole.rawValue] = editedFreelancer.additionalRole
             record[FreelancerRecordKeys.skill.rawValue] = editedFreelancer.skill
             record[FreelancerRecordKeys.isAvailable.rawValue] = editedFreelancer.isAvailable
-            
+            record[FreelancerRecordKeys.connectList.rawValue] = editedFreelancer.connectList
+            record[FreelancerRecordKeys.connectRequest.rawValue] = editedFreelancer.connectRequest
             
             try await db.save(record)
         } catch {

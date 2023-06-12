@@ -9,16 +9,16 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    let sameUser: Bool = false
+    let sameUser: Bool = true
     @State private var availability: Bool = true
-    @State  var card: Card
+    @State  var u: Users
     @State var isPresented = false
     
     var btnBack: some View{
         Button(action: {
             self.presentationMode.wrappedValue.dismiss()
         }) {
-
+            
             Image(systemName: "chevron.backward")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -43,31 +43,31 @@ struct ProfileView: View {
                         .padding(.top, 30)
                 }
                 VStack{
-//                    Image("p0")
-//                        .resizable()
-//                        .aspectRatio(contentMode: .fit)
-//                        .clipShape(Circle())
-//                        .frame(width: 180)
-//                        .padding(.top, -10)
+                    //                    Image("p0")
+                    //                        .resizable()
+                    //                        .aspectRatio(contentMode: .fit)
+                    //                        .clipShape(Circle())
+                    //                        .frame(width: 180)
+                    //                        .padding(.top, -10)
                     VStack{
-                        AsyncImage(url: URL(string: card.imageName)) { image in
+                        AsyncImage(url: URL(string: u.picture)) { image in
                             image.resizable()
                                 .clipShape(Circle())
                                 .aspectRatio(contentMode: .fit)
-
-
+                            
+                            
                         } placeholder: {
                             ProgressView()
                         }
                     }.frame(width: 250)
                         .padding(.top, -10)
                     
-                    Text(card.name).font(.title).bold()
+                    Text(u.name).font(.title).bold()
                         .foregroundColor(Color("purpleColor"))
                     
-                    Text(card.job)
+                    Text(u.mainRole)
                         .foregroundColor(Color("purpleColor"))
-
+                    
                     if sameUser{
                         Picker("", selection: $availability) {
                             Text("available".capitalized).tag(true)
@@ -77,7 +77,7 @@ struct ProfileView: View {
                             RoundedRectangle(cornerRadius: 11)
                                 .stroke(Color("purpleColor"), lineWidth:1)
                         )
-
+                        
                         .pickerStyle(.segmented)
                         .frame(width: 200, height: 25)
                         .padding(.bottom, -10)
@@ -95,17 +95,17 @@ struct ProfileView: View {
                                 Text("Skills").fontWeight(.bold).font(.title2)
                             }
                             HStack{
-                                ForEach(card.skills, id:\.self){ subSkill in
+                                ForEach(u.skills, id:\.self){ subSkill in
                                     Image(subSkill.image)
                                     
-//                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
-//                                        .fontWeight(.bold)
-//                                        .padding(.horizontal, 2)
-//                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-//                                        .background(
-//                                            RoundedRectangle(cornerRadius: 10)
-//                                                .stroke(Color("purpleColor"),lineWidth: 2)
-//                                        )
+                                    //                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
+                                    //                                        .fontWeight(.bold)
+                                    //                                        .padding(.horizontal, 2)
+                                    //                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                    //                                        .background(
+                                    //                                            RoundedRectangle(cornerRadius: 10)
+                                    //                                                .stroke(Color("purpleColor"),lineWidth: 2)
+                                    //                                        )
                                 }
                             }
                             
@@ -124,8 +124,9 @@ struct ProfileView: View {
                             }
                             
                             HStack{
-                                ForEach(card.urls, id:\.self){ url in
-                                    Link("\(url)", destination: URL(string: "\(url)")!)
+                                ForEach(u.portfolio, id:\.self){ url in
+//                                    Link("\(url)", destination: URL(string: "\(url)")!)
+                                    Text(url)
                                         .foregroundColor(Color("purpleColor"))
                                         .fontWeight(.bold)
                                         .padding(.horizontal, 2)
@@ -151,15 +152,16 @@ struct ProfileView: View {
                             }
                             
                             HStack{
-                                
-                                Text("UI Design").foregroundColor(Color("purpleColor"))
-                                    .fontWeight(.bold)
-                                    .padding(.horizontal, 2)
-                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color("purpleColor"),lineWidth: 2)
-                                    )
+                                ForEach(u.additionalRole, id:\.self){ role in
+                                    Text(role).foregroundColor(Color("purpleColor"))
+                                        .fontWeight(.bold)
+                                        .padding(.horizontal, 2)
+                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 10)
+                                                .stroke(Color("purpleColor"),lineWidth: 2)
+                                        )
+                                }
                             }
                             
                             
@@ -176,7 +178,7 @@ struct ProfileView: View {
                             }
                             
                             HStack{
-                                Text(card.reff).foregroundColor(Color("purpleColor"))
+                                Text(u.referee).foregroundColor(Color("purpleColor"))
                                     .fontWeight(.bold)
                                     .padding(.horizontal, 2)
                                     .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
@@ -185,18 +187,18 @@ struct ProfileView: View {
                                             .stroke(Color("purpleColor"),lineWidth: 2)
                                     )
                             }
-
+                            
                             
                             
                             
                         }.foregroundColor(Color("purpleColor"))
                             .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
-                            
-
-
+                        
+                        
+                        
                     }
-
-
+                    
+                    
                 }
                 
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -204,7 +206,7 @@ struct ProfileView: View {
                 if !sameUser{
                     HStack(alignment: .center, spacing: 100){
                         Button{
-
+                            //TODO: create reject function
                         }label: {
                             ZStack{
                                 Circle().frame(width: 59)
@@ -214,17 +216,17 @@ struct ProfileView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 60)
                                     .foregroundColor(Color("whiteColor"))
-                                    
-                                    
-//                                Circle().frame(width: 60)
-//                                    .foregroundColor(Color("whiteColor"))
-//                                Text("X").foregroundColor(Color("purpleColor")).font(.system(size: 30)).bold()
+                                
+                                
+                                //                                Circle().frame(width: 60)
+                                //                                    .foregroundColor(Color("whiteColor"))
+                                //                                Text("X").foregroundColor(Color("purpleColor")).font(.system(size: 30)).bold()
                             }
                         }
                         
                         
                         Button{
-
+                            //TODO: create accept function
                         }label: {
                             ZStack{
                                 Circle().frame(width: 60).foregroundColor(Color("purpleColor"))
@@ -232,7 +234,7 @@ struct ProfileView: View {
                                     .fontWeight(.semibold)
                             }
                         }
-
+                        
                     }
                     .padding(.top, 260)
                 }
@@ -240,20 +242,20 @@ struct ProfileView: View {
             
         }.navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: btnBack)
-
+        
     }
 }
 
 
 
 struct ProfileView_Previews: PreviewProvider {
-//    @State var card: Card
+    //    @State var card: Card
     
     
     static var previews: some View {
-        var card = Card(name: "Wati", imageName: "https://thispersondoesnotexist.com/", age: 22, job: "Backend Developer", skills: [Skills(image: "Python", name: "Python"), Skills(image: "Swift", name: "Swift")], urls: [URL(string: "www.google.com")!,URL(string: "www.twitter.com")!], reff: "Steve Jobs")
+        var u: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""])
         
-        ProfileView(card: card)
-
+        ProfileView(u: u)
+        
     }
 }

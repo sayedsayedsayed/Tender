@@ -67,22 +67,24 @@ struct LoginView: View {
                                     let addRoles = theFreelancer.additionalRole.components(separatedBy: "|")
                                         .filter { !$0.isEmpty }
                                     
+                                    let conns = theFreelancer.connectList.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    
+                                    let reqs = theFreelancer.connectRequest.components(separatedBy: "|")
+                                        .filter { !$0.isEmpty }
+                                    
                                     
                                     let skills = theFreelancer.skill.components(separatedBy: "|")
                                         .filter { !$0.isEmpty }
-                                    var theSkill:[Skills] = []
-                                    for skill in skills {
-                                        theSkill.append(Skills(image: skill, name: skill))
+                                    var skillList:[Skills] = []
+                                    for s in skills {
+                                        skillList.append(Skills(image: s, name: s))
                                     }
                                     
-                                    let theUser = Users(contact: theFreelancer.contact, email: theFreelancer.email, isAvailable: theFreelancer.isAvailable, name: theFreelancer.name, picture: theFreelancer.picture, portfolio: portofolios, referee: theFreelancer.referee, referenceCode: theFreelancer.referenceCode, referenceCounter: theFreelancer.referenceCounter, mainRole: theFreelancer.mainRole, additionalRole: addRoles, skills: theSkill)
+                                    let theUser = Users(contact: theFreelancer.contact, email: theFreelancer.email, isAvailable: theFreelancer.isAvailable, name: theFreelancer.name, picture: theFreelancer.picture, portfolio: portofolios, referee: theFreelancer.referee, referenceCode: theFreelancer.referenceCode, referenceCounter: theFreelancer.referenceCounter, mainRole: theFreelancer.mainRole, additionalRole: addRoles, skills: skillList, connectList: conns, connectRequest: reqs)
                                     
                                     user.user = theUser
                                     user.mainFreelancer = theFreelancer
-                                    
-                                    let card = Card(name: theFreelancer.name, imageName: theFreelancer.picture, age: 0, job: theFreelancer.mainRole, skills: theSkill, reff: theFreelancer.referee)
-                                    
-                                    user.mainCard = card
                                     
                                     if theFreelancer.referee == "" {
                                         logInObj.loginState = .noReffCode
@@ -126,16 +128,6 @@ struct LoginView: View {
                                 user.mainFreelancer.picture = theFreelancer.picture
                                 user.mainFreelancer.referenceCode = theFreelancer.referenceCode
                                 
-                                let skills = theFreelancer.skill.components(separatedBy: "|")
-                                    .filter { !$0.isEmpty }
-                                var theSkill:[Skills] = []
-                                for skill in skills {
-                                    theSkill.append(Skills(image: skill, name: skill))
-                                }
-                                
-                                let card = Card(name: theFreelancer.name, imageName: theFreelancer.picture, age: 0, job: theFreelancer.mainRole, skills: theSkill, reff: theFreelancer.referee)
-                                
-                                user.mainCard = card
                             }
                             
                         } catch {

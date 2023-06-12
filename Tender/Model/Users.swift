@@ -3,7 +3,7 @@
 //  Tender
 //
 //  Created by Agfid Prasetyo on 10/06/23.
-//  Modified by Sayed on 11/06/23 - add reffcode and recordId
+//  Modified by Sayed on 11/06/23 - add vars
 
 import Foundation
 import CloudKit
@@ -23,4 +23,12 @@ struct Users: Identifiable, Hashable {
     var mainRole: String
     var additionalRole: [String]
     var skills: [Skills]
+    var score: Int = 0
+    var connectList: [String]
+    var connectRequest: [String]
+    
+    //for dragGesture
+    var x: CGFloat = 0.0
+    var y: CGFloat = 0.0
+    var degree: Double = 0.0
 }

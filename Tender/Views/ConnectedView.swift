@@ -9,19 +9,28 @@ import SwiftUI
 
 struct ConnectedView: View {
     var namespace: Namespace.ID
-    var freelancers: [FreelancerDummyModel] = FreelancerViewModel().freelancer
+//    var freelancers: [FreelancerDummyModel] = FreelancerViewModel().freelancer
+    @EnvironmentObject var user: UserViewModel
+
     var roles: [Roles] = RolesViewModel().roles
     enum availability: String, CaseIterable {
         case available = "Available"
         case unavailable = "Unavailable"
     }
 
-    @State private var freelancerFiltered: [FreelancerDummyModel] = FreelancerViewModel().freelancer
+//    @State private var freelancerFiltered: [FreelancerDummyModel] = FreelancerViewModel().freelancer
+    @State private var freelancerFiltered: [Users] = [Users(contact: "", email: "", isAvailable: true, name: "", picture: "", portfolio: [""], referee: "", referenceCode: "", referenceCounter: 0, mainRole: "", additionalRole: [""], skills: [Skills(image: "", name: "")], connectList: [""], connectRequest: [""])]
+//    private var filteredFreelancer: [Freelancer] {
+//        model.filterFreelancer(by: .all)
+//    }
+
     @State private var isSearch: Bool = false
     @State private var search: String = ""
     @State private var isPresented: Bool = false
     @State private var isNavigate: Bool = false
-    @State var selectedFreelancer: FreelancerDummyModel = FreelancerDummyModel(contact: "08128238", email: "aksjdhakjs", isAvailable: true, name: "name", picture: "alskdja", portfolio: "alksdj", referee: "alskdja", referenceCounter: 1, role: "asjkd", skills: [Skills(image: "asda", name: "alskd")])
+    @State var selectedFreelancer: Users = Users(contact: "", email: "", isAvailable: true, name: "", picture: "", portfolio: [""], referee: "", referenceCode: "", referenceCounter: 0, mainRole: "", additionalRole: [""], skills: [Skills(image: "", name: "")], connectList: [""], connectRequest: [""])
+    @State private var doneGeneratingData = false
+//    @State var selectedFreelancer: FreelancerDummyModel = FreelancerDummyModel(contact: "08128238", email: "aksjdhakjs", isAvailable: true, name: "name", picture: "alskdja", portfolio: "alksdj", referee: "alskdja", referenceCounter: 1, role: "asjkd", skills: [Skills(image: "asda", name: "alskd")])
     @Binding var activeScreen: Show
     
     func onTap() {
@@ -51,7 +60,7 @@ struct ConnectedView: View {
                             if isSearch {
                                 HStack(spacing: 0) {
                                     SearchBar(search: $search, isSearch: $isSearch).onChange(of: search, perform: { value in
-                                        freelancerFiltered = freelancers.filter {$0.name == value}
+                                        freelancerFiltered = freelancerFiltered.filter {$0.name == value}
 //                                        print(freelancerFiltered)
 //                                        print(value)
                                     })
@@ -75,7 +84,7 @@ struct ConnectedView: View {
                                     .foregroundColor(Color.black)
                             }
                         }.ignoresSafeArea()
-                        ListFreelancer(freelancers: freelancers, selectedFreelancer: $selectedFreelancer, isNavigate: $isNavigate) {
+                        ListFreelancer(freelancers: freelancerFiltered, selectedFreelancer: $selectedFreelancer, isNavigate: $isNavigate) {
                             onTap()
                         }
                         
@@ -109,6 +118,18 @@ struct ConnectedView: View {
                         }.presentationDetents([.fraction(0.8)])
                     }
                 }
+                .onAppear(){
+                    if !doneGeneratingData {
+                        selectedFreelancer = user.user
+                        for u in user.allUser{
+                            if selectedFreelancer.connectList.contains(u.email) {
+                                freelancerFiltered.append(u)
+                            }
+                        }
+                        freelancerFiltered.removeFirst()
+                        doneGeneratingData = true
+                    }
+                }
                 
             
             .background(Color("whiteColor"))
@@ -120,6 +141,8 @@ struct ConnectedView: View {
 struct ConnectedView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        ConnectedView(namespace: namespace, selectedFreelancer: FreelancerViewModel().freelancer.first!, activeScreen: .constant(.menu))
+//        ConnectedView(namespace: namespace, selectedFreelancer: FreelancerViewModel().freelancer.first!, activeScreen: .constant(.menu))
+        ConnectedView(namespace: namespace, activeScreen: .constant(.menu))
+            .environmentObject(UserViewModel())
     }
 }
