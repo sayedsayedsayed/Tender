@@ -36,9 +36,10 @@ struct SwipeView: View {
                     )
                 //Card
                 ZStack {
-//                    ForEach(Card.data.reversed()) { card in
                     ForEach(user.allUser) { u in
-                        ExtractedView(u: u, activeScreen: $activeScreen, namespace: namespace).padding(8)
+                        if u.email != user.user.email {
+                            ExtractedView(u: u, activeScreen: $activeScreen, namespace: namespace).padding(8)
+                        }
                     }
                 }.zIndex(1.0)
                 
@@ -71,11 +72,6 @@ struct ExtractedView: View {
                 
             VStack {
                 Spacer()
-//                Image(card.imageName)
-//                    .resizable()
-//                    .clipShape(Circle())
-//                    .aspectRatio(contentMode: .fit)
-//                .frame(width: 200, height: 200)
                 AsyncImage(url: URL(string: u.picture)) { image in
                     image.resizable()
                         .clipShape(Circle())
@@ -103,15 +99,14 @@ struct ExtractedView: View {
                     HStack{
                         
                         ForEach(u.skills, id:\.self){ subSkill in
-                            Image(subSkill.image)
-//                            Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
-//                                .fontWeight(.bold)
-//                                .padding(.horizontal, 2)
-//                                .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-//                                .background(
-//                                RoundedRectangle(cornerRadius: 10)
-//                                    .stroke(Color("purpleColor"),lineWidth: 2)
-//                            )
+                            Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 2)
+                                .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color("purpleColor"),lineWidth: 2)
+                            )
                         }
                     }
                     
@@ -190,13 +185,13 @@ struct ExtractedView: View {
                         case 0...100:
                             u.x = 0; u.degree = 0; u.y = 0
                             
-                        case let x where x > 100:
+                        case let x where x > 100: //request
                             u.x = 500; u.degree = 12
                             
                         case (-100)...(-1):
                             u.x = 0; u.degree = 0; u.y = 0;
                             
-                        case let x where x < -100:
+                        case let x where x < -100: //reject
                             u.x = -500; u.degree = -12
                         default: u.x = 0; u.y = 0
                         }

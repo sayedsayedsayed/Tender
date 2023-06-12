@@ -61,8 +61,7 @@ struct LoginView: View {
                                     
                                     //but first update the necessary data
                                     
-                                    let portofolios = theFreelancer.portfolio.components(separatedBy: "|")
-                                        .filter { !$0.isEmpty }
+                                    let portofolios = stringToArray(input: theFreelancer.portfolio)
                                     
                                     let addRoles = theFreelancer.additionalRole.components(separatedBy: "|")
                                         .filter { !$0.isEmpty }

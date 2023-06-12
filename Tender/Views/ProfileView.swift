@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    //    @EnvironmentObject var user: UserViewModel
+    @EnvironmentObject var user: UserViewModel
     let sameUser: Bool = false
     @State private var availability: Bool = true
     @State  var u: Users
@@ -43,7 +43,7 @@ struct ProfileView: View {
                 Button(action: {
                     withAnimation {
                         isNavigate = true
-//                        print("test")
+                        //                        print("test")
                     }
                 }) {
                     Image(systemName: "pencil").resizable()
@@ -76,22 +76,23 @@ struct ProfileView: View {
                         .padding(.top, 30)
                 }
                 VStack{
-                    VStack{
-                        AsyncImage(url: URL(string: u.picture)) { image in
-                            image.resizable()
-                                .clipShape(Circle())
-                                .aspectRatio(contentMode: .fit)
-                        } placeholder: {
-                            ProgressView()
-                        }
-                    }.frame(width: 250)
-                        .padding(.top, -10)
+                    AsyncImage(url: URL(string: u.picture)) { image in
+                        image.resizable()
+                            .clipShape(Circle())
+                            .aspectRatio(contentMode: .fit)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                }.frame(width: 250)
+                    .padding(.top, -10)
+                
+                Text(u.name).font(.title).bold()
+                    .foregroundColor(Color("purpleColor")).matchedGeometryEffect(id: "name", in: namespace)
+                
+                Text(u.mainRole)
+                    .foregroundColor(Color("purpleColor"))
+                VStack(alignment: .leading){
                     
-                    Text(u.name).font(.title).bold()
-                        .foregroundColor(Color("purpleColor")).matchedGeometryEffect(id: "name", in: namespace)
-                    
-                    Text(u.mainRole)
-                        .foregroundColor(Color("purpleColor"))
                     
                     if activeScreen == .menu {
                         Picker("", selection: $availability) {
@@ -110,104 +111,21 @@ struct ProfileView: View {
                     
                     
                     
-                    GeometryReader{ geometry in
-                        VStack(alignment:.leading){
-                            
-                            HStack{
-                                Image("briefcase").resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 30)
-                                Text("Skills").fontWeight(.bold).font(.title2)
-                            }
-                            HStack{
-                                if u.skills.count > 0 {
-                                    ForEach(u.skills, id:\.self){ subSkill in
-                                        Image(subSkill.image)
-                                        
-                                        Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
-                                            .fontWeight(.bold)
-                                            .padding(.horizontal, 2)
-                                            .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                            .background(
-                                                RoundedRectangle(cornerRadius: 10)
-                                                    .stroke(Color("purpleColor"),lineWidth: 2)
-                                            )
-                                    }
-                                } else {
-                                    Text("-").foregroundColor(Color("purpleColor"))
-                                        .fontWeight(.bold)
-                                        .padding(.horizontal, 2)
-                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color("purpleColor"),lineWidth: 2)
-                                        )
-                                    
-                                }
-                            }.onAppear {
-//                                print(u)
-                            }
-                            
-                            
-                        }.foregroundColor(Color("purpleColor"))
-                            .frame(width: geometry.size.width * 0.7, height: geometry.size.height)
+                    //GeometryReader{ geometry in
+                    VStack(alignment:.leading){
                         
-                        //still static size
-                        
-                        VStack(alignment:.leading){
-                            HStack{
-                                Image("portfolio").resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 30)
-                                Text("Portfolio").fontWeight(.bold).font(.title2)
-                            }
-                            
-                            HStack{
-                                
-                                ForEach(u.portfolio, id:\.self){ url in
-                                    Text(url)
-//                                    Link("\(url)", destination: URL(string: "\(url)")!)
-                                        .foregroundColor(Color("purpleColor"))
-                                        .fontWeight(.bold)
-                                        .padding(.horizontal, 2)
-                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                        .background(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color("purpleColor"),lineWidth: 2)
-                                        )
-                                }
-                            }
-                            
-                            
-                            
-                        }.foregroundColor(Color("purpleColor"))
-                            .frame(width: geometry.size.width, height: geometry.size.height * 2.3)
-                        
-                        VStack(alignment:.leading){
-                            HStack{
-                                Image(systemName: "person").resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 30)
-                                Text("Additional Roles").fontWeight(.bold).font(.title2)
-                            }
-                            HStack{
+                        HStack{
+                            Image("briefcase").resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                            Text("Skills").fontWeight(.bold).font(.title2)
+                        }
+                        HStack{
+                            if u.skills.count > 0 {
                                 ForEach(u.skills, id:\.self){ subSkill in
-                                    Image(subSkill.image)
+                                    //                                        Image(subSkill.image)
                                     
-                                    //                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
-                                    //                                        .fontWeight(.bold)
-                                    //                                        .padding(.horizontal, 2)
-                                    //                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                    //                                        .background(
-                                    //                                            RoundedRectangle(cornerRadius: 10)
-                                    //                                                .stroke(Color("purpleColor"),lineWidth: 2)
-                                    //                                        )
-                                }
-                            }
-                            
-                            HStack{
-                                ForEach(u.additionalRole, id:\.self){ role in
-                                    Text(role).foregroundColor(Color("purpleColor"))
+                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
                                         .fontWeight(.bold)
                                         .padding(.horizontal, 2)
                                         .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
@@ -216,21 +134,39 @@ struct ProfileView: View {
                                                 .stroke(Color("purpleColor"),lineWidth: 2)
                                         )
                                 }
+                            } else {
+                                Text("-").foregroundColor(Color("purpleColor"))
+                                    .fontWeight(.bold)
+                                    .padding(.horizontal, 2)
+                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color("purpleColor"),lineWidth: 2)
+                                    )
+                                
                             }
-                            
-                        }.foregroundColor(Color("purpleColor"))
-                            .frame(width: geometry.size.width * 0.72, height: geometry.size.height * 3.6)
+                        }.onAppear {
+                            //                                print(u)
+                        }
                         
-                        VStack(alignment:.leading){
-                            HStack{
-                                Image(systemName: "link").resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 30)
-                                Text("Reffered By").fontWeight(.bold).font(.title2)
-                            }
+                        
+                    }.foregroundColor(Color("purpleColor"))
+                    //still static size
+                    
+                    VStack(alignment:.leading){
+                        HStack{
+                            Image("portfolio").resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                            Text("Portfolio").fontWeight(.bold).font(.title2)
+                        }
+                        
+                        HStack{
                             
-                            HStack{
-                                Text(u.referee).foregroundColor(Color("purpleColor"))
+                            ForEach(u.portfolio, id:\.self){ url in
+                                Text(url)
+                                //                                    Link("\(url)", destination: URL(string: "\(url)")!)
+                                    .foregroundColor(Color("purpleColor"))
                                     .fontWeight(.bold)
                                     .padding(.horizontal, 2)
                                     .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
@@ -239,49 +175,127 @@ struct ProfileView: View {
                                             .stroke(Color("purpleColor"),lineWidth: 2)
                                     )
                             }
-                        }.foregroundColor(Color("purpleColor"))
-                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
-                    }
-                }
-                
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                //                .padding(.top, -10)
-                if activeScreen != .menu{
-                    HStack(alignment: .center, spacing: 100){
-                        Button{
-                            //TODO: create reject function
-                        }label: {
-                            ZStack{
-                                Circle().frame(width: 59)
-                                    .foregroundColor(Color("purpleColor"))
-                                Image(systemName: "x.circle.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 60)
-                                    .foregroundColor(Color("whiteColor"))
-                            }
                         }
                         
                         
-                        Button{
-                            //TODO: create accept function
-                        }label: {
-                            ZStack{
-                                Circle().frame(width: 60).foregroundColor(Color("purpleColor"))
-                                Image(systemName: "checkmark").foregroundColor(Color("whiteColor")).font(.system(size: 30))
-                                    .fontWeight(.semibold)
+                        
+                    }.foregroundColor(Color("purpleColor"))
+                    //                            .frame(width: geometry.size.width, height: geometry.size.height * 2.3)
+                    
+                    VStack(alignment:.leading){
+                        HStack{
+                            Image(systemName: "person").resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                            Text("Additional Roles").fontWeight(.bold).font(.title2)
+                        }
+                        HStack{
+                            ForEach(u.skills, id:\.self){ subSkill in
+                                //                                    Image(subSkill.image)
+                                
+                                Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
+                                    .fontWeight(.bold)
+                                    .padding(.horizontal, 2)
+                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color("purpleColor"),lineWidth: 2)
+                                    )
                             }
                         }
                         
-                    }
-                    .padding(.top, 260)
+                        HStack{
+                            ForEach(u.additionalRole, id:\.self){ role in
+                                Text(role).foregroundColor(Color("purpleColor"))
+                                    .fontWeight(.bold)
+                                    .padding(.horizontal, 2)
+                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color("purpleColor"),lineWidth: 2)
+                                    )
+                            }
+                        }
+                        
+                    }.foregroundColor(Color("purpleColor"))
+                    //                            .frame(width: geometry.size.width * 0.72, height: geometry.size.height * 3.6)
+                    
+                    VStack(alignment:.leading){
+                        HStack{
+                            Image(systemName: "link").resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 30)
+                            Text("Reffered By").fontWeight(.bold).font(.title2)
+                        }
+                        
+                        HStack{
+                            Text(u.referee).foregroundColor(Color("purpleColor"))
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 2)
+                                .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color("purpleColor"),lineWidth: 2)
+                                )
+                        }
+                    }.foregroundColor(Color("purpleColor"))
+                    //                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
                 }
             }
             
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            //                .padding(.top, -10)
+            if activeScreen != .menu{
+                HStack(alignment: .center, spacing: 100){
+                    Button{
+                        //TODO: create reject function
+                        if activeScreen == .discover {
+                            //skip connect
+                        }
+                        else if activeScreen == .notification {
+                            //reject to connect
+                            let elementToRemove = u.email
+                            
+                            user.user.connectRequest.removeAll { $0 == elementToRemove }
+                            
+                            //update DB
+                            
+                        }
+                    }label: {
+                        ZStack{
+                            Circle().frame(width: 59)
+                                .foregroundColor(Color("purpleColor"))
+                            Image(systemName: "x.circle.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 60)
+                                .foregroundColor(Color("whiteColor"))
+                        }
+                    }
+                    
+                    
+                    Button{
+                        //TODO: create accept function
+                        if activeScreen == .discover {
+                            //request to connect
+                        }
+                        else if activeScreen == .notification {
+                            //approve to connect
+                        }
+                    }label: {
+                        ZStack{
+                            Circle().frame(width: 60).foregroundColor(Color("purpleColor"))
+                            Image(systemName: "checkmark").foregroundColor(Color("whiteColor")).font(.system(size: 30))
+                                .fontWeight(.semibold)
+                        }
+                    }
+                    
+                }
+                .padding(.top, 20)
+            }
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: btnBack, trailing: editButton)
-        
     }
 }
 
@@ -295,6 +309,7 @@ struct ProfileView_Previews: PreviewProvider {
         var u: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""])
         
         ProfileView(u: u, activeScreen: .constant(.profile), namespace: namespace)
+            .environmentObject(UserViewModel())
         
     }
 }
