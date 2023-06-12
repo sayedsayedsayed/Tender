@@ -286,6 +286,8 @@ struct ProfileView: View {
                                             
                                             DispatchQueue.main.async {
                                                 us.connectRequest.append(user.user.email)
+                                                u.x = 500; u.degree = 12
+                                                self.presentationMode.wrappedValue.dismiss()
                                                 
                                             }
                                             
