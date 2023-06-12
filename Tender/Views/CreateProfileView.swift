@@ -11,6 +11,7 @@ struct CreateProfileView: View {
     @EnvironmentObject var user: UserViewModel
     @State private var errMessage = ""
     private var freelancerModel = FreelancerModel()
+    @State var listRole = RolesViewModel().roles.map {$0.name}
     
     // Profile value
     @State var availability: Bool = true
@@ -60,9 +61,64 @@ struct CreateProfileView: View {
                             ProgressView()
                         }
                         
-                        Picker("", selection: $availability) {
-                            Text("available".capitalized).tag(true)
-                            Text("unavailable".capitalized).tag(false)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    
+                    Picker("", selection: $availability) {
+                        Text("available".capitalized).tag(true)
+                        Text("unavailable".capitalized).tag(false)
+                    }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 11)
+                            .stroke(Color("purpleColor"), lineWidth:1)
+                    )
+                    
+                    .pickerStyle(.segmented)
+                    .frame(width: 200, height: 25)
+                    .padding(.bottom, 20)
+                }
+                Text(errMessage).foregroundColor(.red)
+                ScrollView{
+                    Group{
+                        FormTitleWithIcon(iconName: "name_icon", textTitle: "name")
+                        TextField("", text: $username, prompt: Text("Input your name").foregroundColor(Color("purpleColor").opacity(0.4)))
+                            .frame(width: 350)
+                            .padding(.bottom, 15)
+                            .textFieldStyle(TextFieldStyleCustom())
+                    }
+                    Group {
+                        FormTitleWithIcon(iconName: "role_icon", textTitle: "main role")
+                        TextInputAutocomplete(data: $listRole, text: $mainrole, placeholder: "Input your role")
+                            .frame(width: 350)
+                            .padding(.bottom, 15)
+                            .textFieldStyle(TextFieldStyleCustom())
+//                        TextField("", text: $mainrole, prompt: Text("Input your role").foregroundColor(Color("purpleColor").opacity(0.4)))
+//                            .frame(width: 350)
+//                            .padding(.bottom, 15)
+//                            .textFieldStyle(TextFieldStyleCustom())
+                    }
+                    Group {
+                        FormTitleWithIcon(textTitle: "additional role", systemName: "person" )
+                        TextField("", text: $additionalRole, prompt: Text("Input your additional role").foregroundColor(Color("purpleColor").opacity(0.4)))
+                            .frame(width: 350)
+                            .padding(.bottom, 15)
+                            .textFieldStyle(TextFieldStyleCustom())
+                    }
+                    Group{
+                        FormTitleWithIcon(iconName: "briefcase", textTitle: "Skills")
+                        HStack{
+                            if selectedSkills.count == 0{
+                                Text("Input your skills").frame(width: 310, height: 40, alignment: .leading)
+                                    .foregroundColor(Color("purpleColor").opacity(0.4))
+                                    .background(Color("whiteColor"))
+                            }
+                            else{
+                                ForEach(selectedSkills.prefix(3), id:\.self) {skill in
+                                    CapsuleSkillView(skill: skill)
+                                }
+                            }
+                            
                         }
                         .overlay(
                             RoundedRectangle(cornerRadius: 11)
@@ -154,13 +210,70 @@ struct CreateProfileView: View {
                         TextField("", text: $contactNumber, prompt: Text("Your whatsApp contact").foregroundColor(Color("purpleColor").opacity(0.4)))
                             .frame(width: 350)
                             .textFieldStyle(TextFieldStyleCustom())
-                    }.scrollIndicators(.hidden)
-                    Button {
-                        //TODO: Skill need to be confirmed
-                        //TODO: Contact Number to be only acccept standard phone number?
+                            .onSubmit {
+                                print (portfolioLists.filter({$0 == portfolioLists[index]}))
+                                if portfolioLists.last == "" {
+                                    
+                                } else if portfolioLists.count == 1 {
+                                    portfolioLists.append("")
+                                } else if !portfolioLists[index].isEmpty && portfolioLists.filter({$0 == portfolioLists[index]}).count == 1 {
+                                    portfolioLists.append("")
+                                    print(portfolioLists)
+                                    
+                                }
+                            }
+                            
+                            Button{
+                                if portfolioLists[index] == portfolioLists.last && portfolioLists.last != "" {
+                                    portfolioLists.append("")
+                                } else if !portfolioLists[index].isEmpty{
+                                    portfolioLists.remove(at: index)
+                                }
+                            }label: {
+                                Text(portfolioLists[index] == portfolioLists.last ? "+" : "X").font(.system(size: 30, weight: .bold)).foregroundColor(Color("purpleColor"))
+                            }
+                        }.frame(width: 350)
+                    }
+                    FormTitleWithIcon(iconName: "phone_icon", textTitle: "contact")
+                    TextField("", text: $contactNumber, prompt: Text("Your whatsApp contact").foregroundColor(Color("purpleColor").opacity(0.4)))
+                        .frame(width: 350)
+                        .textFieldStyle(TextFieldStyleCustom())
+                }.scrollIndicators(.hidden)
+                Button {
+                    //TODO: Skill need to be confirmed
+                    //TODO: Contact Number to be only acccept standard phone number?
+                    
+                    if username == "" {
+                        errMessage = "Name can not be empty!"
+                    }
+                    else {
+                        user.user.name = username
+                        user.user.mainRole = mainrole
+                        if additionalRole != "" {
+                            user.user.additionalRole[0] = additionalRole
+                        }
+                        else {
+                            user.user.additionalRole = user.user.additionalRole.filter { !$0.isEmpty }
+                        }
+//                        user.user.skills = ????
+                        user.user.portfolio = portfolioLists
+                        user.user.contact = contactNumber
                         
-                        if username == "" {
-                            errMessage = "Name can not be empty!"
+                        user.mainFreelancer.name = username
+                        user.mainFreelancer.mainRole = mainrole
+                        if additionalRole != "" {
+                            user.mainFreelancer.additionalRole = additionalRole
+                        }
+                        else {
+                            user.user.additionalRole = user.user.additionalRole.filter { !$0.isEmpty }
+                        }
+//                        user.user.skills = ????
+                        
+                        var porto = ""
+                        if portfolioLists.count > 0 {
+                            portfolioLists.forEach { p in
+                                porto += "|" + p
+                            }
                         }
                         else {
                             user.user.name = username

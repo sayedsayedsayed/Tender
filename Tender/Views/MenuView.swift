@@ -11,7 +11,7 @@ struct MenuView: View {
     @Namespace var connected
     @Namespace var discover
     @Namespace var notification
-//    @Namespace var profile
+    //    @Namespace var profile
     @Namespace var profilAnimation
     @State private var menuNameList = MenuList.menuList()
     @State private var activeScreen: Show = .menu
@@ -21,45 +21,98 @@ struct MenuView: View {
     @EnvironmentObject var model: FreelancerModel
     
     @State private var filterOption: FilterOptions = .all
-
+    
     var safeArea : EdgeInsets
     var size : CGSize
     var body: some View {
-        ZStack {
-            ScrollView(.vertical, showsIndicators: false){
-                ZStack {
-                    VStack(spacing: 0) {
-                        HStack {
-                            LogoWork()
-                        }.padding(.bottom, 30)
-                        if activeScreen == .menu {
-                            Button(action:{
-                                withAnimation {
-                                    activeScreen = .discover
+        NavigationStack {
+            ZStack {
+                ScrollView(.vertical, showsIndicators: false){
+                    ZStack {
+                        VStack(spacing: 0) {
+                            HStack {
+                                LogoWork()
+                            }.padding(.bottom, 30)
+                            if activeScreen == .menu {
+                                Button(action:{
+                                    withAnimation {
+                                        activeScreen = .discover
+                                    }
+                                    
+                                }){
+                                    MenuItem(namespace: discover, title: "DISCOVER", color: Color("purpleColor"), isHeader: false, activeScreen: $activeScreen)
                                 }
                                 
-                            }){
-                                MenuItem(namespace: discover, title: "DISCOVER", color: Color("purpleColor"), isHeader: false, activeScreen: $activeScreen)
-                            }
-                            
-                            
-                            Button(action:{
-                                withAnimation {
-                                    activeScreen = .connected
+                                
+                                Button(action:{
+                                    withAnimation {
+                                        activeScreen = .connected
+                                    }
+                                }){
+                                    MenuItem(namespace: connected, title: "CONNECTED", color: Color("pinkColor"), isHeader: false, activeScreen: $activeScreen)
                                 }
-                            }){
-                                MenuItem(namespace: connected, title: "CONNECTED", color: Color("pinkColor"), isHeader: false, activeScreen: $activeScreen)
-                            }
-                            Button(action:{
-                                withAnimation {
-                                    activeScreen = .notification
+                                Button(action:{
+                                    withAnimation {
+                                        activeScreen = .notification
+                                    }
+                                    
+                                }){
+                                    MenuItem(namespace: notification, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: false, activeScreen: $activeScreen)
                                 }
                                 
-                            }){
-                                MenuItem(namespace: notification, title: "NOTIFICATION", color: Color("orangeColor"), isHeader: false, activeScreen: $activeScreen)
                             }
-
+                            
                         }
+                    }
+                }
+                .frame(maxHeight: .infinity)
+                .background(Color("whiteColor"))
+                .coordinateSpace(name: "SCROLL")
+                .edgesIgnoringSafeArea(.all)
+                switch activeScreen {
+                case .discover:
+                    SwipeView(activeScreen: $activeScreen, namespace: discover).transition(.move(edge: .bottom))
+                case .connected:
+                    ConnectedView(namespace: connected, activeScreen: $activeScreen).transition(.move(edge: .bottom))
+                case .notification:
+                    NotificationListView(activeScreen: $activeScreen, namespace: notification).transition(.move(edge: .bottom))
+                case .profile:
+                    Tender.ProfileView(card: user.mainCard, activeScreen: $activeScreen, namespace: profilAnimation)
+                    
+                default:
+                    EmptyView()
+                }
+                if activeScreen == .menu {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Text("Hi,")
+                                .font(.body)
+                                .foregroundColor(Color("purpleColor"))
+                            
+                            Text(user.mainCard.name.components(separatedBy: " ")[0])
+                                .font(.body).bold()
+                                .foregroundColor(Color("purpleColor")).padding(.trailing, 15)
+                                .matchedGeometryEffect(id: "name", in: profilAnimation)
+                            
+                            
+                            ProfileImage
+                                .frame(width: 40)
+                        }
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                    //                    .padding(.init(top: 50, leading: 0, bottom: 0, trailing: 30))
+                    
+                }
+            }
+            .navigationBarBackButtonHidden()
+            .task {
+                do {
+                    try await model.populateFreelancer()
+                    DispatchQueue.main.async {
+                        print("Data Populated!")
+                        let freelancers = model.filterFreelancer(by: .available)
                         
                     }
                 }
@@ -113,6 +166,10 @@ struct MenuView: View {
 
                             user.allUser.append(us)
                         }
+                        //since the first element is an empty card
+                        user.cards.removeFirst()
+                        //sort it based on Score
+                        user.cards.sort { $0.score > $1.score }
                     }
                     //since the first element is an empty card
                     user.allUser.removeFirst()
@@ -183,6 +240,34 @@ struct MenuView: View {
             .matchedGeometryEffect(id: "profile", in: profilAnimation)
     }
     
+    
+    //    var ProfileView: some View {
+    //
+    //        return HStack {
+    //                Spacer()
+    //                Text("Hi,")
+    //                    .font(.body)
+    //                    .foregroundColor(Color("purpleColor"))
+    //
+    //            Text(user.mainCard.name.components(separatedBy: " ")[0])
+    //                    .font(.body).bold()
+    //                    .foregroundColor(Color("purpleColor"))
+    //
+    //
+    //                ProfileImage
+    //                    .matchedGeometryEffect(id: "profile", in: profilAnimation)
+    //                    .frame(width: 40)
+    //        }.padding(.init(top: 50, leading: 0, bottom: 0, trailing: 30))
+    //
+    //
+    //    }
+    
+    //    var ExpandedProfileView: some View{
+    //
+    //        Tender.ProfileView(card: user.mainCard, activeScreen: $activeScreen, namespace: profilAnimation)
+    //            .matchedGeometryEffect(id: "profile", in: profilAnimation)
+    //    }
+    
     var ProfileImage: some View{
 //        Image("p2")
 //            .resizable()
@@ -200,7 +285,7 @@ struct MenuView: View {
                 .aspectRatio(contentMode: .fit)
                 .onTapGesture {
                     withAnimation {
-                        isProfileExpand.toggle()
+                        activeScreen = .profile
                     }
                     
                 }
@@ -213,18 +298,18 @@ struct MenuView: View {
 
 
 struct MenuView_Previews: PreviewProvider {
-
+    
     static var previews: some View {
-//        ContentView()
+        //        ContentView()
         GeometryReader{
             let safeArea = $0.safeAreaInsets
             let size = $0.size
-           
+            
             MenuView(safeArea: safeArea, size: size)
                 .ignoresSafeArea(.container, edges: .top)
                 .environmentObject(FreelancerModel())
                 .environmentObject(UserViewModel())
         }
-//        MenuView().environmentObject(FreelancerModel())
+        //        MenuView().environmentObject(FreelancerModel())
     }
 }
