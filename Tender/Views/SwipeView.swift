@@ -52,7 +52,7 @@ struct SwipeView: View {
 struct SwipeView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        SwipeView(activeScreen: .constant(.menu), namespace: namespace)
+        SwipeView(activeScreen: .constant(.discover), namespace: namespace)
             .environmentObject(UserViewModel())
     }
 }

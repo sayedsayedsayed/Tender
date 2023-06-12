@@ -143,4 +143,7 @@ class FreelancerModel: ObservableObject {
         }
     }
     
+//    func requestConnect(emailRequester: String, emailTarget: String) async throws {
+//        var target = searchFreelancerByEmail(email: <#T##String#>)
+//    }
 }

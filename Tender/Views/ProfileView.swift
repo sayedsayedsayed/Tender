@@ -75,6 +75,9 @@ struct ProfileView: View {
                     }.padding(.horizontal, 40)
                         .padding(.top, 30)
                 }
+                .onAppear(){
+                    print(activeScreen)
+                }
                 VStack{
                     AsyncImage(url: URL(string: u.picture)) { image in
                         image.resizable()
@@ -83,7 +86,7 @@ struct ProfileView: View {
                     } placeholder: {
                         ProgressView()
                     }
-                }.frame(width: 250)
+                }.frame(width: 200)
                     .padding(.top, -10)
                 
                 Text(u.name).font(.title).bold()
@@ -91,9 +94,9 @@ struct ProfileView: View {
                 
                 Text(u.mainRole)
                     .foregroundColor(Color("purpleColor"))
+                
                 VStack(alignment: .leading){
-                    
-                    
+
                     if activeScreen == .menu {
                         Picker("", selection: $availability) {
                             Text("available".capitalized).tag(true)
@@ -189,20 +192,6 @@ struct ProfileView: View {
                                 .frame(width: 30)
                             Text("Additional Roles").fontWeight(.bold).font(.title2)
                         }
-                        HStack{
-                            ForEach(u.skills, id:\.self){ subSkill in
-                                //                                    Image(subSkill.image)
-                                
-                                Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
-                                    .fontWeight(.bold)
-                                    .padding(.horizontal, 2)
-                                    .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color("purpleColor"),lineWidth: 2)
-                                    )
-                            }
-                        }
                         
                         HStack{
                             ForEach(u.additionalRole, id:\.self){ role in
@@ -241,58 +230,102 @@ struct ProfileView: View {
                     }.foregroundColor(Color("purpleColor"))
                     //                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
                 }
+                
+                if activeScreen == .discover  {
+                    HStack(alignment: .center, spacing: 100){
+                        Button{
+                            //TODO: create reject function
+                            if activeScreen == .discover {
+                                //skip connect
+                            }
+                            else if activeScreen == .notification {
+                                //reject to connect
+                                Task{
+                                    do {
+                                        let y = try await rejectConnect(freelancer: user.mainFreelancer, emailTarget: u.email)
+                                        
+                                        DispatchQueue.main.async {
+                                            user.user.connectRequest.removeAll { $0 == u.email }
+                                            user.mainFreelancer.connectRequest = y
+                                        }
+                                    }
+                                    catch{
+                                        print(error)
+                                    }
+                                }
+                            }
+                        }label: {
+                            ZStack{
+                                Circle().frame(width: 59)
+                                    .foregroundColor(Color("purpleColor"))
+                                Image(systemName: "x.circle.fill")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 60)
+                                    .foregroundColor(Color("whiteColor"))
+                            }
+                        }
+                        
+                        Button{
+                            //TODO: create accept function
+                            if activeScreen == .discover {
+                                //request to connect
+                                Task{
+                                    do {
+                                        if var us = user.allUser.first(where: { $0.email == u.email }) {
+                                            try await requestConnect(emailRequester: user.user.email, emailTarget: u.email)
+                                            
+                                            DispatchQueue.main.async {
+                                                us.connectRequest.append(user.user.email)
+                                                
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    catch{
+                                        print(error)
+                                    }
+                                }
+                            }
+                            else if activeScreen == .notification {
+                                //approve to connect
+                                Task{
+                                    do {
+                                        if var us = user.allUser.first(where: { $0.email == u.email }) {
+                                            let (connectRequest, connectList) = try await approveConnect(freelancer: user.mainFreelancer, emailTarget: u.email)
+                                            
+                                            DispatchQueue.main.async {
+                                                user.user.connectRequest.removeAll { $0 == u.email }
+                                                user.user.connectList.append(u.email)
+                                                
+                                                user.mainFreelancer.connectRequest = connectRequest
+                                                user.mainFreelancer.connectList = connectList
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    catch{
+                                        print(error)
+                                    }
+                                }
+                            }
+                        }label: {
+                            ZStack{
+                                Circle().frame(width: 60).foregroundColor(Color("purpleColor"))
+                                Image(systemName: "checkmark").foregroundColor(Color("whiteColor")).font(.system(size: 30))
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        
+                    }
+                    .padding(.top, 20)
+                }
             }
-            
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             //                .padding(.top, -10)
-            if activeScreen != .menu{
-                HStack(alignment: .center, spacing: 100){
-                    Button{
-                        //TODO: create reject function
-                        if activeScreen == .discover {
-                            //skip connect
-                        }
-                        else if activeScreen == .notification {
-                            //reject to connect
-                            let elementToRemove = u.email
-                            
-                            user.user.connectRequest.removeAll { $0 == elementToRemove }
-                            
-                            //update DB
-                            
-                        }
-                    }label: {
-                        ZStack{
-                            Circle().frame(width: 59)
-                                .foregroundColor(Color("purpleColor"))
-                            Image(systemName: "x.circle.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 60)
-                                .foregroundColor(Color("whiteColor"))
-                        }
-                    }
-                    
-                    
-                    Button{
-                        //TODO: create accept function
-                        if activeScreen == .discover {
-                            //request to connect
-                        }
-                        else if activeScreen == .notification {
-                            //approve to connect
-                        }
-                    }label: {
-                        ZStack{
-                            Circle().frame(width: 60).foregroundColor(Color("purpleColor"))
-                            Image(systemName: "checkmark").foregroundColor(Color("whiteColor")).font(.system(size: 30))
-                                .fontWeight(.semibold)
-                        }
-                    }
-                    
-                }
-                .padding(.top, 20)
-            }
+            
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: btnBack, trailing: editButton)
@@ -308,7 +341,7 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         var u: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""])
         
-        ProfileView(u: u, activeScreen: .constant(.profile), namespace: namespace)
+        ProfileView(u: u, activeScreen: .constant(.discover), namespace: namespace)
             .environmentObject(UserViewModel())
         
     }
