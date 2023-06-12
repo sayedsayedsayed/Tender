@@ -77,7 +77,7 @@ struct MenuView: View {
                 case .notification:
                     NotificationListView(activeScreen: $activeScreen, namespace: notification).transition(.move(edge: .bottom))
                 case .profile:
-                    Tender.ProfileView(card: user.mainCard, activeScreen: $activeScreen, namespace: profilAnimation)
+                    Tender.ProfileView(u: user.user, activeScreen: $activeScreen, namespace: profilAnimation)
                     
                 default:
                     EmptyView()
@@ -90,7 +90,7 @@ struct MenuView: View {
                                 .font(.body)
                                 .foregroundColor(Color("purpleColor"))
                             
-                            Text(user.mainCard.name.components(separatedBy: " ")[0])
+                            Text(user.user.name.components(separatedBy: " ")[0])
                                 .font(.body).bold()
                                 .foregroundColor(Color("purpleColor")).padding(.trailing, 15)
                                 .matchedGeometryEffect(id: "name", in: profilAnimation)
@@ -114,83 +114,45 @@ struct MenuView: View {
                         print("Data Populated!")
                         let freelancers = model.filterFreelancer(by: .available)
                         
-                    }
-                }
-            }
-            .frame(maxHeight: .infinity)
-            .background(Color("whiteColor"))
-            .coordinateSpace(name: "SCROLL")
-            .edgesIgnoringSafeArea(.all)
-            switch activeScreen {
-            case .discover:
-                SwipeView(activeScreen: $activeScreen, namespace: discover).transition(.move(edge: .bottom))
-            case .connected:
-                ConnectedView(namespace: connected, activeScreen: $activeScreen).transition(.move(edge: .bottom))
-            case .notification:
-                NotificationListView(activeScreen: $activeScreen, namespace: notification).transition(.move(edge: .bottom))
-            default:
-                EmptyView()
-            }
-    
-        }
-        .navigationBarBackButtonHidden()
-        .task {
-            do {
-                try await model.populateFreelancer()
-                DispatchQueue.main.async {
-                    print("Data Populated!")
-                    let freelancers = model.filterFreelancer(by: .available)
-                    
-                    for freelancer in freelancers {
-                        if freelancer.email != user.mainFreelancer.email {
-                            
-                            let skills = freelancer.skill.components(separatedBy: "|")
-                                .filter { !$0.isEmpty }
-                            var skillList:[Skills] = []
-                            for skill in skills {
-                                skillList.append(Skills(image: skill, name: skill))
+                        for freelancer in freelancers {
+                            if freelancer.email != user.mainFreelancer.email {
+                                
+                                let skills = freelancer.skill.components(separatedBy: "|")
+                                    .filter { !$0.isEmpty }
+                                var skillList:[Skills] = []
+                                for skill in skills {
+                                    skillList.append(Skills(image: skill, name: skill))
+                                }
+                                
+                                let roles = freelancer.additionalRole.components(separatedBy: "|")
+                                    .filter { !$0.isEmpty }
+                                let ports = freelancer.portfolio.components(separatedBy: "|")
+                                    .filter { !$0.isEmpty }
+                                let conns = freelancer.connectList.components(separatedBy: "|")
+                                    .filter { !$0.isEmpty }
+                                let reqs = freelancer.connectRequest.components(separatedBy: "|")
+                                    .filter { !$0.isEmpty }
+                                
+                                var us = Users(contact: freelancer.contact, email: freelancer.email, isAvailable: freelancer.isAvailable, name: freelancer.name, picture: freelancer.picture, portfolio: ports, referee: freelancer.referee, referenceCode: freelancer.referenceCode, referenceCounter: freelancer.referenceCounter, mainRole: freelancer.mainRole, additionalRole: roles, skills: skillList, connectList: conns, connectRequest: reqs)
+                                
+                                us.score = user.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
+                                
+                                user.allUser.append(us)
                             }
-                            
-                            let roles = freelancer.additionalRole.components(separatedBy: "|")
-                                .filter { !$0.isEmpty }
-                            let ports = freelancer.portfolio.components(separatedBy: "|")
-                                .filter { !$0.isEmpty }
-                            let conns = freelancer.connectList.components(separatedBy: "|")
-                                .filter { !$0.isEmpty }
-                            let reqs = freelancer.connectRequest.components(separatedBy: "|")
-                                .filter { !$0.isEmpty }
-                            
-                            var us = Users(contact: freelancer.contact, email: freelancer.email, isAvailable: freelancer.isAvailable, name: freelancer.name, picture: freelancer.picture, portfolio: ports, referee: freelancer.referee, referenceCode: freelancer.referenceCode, referenceCounter: freelancer.referenceCounter, mainRole: freelancer.mainRole, additionalRole: roles, skills: skillList, connectList: conns, connectRequest: reqs)
-                            
-                            us.score = user.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
-
-                            user.allUser.append(us)
                         }
                         //since the first element is an empty card
-                        user.cards.removeFirst()
+                        user.allUser.removeFirst()
                         //sort it based on Score
-                        user.cards.sort { $0.score > $1.score }
+                        user.allUser.sort { $0.score > $1.score }
                     }
-                    //since the first element is an empty card
-                    user.allUser.removeFirst()
-                    //sort it based on Score
-                    user.allUser.sort { $0.score > $1.score }
+                } catch {
+                    print(error)
                 }
-            } catch {
-                print(error)
             }
         }
         
-        if activeScreen == .menu {
-            VStack{
-                if isProfileExpand{
-                    ExpandedProfileView
-                }else{
-                    ProfileView
-                }
-            }
-        }
     }
+    
     
     @ViewBuilder
     func LogoWork()-> some View{
@@ -212,73 +174,7 @@ struct MenuView: View {
         
     }
     
-    
-    var ProfileView: some View {
-        
-        return HStack {
-                Spacer()
-                Text("Hi,")
-                    .font(.body)
-                    .foregroundColor(Color("purpleColor"))
-                
-            Text(user.user.name.components(separatedBy: " ")[0])
-                    .font(.body).bold()
-                    .foregroundColor(Color("purpleColor"))
-                
-                
-                ProfileImage
-                    .matchedGeometryEffect(id: "profile", in: profilAnimation)
-                    .frame(width: 40)
-        }.padding(.init(top: 50, leading: 0, bottom: 0, trailing: 30))
-        
-
-    }
-    
-    var ExpandedProfileView: some View{
-        
-        Tender.ProfileView(u: user.user)
-            .matchedGeometryEffect(id: "profile", in: profilAnimation)
-    }
-    
-    
-    //    var ProfileView: some View {
-    //
-    //        return HStack {
-    //                Spacer()
-    //                Text("Hi,")
-    //                    .font(.body)
-    //                    .foregroundColor(Color("purpleColor"))
-    //
-    //            Text(user.mainCard.name.components(separatedBy: " ")[0])
-    //                    .font(.body).bold()
-    //                    .foregroundColor(Color("purpleColor"))
-    //
-    //
-    //                ProfileImage
-    //                    .matchedGeometryEffect(id: "profile", in: profilAnimation)
-    //                    .frame(width: 40)
-    //        }.padding(.init(top: 50, leading: 0, bottom: 0, trailing: 30))
-    //
-    //
-    //    }
-    
-    //    var ExpandedProfileView: some View{
-    //
-    //        Tender.ProfileView(card: user.mainCard, activeScreen: $activeScreen, namespace: profilAnimation)
-    //            .matchedGeometryEffect(id: "profile", in: profilAnimation)
-    //    }
-    
     var ProfileImage: some View{
-//        Image("p2")
-//            .resizable()
-//            .aspectRatio(contentMode: .fit)
-//            .clipShape(Circle())
-//            .onTapGesture {
-//                withAnimation {
-//                    isProfileExpand.toggle()
-//                }
-//
-//            }
         AsyncImage(url: URL(string: user.user.picture)) { image in
             image.resizable()
                 .clipShape(Circle())

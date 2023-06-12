@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @EnvironmentObject var user: UserViewModel
+    //    @EnvironmentObject var user: UserViewModel
     let sameUser: Bool = false
     @State private var availability: Bool = true
     @State  var u: Users
@@ -43,7 +43,7 @@ struct ProfileView: View {
                 Button(action: {
                     withAnimation {
                         isNavigate = true
-                        print("test")
+//                        print("test")
                     }
                 }) {
                     Image(systemName: "pencil").resizable()
@@ -53,20 +53,17 @@ struct ProfileView: View {
                 }.navigationDestination(isPresented: $isNavigate) {
                     CreateProfileView()
                 }
-
+                
             } else {
                 EmptyView()
-                
             }
-
         }
-                
     }
     
     var body: some View {
-        NavigationView{
-            ScrollView{
-                VStack{
+        NavigationView {
+            ScrollView {
+                VStack {
                     HStack{
                         Spacer()
                         if sameUser{
@@ -79,31 +76,23 @@ struct ProfileView: View {
                         .padding(.top, 30)
                 }
                 VStack{
-                    //                    Image("p0")
-                    //                        .resizable()
-                    //                        .aspectRatio(contentMode: .fit)
-                    //                        .clipShape(Circle())
-                    //                        .frame(width: 180)
-                    //                        .padding(.top, -10)
                     VStack{
                         AsyncImage(url: URL(string: u.picture)) { image in
                             image.resizable()
                                 .clipShape(Circle())
                                 .aspectRatio(contentMode: .fit)
-                            
-                            
                         } placeholder: {
                             ProgressView()
                         }
                     }.frame(width: 250)
                         .padding(.top, -10)
                     
-                    Text(user.user.name).font(.title).bold()
+                    Text(u.name).font(.title).bold()
                         .foregroundColor(Color("purpleColor")).matchedGeometryEffect(id: "name", in: namespace)
                     
-                    Text(user.user.mainRole)
+                    Text(u.mainRole)
                         .foregroundColor(Color("purpleColor"))
-
+                    
                     if activeScreen == .menu {
                         Picker("", selection: $availability) {
                             Text("available".capitalized).tag(true)
@@ -131,8 +120,8 @@ struct ProfileView: View {
                                 Text("Skills").fontWeight(.bold).font(.title2)
                             }
                             HStack{
-                                if user.user.skills.count > 0 {
-                                    ForEach(user.user.skills, id:\.self){ subSkill in
+                                if u.skills.count > 0 {
+                                    ForEach(u.skills, id:\.self){ subSkill in
                                         Image(subSkill.image)
                                         
                                         Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
@@ -153,10 +142,10 @@ struct ProfileView: View {
                                             RoundedRectangle(cornerRadius: 10)
                                                 .stroke(Color("purpleColor"),lineWidth: 2)
                                         )
-
+                                    
                                 }
                             }.onAppear {
-                                print(user.user)
+//                                print(u)
                             }
                             
                             
@@ -174,8 +163,10 @@ struct ProfileView: View {
                             }
                             
                             HStack{
-                                ForEach(user.user.portfolio, id:\.self){ url in
-                                    Link("\(url)", destination: URL(string: "\(url)")!)
+                                
+                                ForEach(u.portfolio, id:\.self){ url in
+                                    Text(url)
+//                                    Link("\(url)", destination: URL(string: "\(url)")!)
                                         .foregroundColor(Color("purpleColor"))
                                         .fontWeight(.bold)
                                         .padding(.horizontal, 2)
@@ -200,20 +191,20 @@ struct ProfileView: View {
                                 Text("Additional Roles").fontWeight(.bold).font(.title2)
                             }
                             HStack{
-                                ForEach(user.user.skills, id:\.self){ subSkill in
+                                ForEach(u.skills, id:\.self){ subSkill in
                                     Image(subSkill.image)
                                     
-//                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
-//                                        .fontWeight(.bold)
-//                                        .padding(.horizontal, 2)
-//                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
-//                                        .background(
-//                                            RoundedRectangle(cornerRadius: 10)
-//                                                .stroke(Color("purpleColor"),lineWidth: 2)
-//                                        )
+                                    //                                    Text("\(subSkill.name)").foregroundColor(Color("purpleColor"))
+                                    //                                        .fontWeight(.bold)
+                                    //                                        .padding(.horizontal, 2)
+                                    //                                        .padding(EdgeInsets(top: 4, leading: 2, bottom: 4, trailing: 2))
+                                    //                                        .background(
+                                    //                                            RoundedRectangle(cornerRadius: 10)
+                                    //                                                .stroke(Color("purpleColor"),lineWidth: 2)
+                                    //                                        )
                                 }
                             }
-
+                            
                             HStack{
                                 ForEach(u.additionalRole, id:\.self){ role in
                                     Text(role).foregroundColor(Color("purpleColor"))
@@ -226,8 +217,6 @@ struct ProfileView: View {
                                         )
                                 }
                             }
-                            
-                            
                             
                         }.foregroundColor(Color("purpleColor"))
                             .frame(width: geometry.size.width * 0.72, height: geometry.size.height * 3.6)
@@ -250,18 +239,9 @@ struct ProfileView: View {
                                             .stroke(Color("purpleColor"),lineWidth: 2)
                                     )
                             }
-                            
-                            
-                            
-                            
                         }.foregroundColor(Color("purpleColor"))
                             .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
-                        
-                        
-                        
                     }
-                    
-                    
                 }
                 
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -279,11 +259,6 @@ struct ProfileView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 60)
                                     .foregroundColor(Color("whiteColor"))
-                                
-                                
-                                //                                Circle().frame(width: 60)
-                                //                                    .foregroundColor(Color("whiteColor"))
-                                //                                Text("X").foregroundColor(Color("purpleColor")).font(.system(size: 30)).bold()
                             }
                         }
                         
@@ -303,22 +278,23 @@ struct ProfileView: View {
                 }
             }
             
-        }.navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: btnBack, trailing: editButton)
-
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: btnBack, trailing: editButton)
+        
     }
 }
 
 
 
 struct ProfileView_Previews: PreviewProvider {
-//    @State var card: Card
+    //    @State var card: Card
     @Namespace static var namespace
     
     static var previews: some View {
         var u: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""])
         
-        ProfileView(u: u)
+        ProfileView(u: u, activeScreen: .constant(.profile), namespace: namespace)
         
     }
 }
