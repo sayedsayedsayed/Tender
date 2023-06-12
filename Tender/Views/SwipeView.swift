@@ -58,6 +58,8 @@ struct SwipeView_Previews: PreviewProvider {
 }
 
 struct ExtractedView: View {
+    @EnvironmentObject var model: FreelancerModel
+    @EnvironmentObject var user: UserViewModel
     @State var isPresented = false
     
 //    @State var card: Card
@@ -186,13 +188,31 @@ struct ExtractedView: View {
                         case 0...100:
                             u.x = 0; u.degree = 0; u.y = 0
                             
-                        case let x where x > 100: //request
-                            u.x = 500; u.degree = 12
+                        case let x where x > 100: //request -> send request
+                            Task{
+                                do {
+                                    if var us = user.allUser.first(where: { $0.email == u.email }) {
+                                        try await requestConnect(emailRequester: user.user.email, emailTarget: u.email)
+                                        
+                                        DispatchQueue.main.async {
+                                            us.connectRequest.append(user.user.email)
+                                            u.x = 500; u.degree = 12
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                catch{
+                                    print(error)
+                                }
+                            }
+//                            u.x = 500; u.degree = 12
                             
                         case (-100)...(-1):
                             u.x = 0; u.degree = 0; u.y = 0;
                             
-                        case let x where x < -100: //reject
+                        case let x where x < -100: //reject -> do nothing
                             u.x = -500; u.degree = -12
                         default: u.x = 0; u.y = 0
                         }
