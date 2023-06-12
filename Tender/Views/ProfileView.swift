@@ -236,14 +236,13 @@ struct ProfileView: View {
                     //                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
                 }
                 
-                if activeScreen == .discover  {
+                if activeScreen == .discover || activeScreen == .notification {
                     HStack(alignment: .center, spacing: 100){
                         Button{
                             //TODO: create reject function
                             if activeScreen == .discover {
                                 //skip connect
                                 u.x = -500; u.degree = -12
-                                print("Reject!")
                                 self.presentationMode.wrappedValue.dismiss()
                                
                             }
@@ -256,6 +255,8 @@ struct ProfileView: View {
                                         DispatchQueue.main.async {
                                             user.user.connectRequest.removeAll { $0 == u.email }
                                             user.mainFreelancer.connectRequest = y
+                                            activeScreen = .menu
+                                            self.presentationMode.wrappedValue.dismiss()
                                         }
                                     }
                                     catch{
@@ -286,7 +287,7 @@ struct ProfileView: View {
                                             
                                             DispatchQueue.main.async {
                                                 us.connectRequest.append(user.user.email)
-                                                u.x = 500; u.degree = 12
+                                                u.x = -500; u.degree = -12
                                                 self.presentationMode.wrappedValue.dismiss()
                                                 
                                             }
@@ -304,7 +305,7 @@ struct ProfileView: View {
                                 Task{
                                     do {
                                         if var us = user.allUser.first(where: { $0.email == u.email }) {
-                                            let (connectRequest, connectList) = try await approveConnect(freelancer: user.mainFreelancer, emailTarget: u.email)
+                                            let (connectRequest, connectList) = try await approveConnect(mainFreelancer: user.mainFreelancer, emailTarget: u.email)
                                             
                                             DispatchQueue.main.async {
                                                 user.user.connectRequest.removeAll { $0 == u.email }
@@ -312,6 +313,8 @@ struct ProfileView: View {
                                                 
                                                 user.mainFreelancer.connectRequest = connectRequest
                                                 user.mainFreelancer.connectList = connectList
+                                                    
+                                                self.presentationMode.wrappedValue.dismiss()
                                             }
                                             
                                         }

@@ -136,7 +136,7 @@ struct MenuView: View {
                                     
                                     var us = Users(contact: freelancer.contact, email: freelancer.email, isAvailable: freelancer.isAvailable, name: freelancer.name, picture: freelancer.picture, portfolio: ports, referee: freelancer.referee, referenceCode: freelancer.referenceCode, referenceCounter: freelancer.referenceCounter, mainRole: freelancer.mainRole, additionalRole: roles, skills: skillList, connectList: conns, connectRequest: reqs)
                                     
-                                    us.score = user.calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
+                                    us.score = calculateScore(mainFreelancer: user.mainFreelancer, otherFreelancer: freelancer)
                                     
                                     user.allUser.append(us)
                                 }

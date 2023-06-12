@@ -9,11 +9,10 @@ import SwiftUI
 
 struct NotificationListView: View {
     @StateObject private var viewModel = NotificationListViewModel()
-    @State var selectedNotif: Notification = Notification(title: "test", body: "test", name: "afdas", image: "", role: "test")
+    @State var selectedNotif: Notification = Notification(title: "test", body: "test", name: "afdas", image: "", role: "test", user: Users(contact: "", email: "", isAvailable: true, name: "", picture: "", portfolio: [""], referee: "", referenceCode: "", referenceCounter: 0, mainRole: "", additionalRole: [""], skills: [Skills(image: "", name: "")], connectList: [""], connectRequest: [""]))
     @Binding var activeScreen: Show
     @State var isPresented: Bool = false
     
-    @State private var doneGeneratingData = false
     @EnvironmentObject var user: UserViewModel
     
     var namespace: Namespace.ID
@@ -83,7 +82,7 @@ struct NotificationListView: View {
                                     selectedNotif = notification
                                     isPresented.toggle()
                                 }.navigationDestination(isPresented: $isPresented) {
-                                    RequestConnectView(notification: $selectedNotif)
+                                    RequestConnectView(notification: $selectedNotif, activeScreen: $activeScreen, namespace: namespace)
                                 }
 
     //                            .padding(.top, 15)
@@ -96,15 +95,15 @@ struct NotificationListView: View {
                 .navigationBarBackButtonHidden()
                 .onAppear {
                     // Add a notification to the list
-                    if !doneGeneratingData {
-                        for u in user.allUser{
-                            if user.user.connectRequest.contains(u.email) {
-                                viewModel.addNotification(title: "New Request Connection", body: "\(u.name) wants to connect with you", name: u.name, image: u.picture, role: u.mainRole)
-                            }
+                    
+                    viewModel.clearNotification()
+                    for u in user.allUser{
+                        if user.user.connectRequest.contains(u.email) {
+                            viewModel.addNotification(title: "New Request Connection", body: "\(u.name) wants to connect with you", name: u.name, image: u.picture, role: u.mainRole, user: u)
                         }
-                        
-                        doneGeneratingData = true
                     }
+                    
+                    
 //                    viewModel.addNotification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")
 //                    viewModel.addNotification(title: "New Request Connection", body: "Danu wants to connect with you", name: "Danu", image: "https://i.imgur.com/4ho15e6.jpg", role: "Backend Developer")
 //                    viewModel.addNotification(title: "New Request Connection", body: "Iksan wants to connect with you", name: "Iksan", image: "https://i.imgur.com/4ho15e6.jpg", role: "iOS Developer")
@@ -119,9 +118,13 @@ struct NotificationListView: View {
 class NotificationListViewModel: ObservableObject {
     @Published var notifications: [Notification] = []
     
-    func addNotification(title: String, body: String, name: String, image: String, role: String) {
-        let newNotification = Notification(title: title, body: body, name: name, image: image, role: role)
+    func addNotification(title: String, body: String, name: String, image: String, role: String, user: Users) {
+        let newNotification = Notification(title: title, body: body, name: name, image: image, role: role, user: user)
         notifications.append(newNotification)
+    }
+    
+    func clearNotification() {
+        notifications = []
     }
 }
 
@@ -129,7 +132,7 @@ class NotificationListViewModel: ObservableObject {
 struct NotificationListView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
-        NotificationListView(selectedNotif: Notification(title: "test", body: "test", name: "afdas", image: "", role: "test"), activeScreen: .constant(.notification), namespace: namespace)
+        NotificationListView(selectedNotif: Notification(title: "test", body: "test", name: "afdas", image: "", role: "test", user: Users(contact: "", email: "", isAvailable: true, name: "", picture: "", portfolio: [""], referee: "", referenceCode: "", referenceCounter: 0, mainRole: "", additionalRole: [""], skills: [Skills(image: "", name: "")], connectList: [""], connectRequest: [""])), activeScreen: .constant(.notification), namespace: namespace)
             .environmentObject(UserViewModel())
     }
 }

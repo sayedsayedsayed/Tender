@@ -14,9 +14,9 @@ class UserViewModel: ObservableObject {
     
     @Published var mainFreelancer: Freelancer = Freelancer(email: "", name: "", picture: "", referenceCode: "")
     
-//    @Published var mainFreelancer: Freelancer = Freelancer(email: "sayed.fikar@gmail.com", name: "Sayed Zulfikar", picture: "https://media.licdn.com/dms/image/C5603AQH88KfNUwwgRQ/profile-displayphoto-shrink_400_400/0/1659192621122?e=1692230400&v=beta&t=GeYjtU7_qUEeMRp9lZuna7Sc3nbF8A6cturWHxZc1Vc", referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, contact: "1234", portfolio: "porto1|porto2", mainRole: "Designer", additionalRole: "Back-end Developer|Product Manager", skill: "Swift|Golang", isAvailable: true, connectList: "3@gmail.com|4@gmail.com", connectRequest: "1@gmail.com|2@gmail.com")
+//    @Published var mainFreelancer: Freelancer = Freelancer(email: "sayed.fikar@gmail.com", name: "Sayed Zulfikar", picture: "https://media.licdn.com/dms/image/C5603AQH88KfNUwwgRQ/profile-displayphoto-shrink_400_400/0/1659192621122?e=1692230400&v=beta&t=GeYjtU7_qUEeMRp9lZuna7Sc3nbF8A6cturWHxZc1Vc", referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, contact: "1234", portfolio: "porto1|porto2", mainRole: "Designer", additionalRole: "Back-end Developer|Product Manager", skill: "Swift|Golang", isAvailable: true, connectList: "3@gmail.com|4@gmail.com", connectRequest: "1@gmail.com|2@gmail.com|5@gmail.com")
 //
-//    @Published var user: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://media.licdn.com/dms/image/C5603AQH88KfNUwwgRQ/profile-displayphoto-shrink_400_400/0/1659192621122?e=1692230400&v=beta&t=GeYjtU7_qUEeMRp9lZuna7Sc3nbF8A6cturWHxZc1Vc", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: ["3@gmail.com", "4@gmail.com"], connectRequest: ["1@gmail.com", "2@gmail.com"])
+//    @Published var user: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://media.licdn.com/dms/image/C5603AQH88KfNUwwgRQ/profile-displayphoto-shrink_400_400/0/1659192621122?e=1692230400&v=beta&t=GeYjtU7_qUEeMRp9lZuna7Sc3nbF8A6cturWHxZc1Vc", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: ["3@gmail.com", "4@gmail.com"], connectRequest: ["1@gmail.com", "2@gmail.com", "5@gmail.com"])
 //
 //    @Published var allUser: [Users] = [
 //        Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""]),
@@ -33,12 +33,5 @@ class UserViewModel: ObservableObject {
 //        Users(contact: "1234", email: "11@gmail.com", isAvailable: true, name: "Tes Sebelas", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Sayed Zulfikar", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""])
 //    ]
 
-    func calculateScore(mainFreelancer: Freelancer, otherFreelancer: Freelancer) -> Int {
-        var result = Int.random(in: 0..<100)
-        
-        //TODO: make score calculation properly
-        
-        
-        return result
-    }
+    
 }

@@ -21,6 +21,15 @@ func generateReferenceCode() -> String{
     return combination
 }
 
+func calculateScore(mainFreelancer: Freelancer, otherFreelancer: Freelancer) -> Int {
+    var result = Int.random(in: 0..<100)
+    
+    //TODO: make score calculation properly
+    
+    
+    return result
+}
+
 func arrayToString(input: [String]) -> String {
     var output = ""
     
@@ -64,22 +73,33 @@ func rejectConnect(freelancer: Freelancer, emailTarget: String) async throws -> 
     return y
 }
 
-func approveConnect(freelancer: Freelancer, emailTarget: String) async throws -> (String, String){
+func approveConnect(mainFreelancer: Freelancer, emailTarget: String) async throws -> (String, String){
     
-    var x = stringToArray(input: freelancer.connectRequest)
+    var x = stringToArray(input: mainFreelancer.connectRequest)
     x.removeAll { $0 == emailTarget }
     let y = arrayToString(input: x)
     
-    var f = freelancer
+    var f = mainFreelancer
     f.connectRequest = y
     
-    var a = stringToArray(input: freelancer.connectList)
+    var a = stringToArray(input: mainFreelancer.connectList)
     a.append(emailTarget)
     let b = arrayToString(input: a)
     
     f.connectList = b
     
     try await FreelancerModel().updateFreelancer(editedFreelancer: f, type: .global)
+    
+    //update target data
+    var targetFreelancer = try await FreelancerModel().searchFreelancerByEmail(email: emailTarget)[0]
+    
+    var h = stringToArray(input: targetFreelancer.connectList)
+    h.append(mainFreelancer.email)
+    let i = arrayToString(input: h)
+    
+    targetFreelancer.connectList = i
+    
+    try await FreelancerModel().updateFreelancer(editedFreelancer: targetFreelancer, type: .global)
     
     return (y, b)
 }
