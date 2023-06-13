@@ -10,7 +10,6 @@ import SwiftUI
 struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject var user: UserViewModel
-    let sameUser: Bool = false
     @State private var availability: Bool = true
     @Binding  var u: Users
     @State var isPresented = false
@@ -48,7 +47,7 @@ struct ProfileView: View {
                 Button(action: {
                     withAnimation {
                         isNavigate = true
-                        //                        print("test")
+                        print("kemari")
                     }
                 }) {
                     Image(systemName: "pencil").resizable()
@@ -68,21 +67,7 @@ struct ProfileView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack {
-                    HStack{
-                        Spacer()
-                        if sameUser{
-                            Image(systemName: "pencil").resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 25)
-                                .foregroundColor(Color("purpleColor"))
-                        }
-                    }.padding(.horizontal, 40)
-                        .padding(.top, 30)
-                }
-                .onAppear(){
-                    print("ProfileView: \(activeScreen)")
-                }
+                
                 VStack{
                     AsyncImage(url: URL(string: u.picture)) { image in
                         image.resizable()
@@ -92,7 +77,7 @@ struct ProfileView: View {
                         ProgressView()
                     }
                 }.frame(width: 200)
-                    .padding(.top, -10)
+                    .padding(.top, 10)
                 
                 Text(u.name).font(.title).bold()
                     .foregroundColor(Color("purpleColor")).matchedGeometryEffect(id: "name", in: namespace)
@@ -233,13 +218,12 @@ struct ProfileView: View {
                                 )
                         }
                     }.foregroundColor(Color("purpleColor"))
-                    //                            .frame(width: geometry.size.width * 0.6, height: geometry.size.height * 5)
                 }
                 
                 if activeScreen == .discover || activeScreen == .notification {
                     HStack(alignment: .center, spacing: 100){
                         Button{
-                            //TODO: create reject function
+                            
                             if activeScreen == .discover {
                                 //skip connect
                                 u.x = -500; u.degree = -12
@@ -277,7 +261,6 @@ struct ProfileView: View {
                         }
                         
                         Button{
-                            //TODO: create accept function
                             if activeScreen == .discover {
                                 //request to connect
                                 Task{
@@ -291,7 +274,7 @@ struct ProfileView: View {
                                                 self.presentationMode.wrappedValue.dismiss()
                                                 
                                             }
-                                            
+                                        
                                         }
                                         
                                     }
@@ -355,7 +338,7 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         var u: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""])
         
-        ProfileView(u: .constant(u), activeScreen: .constant(.discover), namespace: namespace)
+        ProfileView(u: .constant(u), activeScreen: .constant(.profile), namespace: namespace)
             .environmentObject(UserViewModel())
         
     }

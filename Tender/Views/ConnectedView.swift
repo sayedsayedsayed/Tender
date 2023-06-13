@@ -34,7 +34,7 @@ struct ConnectedView: View {
     @Binding var activeScreen: Show
     
     func onTap() {
-        print("ontap")
+        ProfileView(u: $selectedFreelancer, activeScreen: $activeScreen, namespace: namespace)
     }
 
     var body: some View {
@@ -127,7 +127,7 @@ struct ConnectedView: View {
                             }
                         }
                         freelancerFiltered.removeFirst()
-                        doneGeneratingData = true
+                        doneGeneratingData = false
                     }
                 }
                 
@@ -142,7 +142,7 @@ struct ConnectedView_Previews: PreviewProvider {
     @Namespace static var namespace
     static var previews: some View {
 //        ConnectedView(namespace: namespace, selectedFreelancer: FreelancerViewModel().freelancer.first!, activeScreen: .constant(.menu))
-        ConnectedView(namespace: namespace, activeScreen: .constant(.menu))
+        ConnectedView(namespace: namespace, activeScreen: .constant(.connected))
             .environmentObject(UserViewModel())
     }
 }

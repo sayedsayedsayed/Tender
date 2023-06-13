@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct CreateProfileView: View {
+    @EnvironmentObject var model: FreelancerModel
     @EnvironmentObject var user: UserViewModel
+    
     @State private var errMessage = ""
-    private var freelancerModel = FreelancerModel()
     @State var listRole = RolesViewModel().roles.map {$0.name}
     
     // Profile value
@@ -177,12 +178,12 @@ struct CreateProfileView: View {
                             
                             user.mainFreelancer.name = username
                             user.mainFreelancer.mainRole = mainrole
-                            if additionalRole != "" {
-                                user.mainFreelancer.additionalRole = additionalRole
-                            }
-                            else {
-                                user.user.additionalRole = user.user.additionalRole.filter { !$0.isEmpty }
-                            }
+//                            if additionalRole != "" {
+//                                user.mainFreelancer.additionalRole = additionalRole
+//                            }
+//                            else {
+//                                user.user.additionalRole = user.user.additionalRole.filter { !$0.isEmpty }
+//                            }
                             //                        user.user.skills = ????
                             
                             var porto = ""
@@ -194,12 +195,18 @@ struct CreateProfileView: View {
                             
                             user.mainFreelancer.portfolio = porto
                             user.mainFreelancer.contact = contactNumber
+                            user.user.skills = selectedSkills
+                            var sekill = [""]
+                            for s in selectedSkills {
+                                sekill.append(s.name)
+                            }
                             
+                            user.mainFreelancer.skill = arrayToString(input: sekill)
                             Task {
                                 print("Updating details to DB")
                                 do {
-                                    try await freelancerModel.updateFreelancer(editedFreelancer: user.mainFreelancer, type: .individual)
-                                    
+                                    try await model.updateFreelancer(editedFreelancer: user.mainFreelancer, type: .individual)
+
                                     DispatchQueue.main.async {
                                         print("Update Reffcode to DB DONE!)")
                                         errMessage = "SAVED"
@@ -224,14 +231,27 @@ struct CreateProfileView: View {
                 }
             }
             .onAppear(){
+                print("su disini!")
                 availability = user.user.isAvailable
                 username = user.user.name
                 mainrole = user.user.mainRole
                 contactNumber = user.user.contact
+                print(user.user.additionalRole.count)
                 if user.user.additionalRole.count > 0 {
                     additionalRole = user.user.additionalRole[0]
                 }
                 
+                if user.user.skills.count > 0 {
+                    selectedSkills = user.user.skills
+                    
+                }
+                
+                var sekill = [""]
+                for s in selectedSkills {
+                    sekill.append(s.name)
+                }
+                
+                print(selectedSkills)
                 if user.user.portfolio.count > 0 {
                     if user.user.portfolio[0] != "" {
                         user.user.portfolio.forEach { porto in
