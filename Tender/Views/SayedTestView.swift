@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import WebKit
+import CloudKit
 
 struct WebView: UIViewRepresentable {
  
@@ -34,6 +35,8 @@ struct SayedTestView: View {
     }
     
     let freelancers: [Freelancer]
+    
+    @State private var mainFreelancer = Freelancer(email: "", name: "", picture: "", referenceCode: "")
     
     @State private var showingAddView = false
     @State private var showingEditView = false
@@ -187,11 +190,37 @@ struct SayedTestView: View {
                             Spacer()
                         }
                         List {
-                            ForEach(filteredFreelancer, id: \.recordId) { freelancer in
+                            ForEach(Array(filteredFreelancer.enumerated()), id: \.1.recordId) { index, freelancer in
                                 HStack {
                                     Text(freelancer.name)
                                     Spacer()
                                     Text(freelancer.email)
+                                    Button{
+
+                                        
+//                                        let f = model.freelancers[index]
+//                                        let x = model.freelancerd
+
+//                                        let newReq = CKRecord.Reference(recordID: freelancer.recordId!, action: .none)
+                                        
+//                                        var updatedWantToConnect: [CKRecord.Reference] = mainFreelancer.wantToConnect!
+//                                        updatedWantToConnect.append(newReq)
+                                        
+//                                        mainFreelancer.wantToConnect = [newReq]
+                                        mainFreelancer.connectRequest += "|" + freelancer.email + "|"
+                                        Task{
+                                            try await model.updateFreelancer(editedFreelancer: mainFreelancer, type: .global)
+                                            
+                                            DispatchQueue.main.async {
+                                                print("updated")
+                                            }
+                                        }
+                                        
+                                    }label:{
+                                        Text ("Connect")
+                                            .foregroundColor(Color("whiteColor")).bold()
+                                    }.buttonStyle(.borderedProminent).tint(Color("purpleColor"))
+                                    
                                 }
                                 .onTapGesture {
                                     selectedFreelancer = freelancer
@@ -250,6 +279,16 @@ struct SayedTestView: View {
                 .task {
                     do {
                         try await model.populateFreelancer()
+                        
+                        
+                        DispatchQueue.main.async {
+                            for freelancer in filteredFreelancer {
+                                if freelancer.email == "sayed.fikar@gmail.com" {
+                                    mainFreelancer = freelancer
+                                }
+                            }
+                            
+                        }
                     } catch {
                         print(error)
                     }

@@ -14,4 +14,5 @@ struct Notification: Identifiable {
     let name: String
     let image: String
     let role: String
+    var user: Users
 }

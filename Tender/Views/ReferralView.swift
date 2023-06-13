@@ -112,7 +112,8 @@ struct ReferralView: View {
             }.navigationBarBackButtonHidden()
         }
         else if isReffOK{
-            CreateProfileView()
+//            CreateProfileView()
+            ContentView()
         }
     }
 }

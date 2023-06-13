@@ -9,7 +9,11 @@ import SwiftUI
 
 struct RequestConnectView: View {
     @Binding var notification: Notification
+    @State var isPresented = false
+    @Binding var activeScreen: Show
 
+    var namespace: Namespace.ID
+    
     var body: some View {
         ZStack{
             Color("whiteColor").ignoresSafeArea()
@@ -67,24 +71,38 @@ struct RequestConnectView: View {
                     .foregroundColor(Color("whiteColor"))
                     .shadow(radius: 1.5, x: 1, y: 1)
                 Spacer()
+                
                 Button {
-                    print("test button")
+                    isPresented = true
                 }label: {
-                    Text("See Full Profile".capitalized)
+                    Text("See Profile".capitalized)
                         .frame(width: 173, height: 51)
                         .foregroundColor(.white)
                         .background(Color("pinkColor"))
                         .cornerRadius(11
                         )
                 }
+                .navigationDestination(isPresented: $isPresented){
+                    ProfileView(u: $notification.user, activeScreen: $activeScreen, namespace: namespace)
+                }
                 Spacer()
             }
+            .onAppear(){
+                print(activeScreen)
+            }
         }
+        
     }
 }
 
 struct RequestConnectView_Previews: PreviewProvider {
+    @Namespace static var namespace
+    
     static var previews: some View {
-        RequestConnectView(notification: .constant(Notification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer")))
+        
+        var us: Users = Users(contact: "1234", email: "sayed.fikar@gmail.com", isAvailable: true, name: "Sayed Zulfikar", picture: "https://thispersondoesnotexist.com/", portfolio: ["porto1", "porto2"], referee: "Admin", referenceCode: "SHARIA", referenceCounter: 0, mainRole: "Designer", additionalRole: ["Back-end Developer", "Product Manager"], skills: [Skills(image: "Swift", name: "Swift"), Skills(image: "Golang", name: "Golang")], connectList: [""], connectRequest: [""])
+        
+        //notification:isPresented:activeScreen:u:namespace:
+        RequestConnectView(notification: .constant(Notification(title: "New Request Connection", body: "Wira wants to connect with you", name: "Wira", image: "https://i.imgur.com/4ho15e6.jpg", role: "Frontend Developer", user: us)), activeScreen: .constant(.notification), namespace: namespace)
     }
 }

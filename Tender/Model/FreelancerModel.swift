@@ -20,6 +20,8 @@ class FreelancerModel: ObservableObject {
     private var db = CKContainer.default().publicCloudDatabase
     @Published private var freelancersDictionary: [CKRecord.ID: Freelancer] = [:]
     
+    @Published var hasPopulateData: Bool = false
+    
     var freelancers: [Freelancer] {
         freelancersDictionary.values.compactMap { $0 }
     }
@@ -60,7 +62,8 @@ class FreelancerModel: ObservableObject {
             record[FreelancerRecordKeys.additionalRole.rawValue] = editedFreelancer.additionalRole
             record[FreelancerRecordKeys.skill.rawValue] = editedFreelancer.skill
             record[FreelancerRecordKeys.isAvailable.rawValue] = editedFreelancer.isAvailable
-            
+            record[FreelancerRecordKeys.connectList.rawValue] = editedFreelancer.connectList
+            record[FreelancerRecordKeys.connectRequest.rawValue] = editedFreelancer.connectRequest
             
             try await db.save(record)
         } catch {
@@ -142,4 +145,7 @@ class FreelancerModel: ObservableObject {
         }
     }
     
+//    func requestConnect(emailRequester: String, emailTarget: String) async throws {
+//        var target = searchFreelancerByEmail(email: <#T##String#>)
+//    }
 }

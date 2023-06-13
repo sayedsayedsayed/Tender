@@ -22,6 +22,10 @@ enum FreelancerRecordKeys: String {
     case additionalRole
     case skill
     case isAvailable
+    case connectList
+    case connectRequest
+    case connected
+    case wantToConnect
 }
 
 enum FilterOptions: String, CaseIterable {
@@ -45,7 +49,10 @@ struct Freelancer {
     var additionalRole: String = ""
     var skill: String = ""
     var isAvailable: Bool = true
-    
+    var connectList: String = ""
+    var connectRequest: String = ""
+    var connected: [CKRecord.Reference]?
+    var wantToConnect: [CKRecord.Reference]?
 }
 
 extension Freelancer {
@@ -61,11 +68,14 @@ extension Freelancer {
               let mainRole = record[FreelancerRecordKeys.mainRole.rawValue] as? String,
               let additionalRole = record[FreelancerRecordKeys.additionalRole.rawValue] as? String,
               let skill = record[FreelancerRecordKeys.skill.rawValue] as? String,
-              let isAvailable = record[FreelancerRecordKeys.isAvailable.rawValue] as? Bool else {
+              let isAvailable = record[FreelancerRecordKeys.isAvailable.rawValue] as? Bool,
+              let connectList = record[FreelancerRecordKeys.connectList.rawValue] as? String,
+              let connectRequest = record[FreelancerRecordKeys.connectRequest.rawValue] as? String
+        else {
             return nil
         }
         
-        self.init(recordId: record.recordID, email: email, name: name, picture: picture, referee: referee, referenceCode: referenceCode, referenceCounter: referenceCounter, contact: contact, portfolio: portfolio, mainRole: mainRole, additionalRole: additionalRole, skill: skill, isAvailable: isAvailable)
+        self.init(recordId: record.recordID, email: email, name: name, picture: picture, referee: referee, referenceCode: referenceCode, referenceCounter: referenceCounter, contact: contact, portfolio: portfolio, mainRole: mainRole, additionalRole: additionalRole, skill: skill, isAvailable: isAvailable, connectList: connectList, connectRequest: connectRequest)
     }
 }
 
@@ -85,6 +95,8 @@ extension Freelancer {
         record[FreelancerRecordKeys.additionalRole.rawValue] = additionalRole
         record[FreelancerRecordKeys.skill.rawValue] = skill
         record[FreelancerRecordKeys.isAvailable.rawValue] = isAvailable
+        record[FreelancerRecordKeys.connectList.rawValue] = connectList
+        record[FreelancerRecordKeys.connectRequest.rawValue] = connectRequest
         return record
     }
     
