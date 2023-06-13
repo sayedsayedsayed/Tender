@@ -54,68 +54,74 @@ struct ConnectedView: View {
                             }
                         )
                     
-                    
-                    ScrollView {
-                        ZStack {
-                            if isSearch {
-                                HStack(spacing: 0) {
-                                    SearchBar(search: $search, isSearch: $isSearch).onChange(of: search, perform: { value in
-                                        freelancerFiltered = freelancerFiltered.filter {$0.name == value}
-//                                        print(freelancerFiltered)
-//                                        print(value)
-                                    })
-                                }.ignoresSafeArea()
-                            } else {
-                                HStack(spacing: 10) {
-                                    Spacer()
-                                    Image(systemName: "magnifyingglass")
-                                        .font(Font.system(.title2))
-                                        .padding(.top, 15)
-                                        .onTapGesture {
-                                            isSearch.toggle()
-                                        }
-                                    Image(systemName: "line.3.horizontal.decrease")
-                                        .font(Font.system(.title2))
-                                        .padding(.top, 15)
-                                        .onTapGesture {
-                                            isPresented.toggle()
-                                        }
-                                }.padding(.horizontal, 30)
-                                    .foregroundColor(Color.black)
-                            }
-                        }.ignoresSafeArea()
-                        ListFreelancer(freelancers: freelancerFiltered, selectedFreelancer: $selectedFreelancer, isNavigate: $isNavigate) {
-                            onTap()
-                        }
-                        
-                    }
-                    .scrollIndicators(.hidden)
-                    .sheet(isPresented: $isPresented) {
-                        VStack {
-                            Text("Filter").font(.headline).fontWeight(.bold).padding(.vertical, 20)
-                            Spacer()
-                            ScrollView {
-                                Accordion(title: "Skills", content: AnyView(ForEach(SkillsViewModel().skills) { skill in
-                                    Checkbox(label: skill.name, onTap: {})
-                                }))
-                                Accordion(title: "Roles", content: AnyView(ForEach(roles) {role in
-                                    Checkbox(label: role.name, onTap: {})
-                                }))
-                                Accordion(title: "Availability", content: AnyView(ForEach(availability.allCases, id: \.rawValue) {role in
-                                    Checkbox(label: role.rawValue, onTap: {})
-                                }))
-                                ZStack {
-                                    VStack {
+                    if freelancerFiltered.count > 0 {
+                        ScrollView {
+                            ZStack {
+                                if isSearch {
+                                    HStack(spacing: 0) {
+                                        SearchBar(search: $search, isSearch: $isSearch).onChange(of: search, perform: { value in
+                                            freelancerFiltered = freelancerFiltered.filter {$0.name == value}
+    //                                        print(freelancerFiltered)
+    //                                        print(value)
+                                        })
+                                    }.ignoresSafeArea()
+                                } else {
+                                    HStack(spacing: 10) {
                                         Spacer()
-                                        Button {
-                                            print("test")
-                                        } label: {
-                                            Text("Apply")
+                                        Image(systemName: "magnifyingglass")
+                                            .font(Font.system(.title2))
+                                            .padding(.top, 15)
+                                            .onTapGesture {
+                                                isSearch.toggle()
+                                            }
+                                        Image(systemName: "line.3.horizontal.decrease")
+                                            .font(Font.system(.title2))
+                                            .padding(.top, 15)
+                                            .onTapGesture {
+                                                isPresented.toggle()
+                                            }
+                                    }.padding(.horizontal, 30)
+                                        .foregroundColor(Color.black)
+                                }
+                            }.ignoresSafeArea()
+                            ListFreelancer(freelancers: freelancerFiltered, selectedFreelancer: $selectedFreelancer, isNavigate: $isNavigate) {
+                                onTap()
+                            }
+                            
+                        }
+                        .scrollIndicators(.hidden)
+                        .sheet(isPresented: $isPresented) {
+                            VStack {
+                                Text("Filter").font(.headline).fontWeight(.bold).padding(.vertical, 20)
+                                Spacer()
+                                ScrollView {
+                                    Accordion(title: "Skills", content: AnyView(ForEach(SkillsViewModel().skills) { skill in
+                                        Checkbox(label: skill.name, onTap: {})
+                                    }))
+                                    Accordion(title: "Roles", content: AnyView(ForEach(roles) {role in
+                                        Checkbox(label: role.name, onTap: {})
+                                    }))
+                                    Accordion(title: "Availability", content: AnyView(ForEach(availability.allCases, id: \.rawValue) {role in
+                                        Checkbox(label: role.rawValue, onTap: {})
+                                    }))
+                                    ZStack {
+                                        VStack {
+                                            Spacer()
+                                            Button {
+                                                print("test")
+                                            } label: {
+                                                Text("Apply")
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        }.presentationDetents([.fraction(0.8)])
+                            }.presentationDetents([.fraction(0.8)])
+                        }
+                    } else {
+                        VStack {
+                            Image("empty")
+                            Text("You don't have connection yet")
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
                 .onAppear(){
